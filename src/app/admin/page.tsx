@@ -159,7 +159,7 @@ export default function AdminPage() {
         });
       } catch (_) {}
 
-      showToast('✓ Đã lưu và đồng bộ toàn bộ dữ liệu lên Database & Live Site!');
+      showToast('Đã lưu và đồng bộ toàn bộ dữ liệu lên Database & Live Site!');
     } catch (_) {
       showToast('Lỗi khi lưu dữ liệu');
     }
@@ -450,32 +450,32 @@ export default function AdminPage() {
     <div className="min-h-screen bg-editorial-grid flex flex-col selection:bg-[#16422B] selection:text-white">
       {/* 1. Admin Top Bar */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-[#141413]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-16 py-2.5 sm:py-0 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <a
               href="/"
-              className="w-8 h-8 bg-[#F6F5F0] hover:bg-[#EAE8E0] border border-[#141413] flex items-center justify-center transition hard-shadow-sm cursor-pointer"
+              className="w-8 h-8 bg-[#F6F5F0] hover:bg-[#EAE8E0] border border-[#141413] flex items-center justify-center transition hard-shadow-sm cursor-pointer shrink-0"
               title="Quay lại trang chính"
             >
               <ArrowLeft className="w-4 h-4 text-[#141413]" />
             </a>
 
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-xl tracking-tight uppercase" style={{ fontFamily: 'Oswald, sans-serif' }}>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-extrabold text-base sm:text-xl tracking-tight uppercase truncate" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   ITIL ADMIN CONSOLE
                 </span>
-                <span className="px-2 py-0.5 bg-[#D9381E] text-white font-mono text-[10px] font-bold uppercase">
-                  BẢN QUẢN TRỊ BTC
+                <span className="px-1.5 py-0.2 bg-[#D9381E] text-white font-mono text-[9px] sm:text-[10px] font-bold uppercase shrink-0">
+                  BTC
                 </span>
               </div>
-              <p className="text-[11px] text-[#61605B] font-mono -mt-0.5">
+              <p className="hidden sm:block text-[11px] text-[#61605B] font-mono -mt-0.5">
                 Cập nhật tỉ số trực tiếp • Quản lý 4 đội bóng • Đồng bộ thời gian thực
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* View Live Site Button */}
             <a
               href="/"
@@ -584,10 +584,10 @@ export default function AdminPage() {
         {/* 3. Navigation Tabs */}
         <div className="flex items-center gap-2 border-b-2 border-[#141413] overflow-x-auto no-scrollbar font-mono text-xs">
           {[
-            { id: 'matches', label: '⚽ QUẢN LÝ 6 TRẬN ĐẤU & TỈ SỐ', icon: Calendar },
-            { id: 'teams', label: '🛡️ QUẢN LÝ 4 ĐỘI BÓNG & CẦU THỦ', icon: Users },
-            { id: 'finals', label: '🏆 CHUNG KẾT & DANH HIỆU', icon: Trophy },
-            { id: 'settings', label: '⚙️ DỮ LIỆU & CÀI ĐẶT SAO LƯU', icon: Settings },
+            { id: 'matches', label: 'QUẢN LÝ 6 TRẬN ĐẤU & TỈ SỐ', icon: Calendar },
+            { id: 'teams', label: 'QUẢN LÝ 4 ĐỘI BÓNG & CẦU THỦ', icon: Users },
+            { id: 'finals', label: 'CHUNG KẾT & DANH HIỆU', icon: Trophy },
+            { id: 'settings', label: 'DỮ LIỆU & CÀI ĐẶT SAO LƯU', icon: Settings },
           ].map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -625,9 +625,10 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={() => saveAllToStorage()}
-                className="px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
               >
-                💾 Lưu thay đổi ngay
+                <Save className="w-3.5 h-3.5" />
+                <span>Lưu thay đổi ngay</span>
               </button>
             </div>
 
@@ -662,7 +663,14 @@ export default function AdminPage() {
                           m.played ? 'bg-[#16422B] text-white' : 'bg-[#F6F5F0] text-[#61605B]'
                         }`}
                       >
-                        {m.played ? '✓ ĐÃ HOÀN THÀNH' : 'CHƯA DIỄN RA'}
+                        {m.played ? (
+                          <span className="inline-flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                            <span>ĐÃ HOÀN THÀNH</span>
+                          </span>
+                        ) : (
+                          'CHƯA DIỄN RA'
+                        )}
                       </button>
                     </div>
 
@@ -826,9 +834,10 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={() => saveAllToStorage()}
-                className="px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
               >
-                💾 Lưu đội bóng
+                <Save className="w-3.5 h-3.5" />
+                <span>Lưu đội bóng</span>
               </button>
             </div>
 
@@ -966,9 +975,10 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={() => saveAllToStorage()}
-                className="px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 bg-[#16422B] text-white font-bold border border-[#141413] hard-shadow-sm cursor-pointer"
               >
-                💾 Lưu giải thưởng
+                <Save className="w-3.5 h-3.5" />
+                <span>Lưu giải thưởng</span>
               </button>
             </div>
 
@@ -988,7 +998,14 @@ export default function AdminPage() {
                       finalScore.played ? 'bg-[#16422B] text-white' : 'bg-[#F6F5F0]'
                     }`}
                   >
-                    {finalScore.played ? '✓ ĐÃ ĐÁ XONG' : 'CHƯA ĐÁ'}
+                    {finalScore.played ? (
+                      <span className="inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                        <span>ĐÃ ĐÁ XONG</span>
+                      </span>
+                    ) : (
+                      'CHƯA ĐÁ'
+                    )}
                   </button>
                 </div>
 
@@ -1050,7 +1067,14 @@ export default function AdminPage() {
                       thirdScore.played ? 'bg-[#16422B] text-white' : 'bg-[#F6F5F0]'
                     }`}
                   >
-                    {thirdScore.played ? '✓ ĐÃ ĐÁ XONG' : 'CHƯA ĐÁ'}
+                    {thirdScore.played ? (
+                      <span className="inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                        <span>ĐÃ ĐÁ XONG</span>
+                      </span>
+                    ) : (
+                      'CHƯA ĐÁ'
+                    )}
                   </button>
                 </div>
 
@@ -1109,7 +1133,10 @@ export default function AdminPage() {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
                 <div>
-                  <label className="block font-bold uppercase text-[#141413] mb-1">🥇 Vua Phá Lưới:</label>
+                  <label className="flex items-center gap-1 font-bold uppercase text-[#141413] mb-1">
+                    <Award className="w-3.5 h-3.5 text-[#D97706]" />
+                    <span>Vua Phá Lưới:</span>
+                  </label>
                   <input
                     type="text"
                     value={awards.topScorer}
@@ -1118,7 +1145,10 @@ export default function AdminPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold uppercase text-[#141413] mb-1">⭐ Cầu Thủ Xuất Sắc (MVP):</label>
+                  <label className="flex items-center gap-1 font-bold uppercase text-[#141413] mb-1">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Cầu Thủ Xuất Sắc (MVP):</span>
+                  </label>
                   <input
                     type="text"
                     value={awards.mvp}
@@ -1127,7 +1157,10 @@ export default function AdminPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold uppercase text-[#141413] mb-1">🧤 Thủ Môn Xuất Sắc:</label>
+                  <label className="flex items-center gap-1 font-bold uppercase text-[#141413] mb-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#16422B]" />
+                    <span>Thủ Môn Xuất Sắc:</span>
+                  </label>
                   <input
                     type="text"
                     value={awards.bestGk}
@@ -1136,7 +1169,10 @@ export default function AdminPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold uppercase text-[#141413] mb-1">🕊️ Giải Phong Cách:</label>
+                  <label className="flex items-center gap-1 font-bold uppercase text-[#141413] mb-1">
+                    <Medal className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Giải Phong Cách:</span>
+                  </label>
                   <input
                     type="text"
                     value={awards.fairPlayTeam}

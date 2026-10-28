@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { sound } from '@/lib/sound';
-import { Play } from 'lucide-react';
+import { Play, Sparkles } from 'lucide-react';
 
 export default function HeroSection() {
   const [heroGoals, setHeroGoals] = useState(0);
@@ -60,11 +60,11 @@ export default function HeroSection() {
         if (!blocked) {
           sound.playGoal();
           setHeroGoals(prev => prev + 1);
-          setStatusText('⚽ VÀOOO! Cú dứt điểm chuẩn xác vào góc khung thành!');
+          setStatusText('VÀOOO! Cú dứt điểm chuẩn xác vào góc khung thành!');
           setStatusClass('text-[#16422B] font-bold');
         } else {
           sound.playWhistle();
-          setStatusText('🧤 Thủ môn GK đã cản phá! Hãy thử kéo bóng lệch góc hơn.');
+          setStatusText('Thủ môn GK đã cản phá! Hãy thử kéo bóng lệch góc hơn.');
           setStatusClass('text-[#D9381E] font-bold');
         }
 
@@ -124,27 +124,30 @@ export default function HeroSection() {
           </div>
 
           {/* Tournament Fact Box */}
-          <div className="lg:col-span-4 bg-white border border-[#141413] p-5 hard-shadow">
+          <div className="lg:col-span-4 bg-white border-2 border-[#141413] p-4 sm:p-5 hard-shadow">
             <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#16422B] border-b border-[#141413] pb-2 mb-3 flex justify-between">
-              <span>THÔNG SỐ GIẢI ĐẤU</span>
-              <span>ITIL // 2026</span>
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
+                <span>THÔNG SỐ GIẢI ĐẤU</span>
+              </span>
+              <span>ITIL 2026</span>
             </div>
-            <div className="grid grid-cols-2 gap-3 font-mono">
-              <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
+            <div className="grid grid-cols-2 gap-2.5 font-mono">
+              <div className="p-2.5 sm:p-3 bg-[#F6F5F0] border border-[#141413]">
                 <div className="text-2xl sm:text-3xl font-bold text-[#141413]">04</div>
-                <div className="text-[11px] text-[#61605B] uppercase">Đội Tham Dự</div>
+                <div className="text-[10px] sm:text-[11px] text-[#61605B] uppercase font-semibold">Đội Tham Dự</div>
               </div>
-              <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
+              <div className="p-2.5 sm:p-3 bg-[#F6F5F0] border border-[#141413]">
                 <div className="text-2xl sm:text-3xl font-bold text-[#16422B]">03</div>
-                <div className="text-[11px] text-[#61605B] uppercase">Vòng Đấu</div>
+                <div className="text-[10px] sm:text-[11px] text-[#61605B] uppercase font-semibold">Vòng Đấu</div>
               </div>
-              <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
+              <div className="p-2.5 sm:p-3 bg-[#F6F5F0] border border-[#141413]">
                 <div className="text-2xl sm:text-3xl font-bold text-[#D9381E]">06</div>
-                <div className="text-[11px] text-[#61605B] uppercase">Trận Toàn Giải</div>
+                <div className="text-[10px] sm:text-[11px] text-[#61605B] uppercase font-semibold">Trận Toàn Giải</div>
               </div>
-              <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
+              <div className="p-2.5 sm:p-3 bg-[#F6F5F0] border border-[#141413]">
                 <div className="text-2xl sm:text-3xl font-bold text-[#141413]">5v5</div>
-                <div className="text-[11px] text-[#61605B] uppercase">Sân Cỏ Nhân Tạo</div>
+                <div className="text-[10px] sm:text-[11px] text-[#61605B] uppercase font-semibold">Sân Cỏ Mini</div>
               </div>
             </div>
             <div className="mt-3 pt-3 border-t border-[#141413]/20 text-xs text-[#61605B] flex items-center justify-between">

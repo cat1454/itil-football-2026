@@ -34,7 +34,7 @@ export default function SquadsSection({ teams, onOpenEditModal }: SquadsSectionP
             className="self-start sm:self-auto flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#141413] font-mono text-xs font-semibold hard-btn cursor-pointer"
           >
             <Edit className="w-3.5 h-3.5 text-[#16422B]" />
-            <span>✎ Đổi tên &amp; thông tin 4 đội</span>
+            <span>Đổi tên &amp; thông tin 4 đội</span>
           </button>
         </div>
 

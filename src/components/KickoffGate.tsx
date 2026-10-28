@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
+import { Zap, Trophy, Smartphone, Laptop } from 'lucide-react';
 
 interface KickoffGateProps {
   onUnlock: () => void;
@@ -23,7 +24,7 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
   const netMeshRef = useRef<SVGPathElement>(null);
 
   const [power, setPower] = useState(0);
-  const [statusMsg, setStatusMsg] = useState('💻 Laptop: Nhấn giữ chuột kéo bóng • 📱 Điện thoại: Chạm kéo lùi hoặc vuốt bóng lên lưới');
+  const [statusMsg, setStatusMsg] = useState('');
   const [statusClass, setStatusClass] = useState('text-[#61605B]');
   const [celebrating, setCelebrating] = useState(false);
 
@@ -108,7 +109,7 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
             });
           } catch (_) {}
 
-          setStatusMsg('⚽ VÀOOOOO! Cú sút cháy lưới — Chào mừng bạn đến với ITIL 2026!');
+          setStatusMsg('VÀOOOOO! Cú sút cháy lưới — Chào mừng bạn đến với ITIL 2026!');
           setStatusClass('text-[#16422B] font-bold text-sm');
           setCelebrating(true);
 
@@ -130,14 +131,14 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
               ballVisual.setAttribute('transform', `rotate(${ballState.rot})`);
             },
             onComplete: () => {
-              resetBallToSpot('🧤 Thủ môn GK vừa cản phá! Hãy kéo bóng lái sang 2 góc xa hơn.');
+              resetBallToSpot('Thủ môn GK vừa cản phá! Hãy kéo bóng lái sang 2 góc xa hơn.');
             }
           });
         } else {
           // Miss or hit post
           const msg = hitPost
-            ? '💥 Bóng dội trúng cột dọc! Căn chỉnh lại lực và góc sút nhé.'
-            : '⚡ Bóng đi chệch khung thành! Hãy hướng bóng vào giữa 2 cột gôn.';
+            ? 'Bóng dội trúng cột dọc! Căn chỉnh lại lực và góc sút nhé.'
+            : 'Bóng đi chệch khung thành! Hãy hướng bóng vào giữa 2 cột gôn.';
           resetBallToSpot(msg);
         }
       }
@@ -274,16 +275,16 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 bg-[#F6F5F0] flex flex-col justify-between border-b-4 border-[#141413] select-none touch-none transition-transform duration-500"
+      className="fixed inset-0 h-[100dvh] z-50 bg-[#F6F5F0] flex flex-col justify-between border-b-4 border-[#141413] select-none touch-none transition-transform duration-500 overflow-hidden"
     >
       {/* Top Editorial Gate Bar */}
-      <div className="border-b border-[#141413] bg-white px-4 sm:px-6 py-2.5 flex items-center justify-between gap-2 shrink-0">
-        <div className="flex items-center gap-2.5">
-          <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold text-sm tracking-wider border border-[#141413]">
+      <div className="border-b-2 border-[#141413] bg-white px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold text-xs sm:text-sm tracking-wider border border-[#141413]">
             ITIL 2026
           </span>
-          <span className="font-mono text-[11px] sm:text-xs font-bold uppercase text-[#141413]">
-            CỔNG KHAI MẠC GIẢI BÓNG ĐÁ NỘI BỘ LCĐ CNTT
+          <span className="font-mono text-[10px] sm:text-xs font-bold uppercase text-[#141413] truncate">
+            CỔNG KHAI MẠC GIẢI BÓNG ĐÁ LCĐ
           </span>
         </div>
         <button
@@ -291,9 +292,10 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
             sound.playWhistle();
             onUnlock();
           }}
-          className="px-3 py-1 bg-[#F6F5F0] hover:bg-[#EAE8E0] border border-[#141413] font-mono text-[11px] font-bold transition cursor-pointer"
+          className="flex items-center gap-1 px-2.5 sm:px-3 py-1 bg-[#F6F5F0] hover:bg-[#EAE8E0] border border-[#141413] font-mono text-[11px] font-bold transition cursor-pointer touch-manipulation shrink-0"
         >
-          Bỏ qua &rarr;
+          <span>Bỏ qua</span>
+          <span>&rarr;</span>
         </button>
       </div>
 
@@ -308,9 +310,23 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
           <h2 className="font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#141413] leading-none" style={{ fontFamily: 'Oswald, sans-serif' }}>
             KÉO &amp; THẢ QUẢ BÓNG VÀO KHUNG THÀNH
           </h2>
-          <p className={`font-mono text-[11px] sm:text-xs ${statusClass}`}>
-            {statusMsg}
-          </p>
+          {statusMsg ? (
+            <p className={`font-mono text-[11px] sm:text-xs ${statusClass}`}>
+              {statusMsg}
+            </p>
+          ) : (
+            <div className="font-mono text-[11px] sm:text-xs text-[#61605B] flex flex-wrap items-center justify-center gap-2">
+              <span className="inline-flex items-center gap-1 font-semibold text-[#141413]">
+                <Laptop className="w-3.5 h-3.5 text-[#16422B]" />
+                <span>Laptop: Giữ chuột kéo bóng</span>
+              </span>
+              <span>•</span>
+              <span className="inline-flex items-center gap-1 font-semibold text-[#141413]">
+                <Smartphone className="w-3.5 h-3.5 text-[#D9381E]" />
+                <span>Điện thoại: Vuốt bóng vào lưới</span>
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Interactive Penalty Pitch Box */}
@@ -412,17 +428,19 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
           {/* Quick Auto Goal Button */}
           <button
             onClick={triggerAutoGoal}
-            className="absolute top-3 right-3 bg-white/95 hover:bg-[#EAE8E0] border border-[#141413] px-2.5 py-1 font-mono text-[11px] font-bold text-[#16422B] transition cursor-pointer"
+            className="absolute top-3 right-3 bg-white/95 hover:bg-[#EAE8E0] border border-[#141413] px-2.5 py-1 font-mono text-[11px] font-bold text-[#16422B] transition cursor-pointer flex items-center gap-1.5 hard-btn"
           >
-            ⚡ Sút tự động
+            <Zap className="w-3.5 h-3.5 text-[#D97706]" />
+            <span>Sút tự động</span>
           </button>
 
           {/* Celebration Banner */}
           {celebrating && (
             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-6 text-center z-20">
               <div className="bg-white border-2 border-[#141413] p-6 max-w-sm w-full hard-shadow space-y-2 animate-bounce">
-                <div className="inline-block px-2.5 py-0.5 bg-[#D9381E] text-white font-mono text-xs font-bold uppercase">
-                  ⚽ GOAL! // TRẬN ĐẤU BẮT ĐẦU
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#D9381E] text-white font-mono text-xs font-bold uppercase">
+                  <Trophy className="w-3.5 h-3.5 text-amber-300" />
+                  <span>GOAL! // TRẬN ĐẤU BẮT ĐẦU</span>
                 </div>
                 <h3 className="font-extrabold text-4xl uppercase text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   VÀOOOOO! 1 - 0

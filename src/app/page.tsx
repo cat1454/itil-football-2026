@@ -235,13 +235,13 @@ export default function HomePage() {
         awayGoals: Math.floor(Math.random() * 4),
       }))
     );
-    showToast('🎲 Đã giả lập ngẫu nhiên toàn bộ 6 trận vòng tròn!');
+    showToast('Đã giả lập ngẫu nhiên toàn bộ 6 trận vòng tròn!');
   };
 
   // Reset default matches
   const handleResetMatches = () => {
     setMatches(JSON.parse(JSON.stringify(INITIAL_MATCHES)));
-    showToast('↺ Đã khôi phục trạng thái ban đầu');
+    showToast('Đã khôi phục trạng thái lịch đấu ban đầu');
   };
 
   // Select match from matrix to scroll
@@ -372,7 +372,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#141413] bg-white py-8">
+      <footer className="border-t border-[#141413] bg-white py-8 pb-24 sm:pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2.5">
             <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold">
@@ -398,7 +398,7 @@ export default function HomePage() {
 
       {/* Editorial Toast Notification */}
       {toastMsg && (
-        <div className="fixed bottom-4 right-4 z-50 bg-[#141413] text-white border border-[#141413] px-4 py-2.5 font-mono text-xs hard-shadow-sm animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-20 sm:bottom-4 right-4 z-50 bg-[#141413] text-white border border-[#141413] px-4 py-2.5 font-mono text-xs hard-shadow-sm animate-in fade-in slide-in-from-bottom-2">
           {toastMsg}
         </div>
       )}

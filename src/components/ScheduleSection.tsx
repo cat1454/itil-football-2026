@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Team, Match } from '@/types/tournament';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dices, RotateCcw, Calendar, CheckCircle2, Clock } from 'lucide-react';
+import { Dices, RotateCcw, Calendar, CheckCircle2, Clock, Flame } from 'lucide-react';
 import { sound } from '@/lib/sound';
 
 interface ScheduleSectionProps {
@@ -53,7 +53,7 @@ export default function ScheduleSection({
               3 LƯỢT TRẬN VÒNG TRÒN (6 TRẬN)
             </h2>
             <p className="text-sm text-[#61605B] mt-1 max-w-2xl">
-              Nhấn nút <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">+</code> / <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">-</code> hoặc nút <strong className="text-[#141413]">✓ ĐÃ ĐÁ</strong> để thử nghiệm biến động bảng xếp hạng ngay lập tức.
+              Nhấn nút <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">+</code> / <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">-</code> hoặc nút <strong className="text-[#141413]">ĐÃ ĐÁ</strong> để thử nghiệm biến động bảng xếp hạng ngay lập tức.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function ScheduleSection({
               className="flex items-center gap-2 px-3.5 py-2 bg-[#16422B] text-white border border-[#141413] font-mono text-xs font-bold hard-btn cursor-pointer"
             >
               <Dices className="w-4 h-4" />
-              <span>🎲 GIẢ LẬP 6 TRẬN</span>
+              <span>GIẢ LẬP 6 TRẬN</span>
             </button>
 
             <button
@@ -77,7 +77,7 @@ export default function ScheduleSection({
               className="flex items-center gap-1.5 px-3.5 py-2 bg-white text-[#141413] border border-[#141413] font-mono text-xs font-semibold hard-btn cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5 text-[#61605B]" />
-              <span>↺ RESET</span>
+              <span>RESET</span>
             </button>
           </div>
         </div>
@@ -160,7 +160,14 @@ export default function ScheduleSection({
                                 m.played ? 'bg-[#16422B] text-white' : 'bg-white text-[#61605B] hover:bg-[#EAE8E0]'
                               }`}
                             >
-                              {m.played ? '✓ ĐÃ ĐÁ' : 'CHƯA ĐÁ'}
+                              {m.played ? (
+                                <span className="inline-flex items-center gap-1">
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                                  <span>ĐÃ ĐÁ</span>
+                                </span>
+                              ) : (
+                                'CHƯA ĐÁ'
+                              )}
                             </button>
                           </div>
 
@@ -181,7 +188,8 @@ export default function ScheduleSection({
                             <div className="flex items-center gap-1.5 shrink-0 font-mono">
                               <button
                                 onClick={() => onAdjustScore(m.id, 'home', -1)}
-                                className="w-8 h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-sm cursor-pointer transition"
+                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
+                                aria-label="Giảm bàn thắng đội nhà"
                               >
                                 -
                               </button>
@@ -190,7 +198,8 @@ export default function ScheduleSection({
                               </span>
                               <button
                                 onClick={() => onAdjustScore(m.id, 'home', 1)}
-                                className="w-8 h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-sm cursor-pointer transition"
+                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
+                                aria-label="Tăng bàn thắng đội nhà"
                               >
                                 +
                               </button>
@@ -214,7 +223,8 @@ export default function ScheduleSection({
                             <div className="flex items-center gap-1.5 shrink-0 font-mono">
                               <button
                                 onClick={() => onAdjustScore(m.id, 'away', -1)}
-                                className="w-8 h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-sm cursor-pointer transition"
+                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
+                                aria-label="Giảm bàn thắng đội khách"
                               >
                                 -
                               </button>
@@ -223,7 +233,8 @@ export default function ScheduleSection({
                               </span>
                               <button
                                 onClick={() => onAdjustScore(m.id, 'away', 1)}
-                                className="w-8 h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-sm cursor-pointer transition"
+                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
+                                aria-label="Tăng bàn thắng đội khách"
                               >
                                 +
                               </button>
@@ -237,7 +248,16 @@ export default function ScheduleSection({
 
                 {/* Round Footer */}
                 <div className="px-4 py-2 bg-[#F6F5F0] border-t border-[#141413] font-mono text-[11px] text-[#61605B] flex items-center justify-between">
-                  <span>{rNum === 3 ? '🔥 Lượt trận cuối định đoạt ngôi đầu' : `Lượt trận vòng tròn thứ ${rNum}`}</span>
+                  <span>
+                    {rNum === 3 ? (
+                      <span className="inline-flex items-center gap-1 text-[#D9381E] font-bold">
+                        <Flame className="w-3.5 h-3.5" />
+                        <span>Lượt trận cuối định đoạt ngôi đầu</span>
+                      </span>
+                    ) : (
+                      `Lượt trận vòng tròn thứ ${rNum}`
+                    )}
+                  </span>
                   <span className="text-[#141413] font-semibold">{rNum === 3 ? '18:30 - 19:30' : '19:30 & 20:15'}</span>
                 </div>
               </div>
