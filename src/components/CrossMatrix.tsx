@@ -19,7 +19,7 @@ export default function CrossMatrix({ teams, matches, onSelectMatch }: CrossMatr
   };
 
   return (
-    <div className="bg-white border border-[#141413] hard-shadow overflow-hidden flex flex-col justify-between">
+    <div className="bg-white border border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden flex flex-col justify-between">
       <div>
         <div className="px-4 py-3 bg-[#EAE8E0] border-b border-[#141413] flex items-center justify-between">
           <div className="flex items-center gap-2">

@@ -48,6 +48,11 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: '/icon-512.png',
+    shortcut: '/icon-512.png',
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
@@ -55,13 +60,23 @@ export const metadata: Metadata = {
     siteName: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
     title: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
     description:
-      'Cổng thông tin chính thức giải đấu Mùa 1 năm 2026 của CLB Bóng Đá Liên Chi Đoàn Khoa CNTT. Lịch thi đấu 3 vòng, bảng xếp hạng và bục vinh danh.',
+      'Cổng thông tin & Bảng xếp hạng chính thức Giải bóng đá nội bộ Mùa 1 năm 2026. Lịch thi đấu 3 vòng, tỷ số trực tiếp và bục vinh danh 4 đội tranh tài.',
+    images: [
+      {
+        url: 'https://itil-football-2026.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
+        type: 'image/png',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
     description:
-      'Cổng thông tin chính thức giải đấu Mùa 1 năm 2026 của CLB Bóng Đá Liên Chi Đoàn Khoa CNTT. Cập nhật kết quả trực tiếp và bảng xếp hạng.',
+      'Cổng thông tin & Bảng xếp hạng chính thức Giải bóng đá nội bộ Mùa 1 năm 2026. Lịch thi đấu 3 vòng, tỷ số trực tiếp và bục vinh danh.',
+    images: ['https://itil-football-2026.vercel.app/og-image.png'],
   },
 };
 
@@ -116,6 +131,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Social link preview fallback tags for Zalo, Facebook, Messenger, Telegram */}
+        <meta property="og:image" content="https://itil-football-2026.vercel.app/og-image.png" />
+        <meta property="og:image:secure_url" content="https://itil-football-2026.vercel.app/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT" />
+        <meta name="twitter:image" content="https://itil-football-2026.vercel.app/og-image.png" />
+        <link rel="image_src" href="https://itil-football-2026.vercel.app/og-image.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

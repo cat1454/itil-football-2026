@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 512px;
+    height: 512px;
+    overflow: hidden;
+    background: radial-gradient(circle at 30% 20%, #16422b 0%, #0a2015 70%, #05140d 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-family: -apple-system, sans-serif;
+  }
+  .border-ring {
+    position: absolute;
+    inset: 16px;
+    border: 3px solid rgba(250, 204, 21, 0.4);
+    border-radius: 96px;
+  }
+  .trophy-svg {
+    width: 260px;
+    height: 260px;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.5));
+  }
+  .badge {
+    margin-top: 14px;
+    background: #EAB308;
+    color: #141413;
+    font-weight: 900;
+    font-size: 26px;
+    padding: 6px 28px;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+  <div class="border-ring"></div>
+  <svg class="trophy-svg" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+    <path d="M4 22h16" />
+    <path d="M10 14.66V17c0 .55-.45 1-1 1H7" />
+    <path d="M14 14.66V17c0 .55.45 1 1 1h2" />
+    <path d="M8 22v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4" />
+    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" fill="rgba(251, 191, 36, 0.25)" />
+    <circle cx="12" cy="7" r="2.5" fill="#FBBF24" stroke="none" />
+  </svg>
+  <div class="badge">ITIL 2026</div>
+</body>
+</html>

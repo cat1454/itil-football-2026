@@ -33,7 +33,7 @@ export default function StandingsTable({
   const [mobileDisplay, setMobileDisplay] = useState<'cards' | 'table'>('cards');
 
   return (
-    <div className="bg-white border-2 border-[#141413] hard-shadow overflow-hidden flex flex-col justify-between">
+    <div className="bg-white border-2 border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden flex flex-col justify-between">
       <div>
         {/* Table Header */}
         <div className="px-3 sm:px-4 py-3 bg-[#EAE8E0] border-b-2 border-[#141413] flex flex-wrap items-center justify-between gap-2">

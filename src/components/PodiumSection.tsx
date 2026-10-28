@@ -45,7 +45,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
         {/* 4 Team Awards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           {/* 1. CHAMPION */}
-          <div className="bg-gradient-to-b from-amber-500/10 via-white to-amber-500/[0.05] border-2 border-amber-500 ring-2 ring-amber-400/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-amber-500/10 via-white to-amber-500/[0.05] border-2 border-amber-500 ring-2 ring-amber-400/40 p-5 hard-shadow-sm sm:hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
               <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-amber-950 text-[9px] font-mono font-black uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 CÚP VÀNG
@@ -89,7 +89,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 2. RUNNER UP */}
-          <div className="bg-gradient-to-b from-slate-200/20 via-white to-slate-100/10 border-2 border-slate-400 ring-1 ring-slate-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-slate-200/20 via-white to-slate-100/10 border-2 border-slate-400 ring-1 ring-slate-300/40 p-5 hard-shadow-sm sm:hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
               <div className="bg-gradient-to-r from-slate-400 to-slate-500 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 BẠC
@@ -133,7 +133,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 3. THIRD PLACE */}
-          <div className="bg-gradient-to-b from-orange-500/10 via-white to-orange-500/[0.03] border-2 border-orange-500 ring-1 ring-orange-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-orange-500/10 via-white to-orange-500/[0.03] border-2 border-orange-500 ring-1 ring-orange-300/40 p-5 hard-shadow-sm sm:hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
               <div className="bg-gradient-to-r from-orange-500 to-amber-600 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 ĐỒNG
@@ -177,7 +177,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 4. FAIR PLAY */}
-          <div className="bg-gradient-to-b from-emerald-500/10 via-white to-emerald-500/[0.03] border-2 border-emerald-600 ring-1 ring-emerald-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-emerald-500/10 via-white to-emerald-500/[0.03] border-2 border-emerald-600 ring-1 ring-emerald-300/40 p-5 hard-shadow-sm sm:hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
               <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 CỜ GIẢI
@@ -222,7 +222,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
         </div>
 
         {/* Tiebreaker Rules Box */}
-        <div className="bg-white border-2 border-[#141413] p-5 hard-shadow">
+        <div className="bg-white border-2 border-[#141413] p-5 hard-shadow-sm sm:hard-shadow">
           <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold uppercase text-[#16422B]">
             <ShieldCheck className="w-4 h-4" />
             <span>ĐIỀU LỆ XẾP HẠNG CHÍNH THỐNG KHI BẰNG ĐIỂM</span>

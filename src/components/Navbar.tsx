@@ -37,28 +37,28 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-[#F6F5F0]/95 backdrop-blur-md border-b-2 border-[#141413]">
-        <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
           {/* Brand */}
-          <a href="#top" className="flex items-center gap-2.5 group shrink-0">
+          <a href="#top" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
             <div
-              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#16422B] text-white border border-[#141413] flex items-center justify-center font-extrabold text-base sm:text-lg tracking-wider hard-shadow-sm group-hover:-translate-y-0.5 transition-transform shrink-0"
+              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#16422B] text-white border border-[#141413] flex items-center justify-center font-extrabold text-sm sm:text-lg tracking-wider hard-shadow-sm group-hover:-translate-y-0.5 transition-transform shrink-0"
               style={{ fontFamily: 'Oswald, sans-serif' }}
             >
               ITIL
             </div>
-            <div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                 <span
-                  className="font-extrabold text-base sm:text-lg tracking-tight uppercase text-[#141413] whitespace-nowrap"
+                  className="font-extrabold text-sm sm:text-lg tracking-tight uppercase text-[#141413] truncate"
                   style={{ fontFamily: 'Oswald, sans-serif' }}
                 >
                   GIẢI BÓNG ĐÁ ITIL
                 </span>
-                <span className="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.2 bg-[#D97706] text-white border border-[#141413] whitespace-nowrap shadow-xs">
-                  MÙA 1 • 2026
+                <span className="font-mono text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 bg-[#D97706] text-white border border-[#141413] whitespace-nowrap shrink-0">
+                  MÙA 1
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-[#61605B] font-medium -mt-0.5 truncate max-w-[180px] sm:max-w-none">
+              <p className="text-[10px] sm:text-[11px] text-[#61605B] font-medium -mt-0.5 truncate">
                 CLB Bóng Đá Liên Chi Đoàn CNTT
               </p>
             </div>
@@ -82,7 +82,7 @@ export default function Navbar() {
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Sound Toggle */}
             <button
               onClick={toggleSound}
@@ -133,7 +133,7 @@ export default function Navbar() {
       </header>
 
       {/* Floating Mobile Bottom Navigation Bar (Hidden on desktop, sticky on mobile) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-[#141413] px-2 py-1.5 flex items-center justify-around font-mono text-[10px] hard-shadow select-none">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t-2 border-[#141413] px-2 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] flex items-center justify-around font-mono text-[10px] hard-shadow select-none">
         <a
           href="#club-intro-section"
           className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
@@ -159,7 +159,7 @@ export default function Navbar() {
           href="#podium-section"
           className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
         >
-          <Trophy className="w-4 h-4 text-[#D97706]" />
+          <Award className="w-4 h-4 text-[#D97706]" />
           <span>Vinh Danh</span>
         </a>
         <a
