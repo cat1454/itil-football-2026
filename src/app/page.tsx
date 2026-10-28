@@ -161,10 +161,8 @@ export default function HomePage() {
       {/* Dynamic Ambient Stadium Background */}
       <AnimatedBackground />
 
-      {/* 1. Header Navigation Bar */}
-      <div className="relative z-10">
-        <Navbar />
-      </div>
+      {/* 1. Header Navigation Bar (Fixed z-50 at top) */}
+      <Navbar />
 
       {/* Main Container */}
       <main className="flex-1 relative z-10">
