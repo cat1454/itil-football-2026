@@ -96,3 +96,44 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* GPU-Accelerated Dynamic Stadium & Team Orbs */
+@keyframes floatOrbRed {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(50px, -45px, 0) scale(1.15); }
+  66% { transform: translate3d(-40px, 35px, 0) scale(0.9); }
+}
+
+@keyframes floatOrbGreen {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(-60px, 50px, 0) scale(0.95); }
+  66% { transform: translate3d(45px, -55px, 0) scale(1.12); }
+}
+
+@keyframes floatOrbGold {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-45px, -50px, 0) scale(1.2); }
+}
+
+@keyframes floatOrbBlue {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(55px, 40px, 0) scale(0.88); }
+}
+
+@keyframes stadiumSweepLeft {
+  0%, 100% { opacity: 0.22; transform: rotate(-25deg) scaleY(1); }
+  50% { opacity: 0.45; transform: rotate(-18deg) scaleY(1.15); }
+}
+
+@keyframes stadiumSweepRight {
+  0%, 100% { opacity: 0.22; transform: rotate(25deg) scaleY(1); }
+  50% { opacity: 0.45; transform: rotate(18deg) scaleY(1.15); }
+}
+
+.anim-orb-red { animation: floatOrbRed 15s ease-in-out infinite; will-change: transform; }
+.anim-orb-green { animation: floatOrbGreen 18s ease-in-out infinite; will-change: transform; }
+.anim-orb-gold { animation: floatOrbGold 16s ease-in-out infinite; will-change: transform; }
+.anim-orb-blue { animation: floatOrbBlue 20s ease-in-out infinite; will-change: transform; }
+.anim-sweep-left { animation: stadiumSweepLeft 9s ease-in-out infinite; will-change: transform, opacity; }
+.anim-sweep-right { animation: stadiumSweepRight 11s ease-in-out infinite; will-change: transform, opacity; }
+

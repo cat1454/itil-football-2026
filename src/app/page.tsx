@@ -12,6 +12,7 @@ import CrossMatrix from '@/components/CrossMatrix';
 import ScheduleSection from '@/components/ScheduleSection';
 import PodiumSection from '@/components/PodiumSection';
 import SquadsSection from '@/components/SquadsSection';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 export default function HomePage() {
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
@@ -149,12 +150,17 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Dynamic Ambient Stadium Background */}
+      <AnimatedBackground />
+
       {/* 1. Header Navigation Bar */}
-      <Navbar />
+      <div className="relative z-10">
+        <Navbar />
+      </div>
 
       {/* Main Container */}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         {/* 2. Hero Section */}
         <HeroSection />
 
@@ -218,7 +224,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#141413] bg-white py-8 pb-24 sm:pb-8">
+      <footer className="border-t border-[#141413] bg-white/90 backdrop-blur-md py-8 pb-24 sm:pb-8 relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2.5">
             <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold">
