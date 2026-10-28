@@ -18,10 +18,9 @@ import {
 
 interface NavbarProps {
   onReopenGate: () => void;
-  onOpenEditModal: () => void;
 }
 
-export default function Navbar({ onReopenGate, onOpenEditModal }: NavbarProps) {
+export default function Navbar({ onReopenGate }: NavbarProps) {
   const [soundOn, setSoundOn] = useState(sound.enabled);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -116,25 +115,13 @@ export default function Navbar({ onReopenGate, onOpenEditModal }: NavbarProps) {
               <span>Sút mở màn</span>
             </button>
 
-            {/* Edit Teams Modal */}
-            <button
-              onClick={() => {
-                sound.playClick();
-                onOpenEditModal();
-              }}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-[#16422B] text-white border border-[#141413] font-mono text-xs font-bold hard-btn cursor-pointer touch-manipulation"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>ĐỔI TÊN 4 ĐỘI</span>
-            </button>
-
             {/* Admin Dashboard Link */}
             <a
               href="/admin"
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-[#EAE8E0] hover:bg-[#141413] hover:text-white border border-[#141413] font-mono text-xs font-bold transition hard-btn cursor-pointer touch-manipulation"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#16422B] text-white hover:bg-[#141413] border border-[#141413] font-mono text-xs font-bold transition hard-btn cursor-pointer touch-manipulation"
               title="Trang quản trị Ban Tổ Chức"
             >
-              <Shield className="w-3.5 h-3.5 text-[#D9381E]" />
+              <Shield className="w-3.5 h-3.5 text-amber-300" />
               <span className="hidden sm:inline">BTC ADMIN</span>
               <span className="sm:hidden text-[11px]">BTC</span>
             </a>
@@ -184,17 +171,14 @@ export default function Navbar({ onReopenGate, onOpenEditModal }: NavbarProps) {
                 <span>Sút mở màn</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  sound.playClick();
-                  onOpenEditModal();
-                }}
+              <a
+                href="/admin"
+                onClick={() => setMobileMenuOpen(false)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[#16422B] text-white border border-[#141413] font-bold"
               >
-                <Edit3 className="w-3.5 h-3.5" />
-                <span>Đổi tên 4 đội</span>
-              </button>
+                <Shield className="w-3.5 h-3.5 text-amber-300" />
+                <span>Ban Tổ Chức</span>
+              </a>
             </div>
           </div>
         )}

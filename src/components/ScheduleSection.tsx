@@ -2,26 +2,17 @@
 
 import React, { useState } from 'react';
 import { Team, Match } from '@/types/tournament';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Dices, RotateCcw, Calendar, CheckCircle2, Clock, Flame } from 'lucide-react';
+import { Calendar, CheckCircle2, Clock, Flame } from 'lucide-react';
 import { sound } from '@/lib/sound';
 
 interface ScheduleSectionProps {
   teams: Team[];
   matches: Match[];
-  onAdjustScore: (matchId: string, side: 'home' | 'away', delta: number) => void;
-  onTogglePlayed: (matchId: string) => void;
-  onSimulateAll: () => void;
-  onResetMatches: () => void;
 }
 
 export default function ScheduleSection({
   teams,
   matches,
-  onAdjustScore,
-  onTogglePlayed,
-  onSimulateAll,
-  onResetMatches,
 }: ScheduleSectionProps) {
   const [activeFilter, setActiveFilter] = useState<'all' | 1 | 2 | 3>('all');
 
@@ -42,43 +33,26 @@ export default function ScheduleSection({
   return (
     <section id="schedule-section" className="py-12 sm:py-16 border-b border-[#141413]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Header & Simulator Buttons */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#D9381E] tracking-wider mb-1 flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
-              <span>02 // LỊCH THI ĐẤU &amp; BỘ GIẢ LẬP TỈ SỐ</span>
+              <span>02 // LỊCH THI ĐẤU &amp; KẾT QUẢ 6 TRẬN VÒNG TRÒN</span>
             </div>
             <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
-              3 LƯỢT TRẬN VÒNG TRÒN (6 TRẬN)
+              3 LƯỢT TRẬN VÒNG BẢNG
             </h2>
             <p className="text-sm text-[#61605B] mt-1 max-w-2xl">
-              Nhấn nút <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">+</code> / <code className="font-mono px-1.5 py-0.5 bg-[#EAE8E0] border border-[#141413] text-[#141413] font-bold">-</code> hoặc nút <strong className="text-[#141413]">ĐÃ ĐÁ</strong> để thử nghiệm biến động bảng xếp hạng ngay lập tức.
+              Lịch thi đấu chính thức 3 vòng (6 trận) và tỉ số cập nhật tự động từ Ban Tổ Chức theo điều lệ giải ITIL 2026.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              onClick={() => {
-                sound.playWhistle();
-                onSimulateAll();
-              }}
-              className="flex items-center gap-2 px-3.5 py-2 bg-[#16422B] text-white border border-[#141413] font-mono text-xs font-bold hard-btn cursor-pointer"
-            >
-              <Dices className="w-4 h-4" />
-              <span>GIẢ LẬP 6 TRẬN</span>
-            </button>
-
-            <button
-              onClick={() => {
-                sound.playClick();
-                onResetMatches();
-              }}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-white text-[#141413] border border-[#141413] font-mono text-xs font-semibold hard-btn cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-[#61605B]" />
-              <span>RESET</span>
-            </button>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-[#141413] font-mono text-xs font-bold text-[#16422B] hard-shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#16422B] animate-pulse"></span>
+              <span>DỮ LIỆU ĐỒNG BỘ TRỰC TIẾP (LIVE)</span>
+            </span>
           </div>
         </div>
 
@@ -151,93 +125,71 @@ export default function ScheduleSection({
                               </span>
                             </div>
 
-                            <button
-                              onClick={() => {
-                                sound.playClick();
-                                onTogglePlayed(m.id);
-                              }}
-                              className={`px-2 py-0.5 border border-[#141413] font-bold cursor-pointer text-[10px] transition ${
-                                m.played ? 'bg-[#16422B] text-white' : 'bg-white text-[#61605B] hover:bg-[#EAE8E0]'
+                            <span
+                              className={`px-2 py-0.5 border border-[#141413] font-bold text-[10px] ${
+                                m.played
+                                  ? 'bg-[#16422B] text-white'
+                                  : 'bg-white text-[#61605B]'
                               }`}
                             >
                               {m.played ? (
                                 <span className="inline-flex items-center gap-1">
                                   <CheckCircle2 className="w-3 h-3 text-emerald-300" />
-                                  <span>ĐÃ ĐÁ</span>
+                                  <span>ĐÃ KẾT THÚC</span>
                                 </span>
                               ) : (
-                                'CHƯA ĐÁ'
+                                'SẮP DIỄN RA'
                               )}
-                            </button>
+                            </span>
                           </div>
 
-                          {/* Home Team Row */}
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <div className="flex items-center gap-2 min-w-0">
+                          {/* Match Scoreboard Row */}
+                          <div className="grid grid-cols-11 items-center gap-1 py-1">
+                            {/* Home Team */}
+                            <div className="col-span-4 flex items-center gap-2 min-w-0">
                               <span
                                 className="w-3.5 h-3.5 rounded-full border border-[#141413] shrink-0"
                                 style={{ backgroundColor: homeTeam?.kitColor }}
                               />
-                              <span className="font-bold text-sm text-[#141413] truncate">
-                                {homeTeam?.name}
-                              </span>
-                              <span className="font-mono text-[10px] text-[#61605B]">
-                                ({homeTeam?.code})
-                              </span>
+                              <div className="min-w-0">
+                                <div className="font-bold text-sm text-[#141413] truncate">
+                                  {homeTeam?.name}
+                                </div>
+                                <div className="font-mono text-[10px] text-[#61605B]">
+                                  {homeTeam?.code}
+                                </div>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1.5 shrink-0 font-mono">
-                              <button
-                                onClick={() => onAdjustScore(m.id, 'home', -1)}
-                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
-                                aria-label="Giảm bàn thắng đội nhà"
-                              >
-                                -
-                              </button>
-                              <span className={`w-7 text-center font-bold text-base ${m.played ? 'text-[#141413]' : 'text-[#61605B]'}`}>
-                                {m.played ? m.homeGoals : '-'}
-                              </span>
-                              <button
-                                onClick={() => onAdjustScore(m.id, 'home', 1)}
-                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
-                                aria-label="Tăng bàn thắng đội nhà"
-                              >
-                                +
-                              </button>
-                            </div>
-                          </div>
 
-                          {/* Away Team Row */}
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2 min-w-0">
+                            {/* Scoreboard in Center */}
+                            <div className="col-span-3 text-center">
+                              {m.played ? (
+                                <div className="inline-flex items-center justify-center px-3 py-1 bg-white border border-[#141413] font-mono font-black text-lg text-[#141413] hard-shadow-sm">
+                                  <span>{m.homeGoals}</span>
+                                  <span className="mx-1 text-[#61605B]">-</span>
+                                  <span>{m.awayGoals}</span>
+                                </div>
+                              ) : (
+                                <div className="inline-flex items-center justify-center px-3 py-1 bg-[#EAE8E0] border border-[#141413] font-mono font-bold text-xs text-[#61605B]">
+                                  VS
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Away Team */}
+                            <div className="col-span-4 flex items-center justify-end gap-2 text-right min-w-0">
+                              <div className="min-w-0">
+                                <div className="font-bold text-sm text-[#141413] truncate">
+                                  {awayTeam?.name}
+                                </div>
+                                <div className="font-mono text-[10px] text-[#61605B]">
+                                  {awayTeam?.code}
+                                </div>
+                              </div>
                               <span
                                 className="w-3.5 h-3.5 rounded-full border border-[#141413] shrink-0"
                                 style={{ backgroundColor: awayTeam?.kitColor }}
                               />
-                              <span className="font-bold text-sm text-[#141413] truncate">
-                                {awayTeam?.name}
-                              </span>
-                              <span className="font-mono text-[10px] text-[#61605B]">
-                                ({awayTeam?.code})
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-1.5 shrink-0 font-mono">
-                              <button
-                                onClick={() => onAdjustScore(m.id, 'away', -1)}
-                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
-                                aria-label="Giảm bàn thắng đội khách"
-                              >
-                                -
-                              </button>
-                              <span className={`w-7 text-center font-bold text-base ${m.played ? 'text-[#141413]' : 'text-[#61605B]'}`}>
-                                {m.played ? m.awayGoals : '-'}
-                              </span>
-                              <button
-                                onClick={() => onAdjustScore(m.id, 'away', 1)}
-                                className="w-9 h-9 sm:w-8 sm:h-8 bg-white border border-[#141413] hover:bg-[#EAE8E0] active:bg-[#141413] active:text-white font-bold text-base sm:text-sm cursor-pointer transition touch-manipulation flex items-center justify-center"
-                                aria-label="Tăng bàn thắng đội khách"
-                              >
-                                +
-                              </button>
                             </div>
                           </div>
                         </div>

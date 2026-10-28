@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
 import { Team, Match, TeamStanding } from '@/types/tournament';
 import { INITIAL_TEAMS, INITIAL_MATCHES } from '@/data/initialData';
+import { Trophy } from 'lucide-react';
 
 import KickoffGate from '@/components/KickoffGate';
 import Navbar from '@/components/Navbar';
@@ -14,17 +14,13 @@ import CrossMatrix from '@/components/CrossMatrix';
 import ScheduleSection from '@/components/ScheduleSection';
 import FinalsBracket from '@/components/FinalsBracket';
 import SquadsSection from '@/components/SquadsSection';
-import EditTeamsModal from '@/components/EditTeamsModal';
 
 export default function HomePage() {
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
   const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
   const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('final');
   const [isGateOpen, setIsGateOpen] = useState(true);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
-
-  const [isLiveSync, setIsLiveSync] = useState(false);
 
   // Fetch latest data from backend API
   const fetchLiveData = useCallback(async () => {
@@ -35,34 +31,24 @@ export default function HomePage() {
         if (json.teams) setTeams(json.teams);
         if (json.matches) setMatches(json.matches);
         if (json.tournamentMode) setTournamentMode(json.tournamentMode);
-        setIsLiveSync(true);
       }
     } catch (_) {}
   }, []);
 
-  // Initial load and auto-polling every 8 seconds
+  // Initial load and auto-polling every 6 seconds
   useEffect(() => {
-    // Check local storage first
+    // Check if user already unlocked gate this session
     try {
-      const savedTeams = localStorage.getItem('itil_teams_2026');
-      if (savedTeams) setTeams(JSON.parse(savedTeams));
-
-      const savedMatches = localStorage.getItem('itil_matches_2026');
-      if (savedMatches) setMatches(JSON.parse(savedMatches));
-
-      const savedMode = localStorage.getItem('itil_mode_2026');
-      if (savedMode) setTournamentMode(savedMode as 'final' | 'direct');
-
       const gateSeen = sessionStorage.getItem('itil_gate_passed');
       if (gateSeen === 'true') {
         setIsGateOpen(false);
       }
     } catch (_) {}
 
-    // Fetch from backend
+    // Fetch official tournament data from backend
     fetchLiveData();
 
-    const interval = setInterval(fetchLiveData, 8000);
+    const interval = setInterval(fetchLiveData, 6000);
     const onFocus = () => fetchLiveData();
     window.addEventListener('focus', onFocus);
 
@@ -71,25 +57,6 @@ export default function HomePage() {
       window.removeEventListener('focus', onFocus);
     };
   }, [fetchLiveData]);
-
-  // Save to localStorage when state updates
-  useEffect(() => {
-    try {
-      localStorage.setItem('itil_teams_2026', JSON.stringify(teams));
-    } catch (_) {}
-  }, [teams]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('itil_matches_2026', JSON.stringify(matches));
-    } catch (_) {}
-  }, [matches]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('itil_mode_2026', tournamentMode);
-    } catch (_) {}
-  }, [tournamentMode]);
 
   // Show Toast
   const showToast = useCallback((msg: string) => {
@@ -181,69 +148,6 @@ export default function HomePage() {
 
   const playedCount = useMemo(() => matches.filter(m => m.played).length, [matches]);
 
-  // Adjust score handler
-  const handleAdjustScore = (matchId: string, side: 'home' | 'away', delta: number) => {
-    sound.playClick();
-    setMatches(prev =>
-      prev.map(m => {
-        if (m.id !== matchId) return m;
-        const homeGoals = side === 'home' ? Math.max(0, m.homeGoals + delta) : m.homeGoals;
-        const awayGoals = side === 'away' ? Math.max(0, m.awayGoals + delta) : m.awayGoals;
-        return {
-          ...m,
-          homeGoals,
-          awayGoals,
-          played: true,
-        };
-      })
-    );
-    showToast('Đã cập nhật tỉ số trận đấu!');
-  };
-
-  // Toggle played status
-  const handleTogglePlayed = (matchId: string) => {
-    sound.playClick();
-    setMatches(prev =>
-      prev.map(m => {
-        if (m.id !== matchId) return m;
-        return {
-          ...m,
-          played: !m.played,
-        };
-      })
-    );
-    showToast('Đã chuyển trạng thái trận đấu!');
-  };
-
-  // Simulate all 6 matches with confetti
-  const handleSimulateAll = () => {
-    sound.playGoal();
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#D9381E', '#16422B', '#D97706', '#1E40AF'],
-      });
-    } catch (_) {}
-
-    setMatches(prev =>
-      prev.map(m => ({
-        ...m,
-        played: true,
-        homeGoals: Math.floor(Math.random() * 4),
-        awayGoals: Math.floor(Math.random() * 4),
-      }))
-    );
-    showToast('Đã giả lập ngẫu nhiên toàn bộ 6 trận vòng tròn!');
-  };
-
-  // Reset default matches
-  const handleResetMatches = () => {
-    setMatches(JSON.parse(JSON.stringify(INITIAL_MATCHES)));
-    showToast('Đã khôi phục trạng thái lịch đấu ban đầu');
-  };
-
   // Select match from matrix to scroll
   const handleSelectMatch = (matchId: string) => {
     const el = document.getElementById(`matchCard-${matchId}`);
@@ -256,13 +160,6 @@ export default function HomePage() {
     }
   };
 
-  // Save edited teams
-  const handleSaveTeams = (updatedTeams: Team[]) => {
-    setTeams(updatedTeams);
-    showToast('Đã cập nhật danh sách 4 đội bóng!');
-  };
-
-  // Unlock gate
   const handleUnlockGate = () => {
     setIsGateOpen(false);
     try {
@@ -277,10 +174,7 @@ export default function HomePage() {
       <KickoffGate isOpen={isGateOpen} onUnlock={handleUnlockGate} />
 
       {/* 1. Header Navigation Bar */}
-      <Navbar
-        onReopenGate={() => setIsGateOpen(true)}
-        onOpenEditModal={() => setIsEditModalOpen(true)}
-      />
+      <Navbar onReopenGate={() => setIsGateOpen(true)} />
 
       {/* Main Container */}
       <main className="flex-1">
@@ -292,39 +186,22 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
               <div>
-                <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1">
-                  01 // BẢNG XẾP HẠNG &amp; MA TRẬN XOAY VÒNG
+                <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
+                  <Trophy className="w-4 h-4 text-[#16422B]" />
+                  <span>01 // BẢNG XẾP HẠNG &amp; MA TRẬN XOAY VÒNG</span>
                 </div>
                 <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   CỤC DIỆN VÒNG TRÒN 4 ĐỘI
                 </h2>
               </div>
 
-              {/* Tournament Mode Switcher */}
-              <div className="flex flex-wrap items-center gap-2 bg-white border border-[#141413] p-1.5 hard-shadow-sm self-start">
-                <span className="font-mono text-xs text-[#61605B] px-2">Thể thức:</span>
-                <button
-                  onClick={() => {
-                    sound.playClick();
-                    setTournamentMode('final');
-                  }}
-                  className={`px-3 py-1.5 text-xs font-mono font-bold border border-[#141413] transition cursor-pointer ${
-                    tournamentMode === 'final' ? 'bg-[#16422B] text-white' : 'text-[#141413] hover:bg-[#EAE8E0]'
-                  }`}
-                >
-                  Top 2 đá Chung Kết
-                </button>
-                <button
-                  onClick={() => {
-                    sound.playClick();
-                    setTournamentMode('direct');
-                  }}
-                  className={`px-3 py-1.5 text-xs font-mono font-semibold border border-[#141413] transition cursor-pointer ${
-                    tournamentMode === 'direct' ? 'bg-[#16422B] text-white' : 'text-[#141413] hover:bg-[#EAE8E0]'
-                  }`}
-                >
-                  Tính điểm Vô Địch luôn
-                </button>
+              {/* Official Tournament Format Badge */}
+              <div className="flex items-center gap-2 bg-white border border-[#141413] px-3.5 py-2 hard-shadow-sm self-start font-mono text-xs">
+                <span className="text-[#61605B]">Thể thức chính thức:</span>
+                <span className="font-bold text-[#16422B] flex items-center gap-1.5">
+                  <Trophy className="w-3.5 h-3.5 text-[#D97706]" />
+                  <span>{tournamentMode === 'final' ? 'Top 2 đội vào Chung Kết Cúp Vàng' : 'Tính điểm Vô Địch trực tiếp'}</span>
+                </span>
               </div>
             </div>
 
@@ -334,7 +211,6 @@ export default function HomePage() {
                 <StandingsTable
                   standings={standings}
                   tournamentMode={tournamentMode}
-                  onModeChange={setTournamentMode}
                   playedCount={playedCount}
                 />
               </div>
@@ -351,24 +227,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. Match Schedule 3 Rounds & Simulator */}
+        {/* 4. Match Schedule 3 Rounds & Official Scores */}
         <ScheduleSection
           teams={teams}
           matches={matches}
-          onAdjustScore={handleAdjustScore}
-          onTogglePlayed={handleTogglePlayed}
-          onSimulateAll={handleSimulateAll}
-          onResetMatches={handleResetMatches}
         />
 
         {/* 5. Finals Day Automatic Bracket */}
         <FinalsBracket standings={standings} />
 
         {/* 6. Squad Profiles & Tournament Rules */}
-        <SquadsSection
-          teams={teams}
-          onOpenEditModal={() => setIsEditModalOpen(true)}
-        />
+        <SquadsSection teams={teams} />
       </main>
 
       {/* Footer */}
@@ -387,14 +256,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-
-      {/* Edit Teams Modal */}
-      <EditTeamsModal
-        isOpen={isEditModalOpen}
-        teams={teams}
-        onClose={() => setIsEditModalOpen(false)}
-        onSave={handleSaveTeams}
-      />
 
       {/* Editorial Toast Notification */}
       {toastMsg && (

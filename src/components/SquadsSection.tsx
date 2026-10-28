@@ -7,10 +7,9 @@ import { sound } from '@/lib/sound';
 
 interface SquadsSectionProps {
   teams: Team[];
-  onOpenEditModal: () => void;
 }
 
-export default function SquadsSection({ teams, onOpenEditModal }: SquadsSectionProps) {
+export default function SquadsSection({ teams }: SquadsSectionProps) {
   return (
     <section id="squads-section" className="py-12 sm:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -26,16 +25,10 @@ export default function SquadsSection({ teams, onOpenEditModal }: SquadsSectionP
             </h2>
           </div>
 
-          <button
-            onClick={() => {
-              sound.playClick();
-              onOpenEditModal();
-            }}
-            className="self-start sm:self-auto flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#141413] font-mono text-xs font-semibold hard-btn cursor-pointer"
-          >
-            <Edit className="w-3.5 h-3.5 text-[#16422B]" />
-            <span>Đổi tên &amp; thông tin 4 đội</span>
-          </button>
+          <div className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 bg-[#F6F5F0] border border-[#141413] font-mono text-xs text-[#16422B] font-bold">
+            <Shield className="w-3.5 h-3.5" />
+            <span>Đội hình đăng ký chính thức BTC</span>
+          </div>
         </div>
 
         {/* 4 Team Squad Cards */}

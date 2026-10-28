@@ -89,7 +89,7 @@ export default function CrossMatrix({ teams, matches, onSelectMatch }: CrossMatr
                             onSelectMatch(m.id);
                           }}
                           className="p-2 border-r border-b border-[#141413] bg-white hover:bg-[#EAE8E0] cursor-pointer transition group"
-                          title={`Bấm để nhập tỉ số ${rowTeam.name} vs ${colTeam.name}`}
+                          title={`Xem chi tiết trận ${rowTeam.name} vs ${colTeam.name}`}
                         >
                           <div className="text-[10px] text-[#61605B]">Vòng {m.round}</div>
                           <div className="font-semibold text-[#141413] group-hover:underline">Chưa đá</div>

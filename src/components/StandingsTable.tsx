@@ -19,14 +19,12 @@ import { sound } from '@/lib/sound';
 interface StandingsTableProps {
   standings: TeamStanding[];
   tournamentMode: 'final' | 'direct';
-  onModeChange: (mode: 'final' | 'direct') => void;
   playedCount: number;
 }
 
 export default function StandingsTable({
   standings,
   tournamentMode,
-  onModeChange,
   playedCount,
 }: StandingsTableProps) {
   // Mobile display mode: 'table' or 'cards'
