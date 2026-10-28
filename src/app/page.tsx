@@ -175,7 +175,7 @@ export default function HomePage() {
         <ClubIntroSection />
 
         {/* 4. Standings Table & 4x4 Cross Matrix */}
-        <section id="standings-section" className="py-10 sm:py-16 border-b border-[#141413]">
+        <section id="standings-section" className="scroll-mt-16 py-10 sm:py-16 border-b border-[#141413]">
           <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
               <div>
@@ -237,9 +237,9 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[#141413] bg-white/90 backdrop-blur-md py-8 pb-24 sm:pb-8 relative z-10">
-        <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
+      {/* Footer (hidden on mobile per user request) */}
+      <footer className="hidden sm:block border-t border-[#141413] bg-white/90 backdrop-blur-md py-8 relative z-10">
+        <div className="w-full max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2.5">
             <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold">
               ITIL MÙA 1 (2026)

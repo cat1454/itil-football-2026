@@ -31,7 +31,7 @@ export default function ScheduleSection({
   const displayedRounds = activeFilter === 'all' ? [1, 2, 3] : [activeFilter];
 
   return (
-    <section id="schedule-section" className="py-10 sm:py-16 border-b border-[#141413]">
+    <section id="schedule-section" className="scroll-mt-16 py-10 sm:py-16 border-b border-[#141413]">
       <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">

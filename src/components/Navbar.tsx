@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sound } from '@/lib/sound';
 import {
   Volume2,
@@ -17,6 +17,16 @@ import {
 export default function Navbar() {
   const [soundOn, setSoundOn] = useState(sound.enabled);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleSound = () => {
     sound.enabled = !sound.enabled;
@@ -30,16 +40,24 @@ export default function Navbar() {
     { href: '#club-intro-section', label: 'Giới Thiệu CLB', icon: Shield },
     { href: '#standings-section', label: 'Bảng Xếp Hạng', icon: Trophy },
     { href: '#schedule-section', label: 'Lịch Đấu', icon: CalendarDays },
-    { href: '#podium-section', label: 'Vinh Danh', icon: Trophy },
+    { href: '#podium-section', label: 'Vinh Danh', icon: Award },
     { href: '#squads-section', label: '4 Đội Bóng', icon: Users },
   ];
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-[#F6F5F0]/95 backdrop-blur-md border-b-2 border-[#141413]">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 bg-[#F6F5F0]/95 backdrop-blur-md border-b-2 border-[#141413] transition-all duration-200 ${
+          scrolled ? 'shadow-md bg-[#F6F5F0]/98' : ''
+        }`}
+      >
         <div className="w-full max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
           {/* Brand */}
-          <a href="#top" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
+          <a
+            href="#top"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 sm:gap-2.5 group min-w-0"
+          >
             <div
               className="w-8 h-8 sm:w-9 sm:h-9 bg-[#16422B] text-white border border-[#141413] flex items-center justify-center font-extrabold text-sm sm:text-lg tracking-wider hard-shadow-sm group-hover:-translate-y-0.5 transition-transform shrink-0"
               style={{ fontFamily: 'Oswald, sans-serif' }}
@@ -103,27 +121,31 @@ export default function Navbar() {
                 sound.playClick();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
-              className="lg:hidden p-1.5 bg-white border border-[#141413] text-[#141413] cursor-pointer touch-manipulation"
+              className="lg:hidden p-1.5 bg-white border border-[#141413] text-[#141413] cursor-pointer touch-manipulation flex items-center gap-1"
               aria-label="Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <span className="font-mono text-[11px] font-bold sm:hidden pr-0.5">Menu</span>
             </button>
           </div>
         </div>
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-[#141413] px-4 py-3 space-y-2 hard-shadow font-mono text-xs animate-in slide-in-from-top-2">
+          <div className="lg:hidden bg-white/98 backdrop-blur-md border-t-2 border-[#141413] px-4 py-3 space-y-2 hard-shadow font-mono text-xs animate-in slide-in-from-top-2">
             {navLinks.map(link => {
               const Icon = link.icon;
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 py-2 px-2 hover:bg-[#F6F5F0] border-b border-[#141413]/10 font-bold text-[#141413]"
+                  onClick={() => {
+                    sound.playClick();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2.5 py-2.5 px-3 rounded hover:bg-[#F6F5F0] active:bg-[#EAE8E0] border-b border-[#141413]/10 font-bold text-[#141413] transition"
                 >
-                  <Icon className="w-4 h-4 text-[#16422B]" />
+                  <Icon className="w-4 h-4 text-[#16422B] shrink-0" />
                   <span>{link.label}</span>
                 </a>
               );
@@ -132,44 +154,8 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Floating Mobile Bottom Navigation Bar (Hidden on desktop, sticky on mobile) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t-2 border-[#141413] px-2 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] flex items-center justify-around font-mono text-[10px] hard-shadow select-none">
-        <a
-          href="#club-intro-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <Shield className="w-4 h-4 text-[#16422B]" />
-          <span>Về CLB</span>
-        </a>
-        <a
-          href="#standings-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <Trophy className="w-4 h-4 text-[#16422B]" />
-          <span>BXH</span>
-        </a>
-        <a
-          href="#schedule-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <CalendarDays className="w-4 h-4 text-[#D9381E]" />
-          <span>Lịch Đấu</span>
-        </a>
-        <a
-          href="#podium-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <Award className="w-4 h-4 text-[#D97706]" />
-          <span>Vinh Danh</span>
-        </a>
-        <a
-          href="#squads-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <Users className="w-4 h-4 text-[#16422B]" />
-          <span>4 Đội</span>
-        </a>
-      </nav>
+      {/* Spacer to offset fixed header height */}
+      <div className="h-16" />
     </>
   );
 }

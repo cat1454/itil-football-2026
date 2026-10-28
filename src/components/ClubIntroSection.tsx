@@ -5,7 +5,7 @@ import { Shield, Trophy, Users, HeartHandshake, Zap, Target, Sparkles, Calendar 
 
 export default function ClubIntroSection() {
   return (
-    <section id="club-intro-section" className="py-10 sm:py-16 border-b border-[#141413] bg-white/70 backdrop-blur-xs">
+    <section id="club-intro-section" className="scroll-mt-16 py-10 sm:py-16 border-b border-[#141413] bg-white/70 backdrop-blur-xs">
       <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
