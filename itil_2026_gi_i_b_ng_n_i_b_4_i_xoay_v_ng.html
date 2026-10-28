@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITIL 2026 — Giải Bóng Đá Nội Bộ Liên Chi Đoàn (4 Đội Xoay Vòng)</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Oswald (Display), Be Vietnam Pro (Body), JetBrains Mono (Stats/Numbers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP & Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#F6F5F0',
+            card: '#FFFFFF',
+            ink: '#141413',
+            muted: '#61605B',
+            pitch: '#16422B',
+            pitchLight: '#E8F0EB',
+            vermilion: '#D9381E',
+            vermilionLight: '#FCECE9',
+            sand: '#EAE8E0'
+          },
+          fontFamily: {
+            display: ['Oswald', 'sans-serif'],
+            sans: ['Be Vietnam Pro', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #F6F5F0;
+      color: #141413;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Editorial Grid Texture */
+    .bg-editorial-grid {
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(20, 20, 19, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20, 20, 19, 0.04) 1px, transparent 1px);
+    }
+
+    /* Hard Editorial Shadow */
+    .hard-shadow {
+      box-shadow: 4px 4px 0px #141413;
+    }
+    .hard-shadow-sm {
+      box-shadow: 2px 2px 0px #141413;
+    }
+    .hard-btn {
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 3px 3px 0px #141413;
+    }
+    .hard-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #141413;
+    }
+    .hard-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #141413;
+    }
+
+    /* Fixed Tactical Rolling Ball Overlay */
+    #tacticalOverlaySvg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 35;
+    }
+
+    /* Grasp / Draggable Ball Cursor */
+    .grasp-ball {
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+    .grasp-ball:active {
+      cursor: grabbing;
+    }
+
+    /* Diagonal Hatch for Self-Cells in 4x4 Matrix */
+    .matrix-self-cell {
+      background-color: #EAE8E0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 6px,
+        rgba(20, 20, 19, 0.08) 6px,
+        rgba(20, 20, 19, 0.08) 7px
+      );
+    }
+
+    /* Fullscreen Intro Kick-Off Gate (100dvh for Mobile & Laptop) */
+    #kickoffIntroGate {
+      height: 100vh;
+      height: 100dvh;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.75; }
+      70% { transform: scale(1.38); opacity: 0; }
+      100% { transform: scale(1.38); opacity: 0; }
+    }
+    .ball-pulse-ring {
+      animation: pulseRing 1.8s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Hide scrollbars cleanly on horizontal mobile filter tabs */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-editorial-grid antialiased selection:bg-pitch selection:text-white overflow-hidden">
+
+  <!-- ===================================================================== -->
+  <!-- 0. "KICK-OFF TO ENTER" FULLSCREEN INTRO GATE (LAPTOP & MOBILE)        -->
+  <!-- ===================================================================== -->
+  <div id="kickoffIntroGate" class="fixed inset-0 z-50 bg-paper flex flex-col justify-between border-b-4 border-ink overflow-hidden">
+    <!-- Top Editorial Gate Bar -->
+    <div class="border-b border-ink bg-card px-4 sm:px-6 py-2.5 flex items-center justify-between gap-2 shrink-0">
+      <div class="flex items-center gap-2.5">
+        <span class="px-2 py-0.5 bg-pitch text-white font-display font-bold text-sm tracking-wider border border-ink">ITIL 2026</span>
+        <span class="font-mono text-[11px] sm:text-xs font-bold uppercase text-ink">CỔNG KHAI MẠC GIẢI BÓNG ĐÁ NỘI BỘ LCĐ</span>
+      </div>
+      <button onclick="unlockWebsiteGate(true)" class="px-2.5 py-1 bg-paper hover:bg-sand border border-ink font-mono text-[11px] font-semibold transition cursor-pointer">
+        Bỏ qua &rarr;
+      </button>
+    </div>
+
+    <!-- Center Interactive Pitch Arena -->
+    <div class="flex-1 flex flex-col items-center justify-between max-w-3xl w-full mx-auto px-3 sm:px-6 py-2 sm:py-4 min-h-0">
+      <!-- Instruction Header -->
+      <div class="text-center space-y-1 shrink-0 mb-1 sm:mb-2">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 bg-sand border border-ink font-mono text-[10px] sm:text-xs font-bold uppercase">
+          <span class="w-2 h-2 rounded-full bg-vermilion"></span>
+          <span>SÚT BÓNG VÀO LƯỚI ĐỂ MỞ TRANG GIẢI ĐẤU</span>
+        </div>
+        <h2 class="font-display font-bold text-2xl sm:text-4xl uppercase tracking-tight text-ink leading-none">
+          KÉO &amp; THẢ QUẢ BÓNG VÀO KHUNG THÀNH
+        </h2>
+        <p id="introStatusBanner" class="font-mono text-[11px] sm:text-xs text-muted">
+          💻 Laptop: Nhấn giữ chuột kéo bóng • 📱 Điện thoại: Chạm kéo lùi hoặc vuốt thẳng bóng lên lưới
+        </p>
+      </div>
+
+      <!-- Interactive Penalty Pitch Box (Pointer Events Unified for Mouse & Touch) -->
+      <div
+        id="introPitchContainer"
+        class="relative w-full flex-1 max-h-[540px] bg-pitch border-2 border-ink hard-shadow overflow-hidden flex items-center justify-center touch-none select-none"
+      >
+        <!-- Tactical Pitch SVG ViewBox (400 x 500) -->
+        <svg id="introArenaSvg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet" class="w-full h-full pointer-events-none">
+          <!-- Classic Mowed Turf Horizontal Stripes -->
+          <rect x="0" y="0" width="400" height="500" fill="#16422B" />
+          <rect x="0" y="0" width="400" height="62" fill="#1A4B31" />
+          <rect x="0" y="124" width="400" height="62" fill="#1A4B31" />
+          <rect x="0" y="248" width="400" height="62" fill="#1A4B31" />
+          <rect x="0" y="372" width="400" height="62" fill="#1A4B31" />
+
+          <!-- Pitch Boundary & Penalty Box Chalk Lines -->
+          <line x1="20" y1="78" x2="380" y2="78" stroke="#F6F5F0" stroke-width="2.5" opacity="0.85" />
+          <line x1="20" y1="78" x2="20" y2="485" stroke="#F6F5F0" stroke-width="2" opacity="0.5" />
+          <line x1="380" y1="78" x2="380" y2="485" stroke="#F6F5F0" stroke-width="2" opacity="0.5" />
+
+          <!-- 6-Yard Goal Box & Penalty Area -->
+          <rect x="65" y="78" width="270" height="175" fill="none" stroke="#F6F5F0" stroke-width="2" opacity="0.7" />
+          <rect x="115" y="78" width="170" height="68" fill="none" stroke="#F6F5F0" stroke-width="1.8" opacity="0.6" />
+          <!-- Penalty Arc -->
+          <path d="M 145 253 A 65 65 0 0 0 255 253" fill="none" stroke="#F6F5F0" stroke-width="2" opacity="0.7" />
+
+          <!-- Goal Net Structure (Top Center: X=120 to 280, Y=24 to 78) -->
+          <g id="introGoalGroup">
+            <!-- Elastic Net Mesh Background Path (Ripples on Goal) -->
+            <path
+              id="introGoalNetMesh"
+              d="M 120,78 L 128,28 Q 200,28 272,28 L 280,78 Z"
+              fill="rgba(246, 245, 240, 0.16)"
+              stroke="#F6F5F0"
+              stroke-width="1.5"
+            />
+            <!-- Vertical & Horizontal Net Strings -->
+            <g stroke="#F6F5F0" stroke-width="0.8" opacity="0.45">
+              <line x1="145" y1="28" x2="142" y2="78" />
+              <line x1="172" y1="28" x2="170" y2="78" />
+              <line x1="200" y1="28" x2="200" y2="78" />
+              <line x1="228" y1="28" x2="230" y2="78" />
+              <line x1="255" y1="28" x2="258" y2="78" />
+              <line x1="125" y1="44" x2="275" y2="44" />
+              <line x1="123" y1="60" x2="277" y2="60" />
+            </g>
+            <!-- Goal Crossbar & Posts -->
+            <path d="M 120,80 L 120,26 L 280,26 L 280,80" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="square" />
+            <path d="M 120,80 L 120,26 L 280,26 L 280,80" fill="none" stroke="#D9381E" stroke-width="5" stroke-dasharray="12 12" />
+            <!-- Left & Right Post Highlight Dots -->
+            <circle cx="120" cy="78" r="4.5" fill="#FFFFFF" stroke="#141413" stroke-width="1.5" />
+            <circle cx="280" cy="78" r="4.5" fill="#FFFFFF" stroke="#141413" stroke-width="1.5" />
+          </g>
+
+          <!-- Target Zones inside Goal -->
+          <g id="introGoalTargets" opacity="0.75">
+            <circle cx="150" cy="54" r="14" fill="none" stroke="#F6F5F0" stroke-width="1.5" stroke-dasharray="3 3" />
+            <circle cx="250" cy="54" r="14" fill="none" stroke="#F6F5F0" stroke-width="1.5" stroke-dasharray="3 3" />
+            <text x="200" y="58" text-anchor="middle" fill="#F6F5F0" font-family="JetBrains Mono" font-size="10" font-weight="700" letter-spacing="2">KHUNG THÀNH ITIL</text>
+          </g>
+
+          <!-- Moving Goalkeeper Obstacle Pin (Patrols across Goal Line) -->
+          <g id="introKeeperPin" transform="translate(200, 82)">
+            <ellipse cx="0" cy="14" rx="15" ry="5" fill="rgba(20,20,19,0.35)" />
+            <circle r="15" fill="#D9381E" stroke="#F6F5F0" stroke-width="2.5" />
+            <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono" font-size="9" font-weight="700">GK</text>
+          </g>
+
+          <!-- Dynamic Aim Trajectory Line & Target Reticle (Shown while dragging) -->
+          <g id="introAimLayer" opacity="0">
+            <line id="introAimVector" x1="200" y1="370" x2="200" y2="60" stroke="#F6F5F0" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round" />
+            <!-- Slingshot Pull Cord -->
+            <line id="introPullCord" x1="200" y1="370" x2="200" y2="370" stroke="#D9381E" stroke-width="2.5" />
+            <circle id="introAimReticle" cx="200" cy="60" r="11" fill="rgba(217, 56, 30, 0.35)" stroke="#F6F5F0" stroke-width="2" />
+          </g>
+
+          <!-- Penalty Spot Marker (X=200, Y=370) -->
+          <circle cx="200" cy="370" r="6" fill="#F6F5F0" opacity="0.85" />
+          <circle id="introPulseRing" cx="200" cy="370" r="28" fill="none" stroke="#F6F5F0" stroke-width="2" class="ball-pulse-ring" style="transform-origin: 200px 370px;" />
+
+          <!-- Helper Caption on Pitch -->
+          <text id="introPitchHintText" x="200" y="438" text-anchor="middle" fill="#F6F5F0" font-family="JetBrains Mono" font-size="10.5" font-weight="600" opacity="0.85">
+            ▲ KÉO LÙI ĐỂ BẮN HOẶC VUỐT THẲNG LÊN KHUNG THÀNH ▲
+          </text>
+
+          <!-- Interactive SVG Ball Group (Positioned at 200, 370) -->
+          <g id="introBallGroup" transform="translate(200, 370)" class="grasp-ball" style="pointer-events: all; cursor: grab;">
+            <!-- Invisible large hit area (r=44) for effortless mobile thumb touch -->
+            <circle cx="0" cy="0" r="44" fill="transparent" />
+            <!-- Ground Shadow -->
+            <ellipse id="introBallShadow" cx="4" cy="24" rx="20" ry="6.5" fill="rgba(20, 20, 19, 0.42)" />
+            <!-- Ball Visual Layer -->
+            <g id="introBallVisual">
+              <circle cx="0" cy="0" r="23" fill="#FFFFFF" stroke="#141413" stroke-width="2.5" />
+              <polygon points="0,-10 9.5,-3 5.8,8 -5.8,8 -9.5,-3" fill="#141413" />
+              <path d="M 0,-10 L 0,-22.5 M 9.5,-3 L 21.5,-6.5 M 5.8,8 L 15,18 M -5.8,8 L -15,18 M -9.5,-3 L -21.5,-6.5" stroke="#141413" stroke-width="2.2" />
+              <polygon points="-5.5,-22 5.5,-22 0,-16" fill="#141413" />
+              <polygon points="22,-4 18.5,-12 16.5,-2.5" fill="#141413" />
+              <polygon points="-22,-4 -18.5,-12 -16.5,-2.5" fill="#141413" />
+              <polygon points="12,20 19,13.5 11,14" fill="#141413" />
+              <polygon points="-12,20 -19,13.5 -11,14" fill="#141413" />
+            </g>
+          </g>
+        </svg>
+
+        <!-- Power Meter Badge (Top Left of Pitch) -->
+        <div class="absolute top-3 left-3 bg-card/95 border border-ink px-2.5 py-1 font-mono text-[11px] flex items-center gap-2 pointer-events-none">
+          <span class="text-muted">Lực sút:</span>
+          <strong id="introPowerValue" class="text-ink">0%</strong>
+        </div>
+
+        <!-- Quick Auto-Kick Button (Top Right of Pitch for accessibility) -->
+        <button
+          onclick="triggerQuickIntroGoal()"
+          class="absolute top-3 right-3 bg-card/95 hover:bg-sand border border-ink px-2.5 py-1 font-mono text-[11px] font-bold text-pitch transition cursor-pointer"
+        >
+          ⚡ Sút tự động
+        </button>
+
+        <!-- GOAL CELEBRATION OVERLAY BANNER -->
+        <div
+          id="introGoalCelebration"
+          class="
+            absolute inset-0 bg-ink/80 backdrop-blur-xs
+            hidden flex-col items-center justify-center p-6 text-center z-20
+          "
+        >
+          <div class="bg-card border-2 border-ink p-6 max-w-sm w-full hard-shadow space-y-2">
+            <div class="inline-block px-2.5 py-0.5 bg-vermilion text-white font-mono text-xs font-bold uppercase">
+              ⚽ GOAL! // TRẬN ĐẤU BẮT ĐẦU
+            </div>
+            <h3 class="font-display font-bold text-4xl uppercase text-ink">
+              VÀOOOOO! 1 - 0
+            </h3>
+            <p class="font-mono text-xs text-muted">
+              Cú dứt điểm cháy lưới! Đang mở trang thông tin ITIL 2026...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Gate Footer -->
+      <div class="w-full flex items-center justify-between text-[11px] font-mono text-muted pt-2 shrink-0">
+        <span>4 ĐỘI XOAY VÒNG • 3 VÒNG • 6 TRẬN</span>
+        <span>CLB BÓNG ĐÁ LCĐ KHOA CNTT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 1. FIXED TACTICAL PATH & 2-LAYER ROLLING BALL (GSAP MOTIONPATH)       -->
+  <!-- ===================================================================== -->
+  <svg id="tacticalOverlaySvg" viewBox="0 0 1440 900" preserveAspectRatio="none" class="opacity-40 sm:opacity-95">
+    <!-- Clean Tactical Chalk Dotted Line along right margin -->
+    <path
+      id="tacticalScrollPath"
+      d="M 1355,95 C 1390,240 1295,350 1350,490 C 1400,630 1300,730 1355,835"
+      fill="none"
+      stroke="#16422B"
+      stroke-width="2"
+      stroke-dasharray="7 7"
+      opacity="0.45"
+    />
+
+    <!-- Minimalist Tactical X & O Chalk Markers -->
+    <g transform="translate(1355, 95)" opacity="0.55">
+      <circle r="6" fill="#F6F5F0" stroke="#16422B" stroke-width="2" />
+    </g>
+    <g transform="translate(1350, 490)" opacity="0.55">
+      <line x1="-6" y1="-6" x2="6" y2="6" stroke="#D9381E" stroke-width="2" />
+      <line x1="6" y1="-6" x2="-6" y2="6" stroke="#D9381E" stroke-width="2" />
+    </g>
+    <g transform="translate(1355, 835)" opacity="0.65">
+      <circle r="8" fill="#F6F5F0" stroke="#141413" stroke-width="2" />
+      <circle r="3" fill="#D9381E" />
+    </g>
+
+    <!-- 2-Layer Classic Football: Layer 1 (Grounded Shadow) + Layer 2 (Rotating Ball) -->
+    <g id="rollingBallContainer" transform="translate(1355, 95)">
+      <!-- LAYER 1: Ground Shadow (Does NOT rotate) -->
+      <ellipse cx="4" cy="21" rx="17" ry="5.5" fill="rgba(20, 20, 19, 0.22)" />
+
+      <!-- LAYER 2: Classic Telstar Vector Ball (Rotates with scroll & skews with velocity) -->
+      <g id="ballRotatingLayer">
+        <circle cx="0" cy="0" r="19" fill="#FFFFFF" stroke="#141413" stroke-width="2.2" />
+        <!-- Center Pentagon -->
+        <polygon points="0,-8 7.6,-2.5 4.7,6.5 -4.7,6.5 -7.6,-2.5" fill="#141413" />
+        <!-- Seam Spokes -->
+        <path d="M 0,-8 L 0,-18.5 M 7.6,-2.5 L 17.5,-5.5 M 4.7,6.5 L 12.5,14.5 M -4.7,6.5 L -12.5,14.5 M -7.6,-2.5 L -17.5,-5.5" stroke="#141413" stroke-width="1.8" />
+        <!-- Edge Patches -->
+        <polygon points="-4.5,-18 4.5,-18 0,-13.5" fill="#141413" />
+        <polygon points="18,-3 15,-10 13.5,-2" fill="#141413" />
+        <polygon points="-18,-3 -15,-10 -13.5,-2" fill="#141413" />
+        <polygon points="10,16.5 15.5,11 9,11.5" fill="#141413" />
+        <polygon points="-10,16.5 -15.5,11 -9,11.5" fill="#141413" />
+      </g>
+    </g>
+  </svg>
+
+  <!-- ===================================================================== -->
+  <!-- 2. TOP EDITORIAL HEADER BAR                                           -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm border-b border-ink">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <!-- Brand / Title -->
+      <a href="#top" class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-pitch text-white border border-ink flex items-center justify-center font-display font-bold text-lg tracking-wider hard-shadow-sm">
+          ITIL
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-lg sm:text-xl tracking-tight uppercase">IT INTERNAL LEAGUE</span>
+            <span class="hidden sm:inline-block font-mono text-[11px] font-semibold px-2 py-0.5 bg-sand border border-ink">MÙA 2026</span>
+          </div>
+          <p class="text-[11px] text-muted font-medium -mt-0.5">CLB Bóng Đá Liên Chi Đoàn Khoa CNTT</p>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold">
+        <a href="#standings-section" class="hover:text-pitch transition">Bảng Xếp Hạng &amp; Ma Trận</a>
+        <a href="#schedule-section" class="hover:text-pitch transition">Lịch 3 Vòng (6 Trận)</a>
+        <a href="#finals-section" class="hover:text-pitch transition">Ngày Chung Kết</a>
+        <a href="#squads-section" class="hover:text-pitch transition">4 Đội Tham Dự</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2">
+        <button
+          onclick="reopenIntroGate()"
+          class="px-2.5 py-1.5 bg-sand hover:bg-vermilion hover:text-white border border-ink font-mono text-xs font-bold transition cursor-pointer"
+          title="Mở lại màn hình kéo sút bóng vào lưới"
+        >
+          ⚽ Sút mở màn
+        </button>
+        <button id="toggleBallBtn" class="hidden sm:flex px-2.5 py-1.5 bg-card border border-ink font-mono text-xs font-medium hover:bg-sand transition items-center gap-1.5" title="Bật/tắt bóng lăn theo cuộn chuột">
+          <span id="ballDot" class="w-2 h-2 rounded-full bg-pitch"></span>
+          <span class="hidden lg:inline">Bóng lăn: BẬT</span>
+        </button>
+        <button onclick="openEditTeamsModal()" class="px-2.5 sm:px-3 py-1.5 bg-pitch text-white border border-ink font-mono text-xs font-semibold hard-btn">
+          ĐỔI TÊN 4 ĐỘI
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 3. EDITORIAL HERO + INTERACTIVE "GRASP & KICK" PITCH STRIP            -->
+  <!-- ===================================================================== -->
+  <section id="top" class="border-b border-ink py-10 sm:py-14">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <!-- Top Issue Meta Strip -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-ink text-xs font-mono text-muted">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-vermilion text-white font-bold uppercase">THỂ THỨC XOAY VÒNG</span>
+          <span>4 ĐỘI BÓNG • 3 VÒNG ĐẤU • 6 TRẬN TOÀN GIẢI</span>
+        </div>
+        <div>SÂN BÓNG ĐÁ MINI • 07/11, 08/11 &amp; 14/11/2026</div>
+      </div>
+
+      <!-- Main Hero Grid -->
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-8 space-y-4">
+          <h1 class="font-display font-bold text-5xl sm:text-7xl uppercase tracking-tight leading-[0.95] text-ink">
+            GIẢI BÓNG ĐÁ NỘI BỘ <br />
+            <span class="text-pitch">LIÊN CHI ĐOÀN CNTT</span>
+          </h1>
+          <p class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed">
+            Không chia bảng phức tạp — <strong class="text-ink">4 đội bóng</strong> đại diện cho các khóa và Ban Chấp Hành thi đấu <strong class="text-ink">vòng tròn một lượt (Round-Robin)</strong>. Mỗi đội gặp nhau đúng 1 lần qua 3 lượt trận cuối tuần để tìm ra nhà vô địch xứng đáng nhất.
+          </p>
+        </div>
+
+        <!-- Compact Tournament Fact Box -->
+        <div class="lg:col-span-4 bg-card border border-ink p-5 hard-shadow">
+          <div class="font-mono text-xs font-bold uppercase tracking-wider text-pitch border-b border-ink pb-2 mb-3 flex justify-between">
+            <span>THÔNG SỐ GIẢI ĐẤU</span>
+            <span>ITIL // 2026</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 font-mono">
+            <div class="p-3 bg-paper border border-ink">
+              <div class="text-2xl sm:text-3xl font-bold text-ink">04</div>
+              <div class="text-[11px] text-muted uppercase">Đội Tham Dự</div>
+            </div>
+            <div class="p-3 bg-paper border border-ink">
+              <div class="text-2xl sm:text-3xl font-bold text-pitch">03</div>
+              <div class="text-[11px] text-muted uppercase">Vòng Đấu</div>
+            </div>
+            <div class="p-3 bg-paper border border-ink">
+              <div class="text-2xl sm:text-3xl font-bold text-vermilion">06</div>
+              <div class="text-[11px] text-muted uppercase">Trận Toàn Giải</div>
+            </div>
+            <div class="p-3 bg-paper border border-ink">
+              <div class="text-2xl sm:text-3xl font-bold text-ink">5v5</div>
+              <div class="text-[11px] text-muted uppercase">Sân Cỏ Nhân Tạo</div>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-ink/20 text-xs text-muted flex items-center justify-between">
+            <span>Cách tính điểm:</span>
+            <span class="font-mono font-bold text-ink">Thắng 3 • Hòa 1 • Thua 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE TACTICAL STRIP: GRASP & KICK THE BALL INTO GOAL -->
+      <div class="mt-10 bg-card border border-ink hard-shadow overflow-hidden">
+        <div class="px-4 py-2.5 bg-sand border-b border-ink flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-vermilion"></span>
+            <span class="font-bold uppercase text-ink">SA BÀN TƯƠNG TÁC (GSAP DRAGGABLE):</span>
+            <span id="kickStatusText" class="text-muted">Nhấn giữ &amp; kéo quả bóng bên dưới để sút vào khung thành bên phải!</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span>Bàn thắng: <strong id="heroGoalCounter" class="text-pitch">0</strong></span>
+            <button onclick="autoKickHeroBall()" class="px-2.5 py-0.5 bg-card border border-ink font-semibold hover:bg-pitch hover:text-white transition">
+              Sút Mẫu ▶
+            </button>
+          </div>
+        </div>
+
+        <!-- Pitch Strip Canvas -->
+        <div id="heroPitchStrip" class="relative h-28 sm:h-32 bg-pitchLight overflow-hidden select-none flex items-center">
+          <!-- Pitch Markings SVG -->
+          <svg viewBox="0 0 1000 130" preserveAspectRatio="none" class="w-full h-full pointer-events-none">
+            <!-- Turf vertical bands -->
+            <rect x="0" y="0" width="125" height="130" fill="#DFECE4" />
+            <rect x="250" y="0" width="125" height="130" fill="#DFECE4" />
+            <rect x="500" y="0" width="125" height="130" fill="#DFECE4" />
+            <rect x="750" y="0" width="125" height="130" fill="#DFECE4" />
+
+            <!-- Outer & Center Lines -->
+            <rect x="12" y="10" width="976" height="110" fill="none" stroke="#16422B" stroke-width="2" opacity="0.45" />
+            <line x1="500" y1="10" x2="500" y2="120" stroke="#16422B" stroke-width="2" opacity="0.45" />
+            <circle cx="500" cy="65" r="34" fill="none" stroke="#16422B" stroke-width="2" opacity="0.45" />
+            <circle cx="150" cy="65" r="4" fill="#16422B" />
+
+            <!-- Right Penalty Area & Goal -->
+            <rect x="840" y="24" width="148" height="82" fill="none" stroke="#16422B" stroke-width="2" opacity="0.55" />
+            <rect id="heroGoalBox" x="955" y="36" width="32" height="58" fill="#FFFFFF" stroke="#141413" stroke-width="2.5" />
+            <!-- Goal Net Lines -->
+            <line x1="965" y1="36" x2="965" y2="94" stroke="#141413" stroke-width="0.7" opacity="0.35" />
+            <line x1="975" y1="36" x2="975" y2="94" stroke="#141413" stroke-width="0.7" opacity="0.35" />
+            <line x1="955" y1="55" x2="987" y2="55" stroke="#141413" stroke-width="0.7" opacity="0.35" />
+            <line x1="955" y1="75" x2="987" y2="75" stroke="#141413" stroke-width="0.7" opacity="0.35" />
+
+            <!-- Dynamic Aim Dotted Line -->
+            <line id="heroAimLine" x1="150" y1="65" x2="400" y2="65" stroke="#D9381E" stroke-width="2.5" stroke-dasharray="6 5" opacity="0" />
+
+            <!-- Moving Goalkeeper Pin -->
+            <g id="heroKeeperPin" transform="translate(925, 65)">
+              <circle r="13" fill="#D9381E" stroke="#141413" stroke-width="2" />
+              <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono" font-size="9" font-weight="700">GK</text>
+            </g>
+          </svg>
+
+          <!-- Draggable Football Element -->
+          <div id="heroDraggableBall" class="grasp-ball absolute left-[15%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center z-10" title="Kéo và thả để sút bóng!">
+            <svg class="w-10 h-10 drop-shadow" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="21" fill="#FFFFFF" stroke="#141413" stroke-width="2.5" />
+              <polygon points="24,14 33,20 29.5,31 18.5,31 15,20" fill="#141413" />
+              <path d="M24,14 L24,3.5 M33,20 L43.5,16.5 M29.5,31 L37,40 M18.5,31 L11,40 M15,20 L4.5,16.5" stroke="#141413" stroke-width="2.2" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 4. BẢNG XẾP HẠNG & MA TRẬN ĐỐI ĐẦU 4x4 (ROUND-ROBIN ENGINE)           -->
+  <!-- ===================================================================== -->
+  <section id="standings-section" class="py-12 sm:py-16 border-b border-ink">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <!-- Section Header + Championship Format Switcher -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="font-mono text-xs font-bold uppercase text-pitch tracking-wider mb-1">01 // BẢNG XẾP HẠNG &amp; MA TRẬN XOAY VÒNG</div>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-tight">
+            CỤC DIỆN VÒNG TRÒN 4 ĐỘI
+          </h2>
+        </div>
+
+        <!-- Toggle Format Rule: Top 2 Final vs Direct Champion -->
+        <div class="flex flex-wrap items-center gap-2 bg-card border border-ink p-1.5 hard-shadow-sm self-start">
+          <span class="font-mono text-xs text-muted px-2">Thể thức xét giải:</span>
+          <button id="modeBtnFinal" onclick="setTournamentMode('final')" class="px-3 py-1.5 text-xs font-mono font-bold bg-pitch text-white border border-ink transition">
+            Top 2 đá Chung Kết
+          </button>
+          <button id="modeBtnDirect" onclick="setTournamentMode('direct')" class="px-3 py-1.5 text-xs font-mono font-semibold text-ink hover:bg-sand transition">
+            Tính điểm Vô Địch luôn
+          </button>
+        </div>
+      </div>
+
+      <!-- Standings + 4x4 Cross-Table Grid -->
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <!-- LEFT 7 COLS: LIVE STANDINGS TABLE -->
+        <div class="lg:col-span-7 bg-card border border-ink hard-shadow overflow-hidden">
+          <div class="px-4 py-3 bg-sand border-b border-ink flex items-center justify-between">
+            <span class="font-mono text-xs font-bold uppercase">BẢNG XẾP HẠNG TỔNG (LIVE STANDINGS)</span>
+            <span id="standingsRuleHint" class="font-mono text-[11px] text-pitch font-semibold">● Top 2 đội dẫn đầu vào Chung Kết</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-ink bg-paper font-mono text-[11px] text-muted uppercase">
+                  <th class="py-3 px-3 text-center w-10">#</th>
+                  <th class="py-3 px-3">Đội Bóng</th>
+                  <th class="py-3 px-2 text-center" title="Số trận đã đá">Đá</th>
+                  <th class="py-3 px-2 text-center" title="Thắng">T</th>
+                  <th class="py-3 px-2 text-center" title="Hòa">H</th>
+                  <th class="py-3 px-2 text-center" title="Bại">B</th>
+                  <th class="py-3 px-2 text-center" title="Bàn thắng - Bàn bại">BT-BB</th>
+                  <th class="py-3 px-2 text-center" title="Hiệu số">HS</th>
+                  <th class="py-3 px-3 text-center font-bold text-ink" title="Điểm số">ĐIỂM</th>
+                  <th class="py-3 px-3 text-right">Phong Độ</th>
+                </tr>
+              </thead>
+              <tbody id="standingsTableBody" class="divide-y divide-ink/20 text-sm">
+                <!-- Populated dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Dynamic Qualification / Projection Banner -->
+          <div id="qualificationSummary" class="px-4 py-3 bg-paper border-t border-ink font-mono text-xs flex flex-wrap items-center justify-between gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- RIGHT 5 COLS: 4x4 ROUND-ROBIN CROSS-TABLE MATRIX -->
+        <div class="lg:col-span-5 bg-card border border-ink hard-shadow overflow-hidden">
+          <div class="px-4 py-3 bg-sand border-b border-ink flex items-center justify-between">
+            <span class="font-mono text-xs font-bold uppercase">MA TRẬN ĐỐI ĐẦU 4×4</span>
+            <span class="font-mono text-[11px] text-muted">Bấm vào ô để sửa tỉ số</span>
+          </div>
+
+          <div class="p-3 sm:p-4 overflow-x-auto">
+            <table class="w-full border-collapse border border-ink text-center font-mono text-xs">
+              <thead id="matrixTableHead">
+                <!-- Populated by JS -->
+              </thead>
+              <tbody id="matrixTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="px-4 py-2.5 bg-paper border-t border-ink text-[11px] font-mono text-muted flex items-center justify-between">
+            <span>Đọc ngang: Đội hàng ngang vs Đội cột dọc</span>
+            <span class="text-ink font-semibold">3 Vòng • 6 Cặp đấu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 5. LỊCH THI ĐẤU 3 VÒNG XOAY VÒNG & GIẢ LẬP TỈ SỐ (6 MATCHES)          -->
+  <!-- ===================================================================== -->
+  <section id="schedule-section" class="py-12 sm:py-16 border-b border-ink">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="font-mono text-xs font-bold uppercase text-vermilion tracking-wider mb-1">02 // LỊCH THI ĐẤU &amp; BỘ GIẢ LẬP TỈ SỐ</div>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-tight">
+            3 LƯỢT TRẬN VÒNG TRÒN (6 TRẬN)
+          </h2>
+          <p class="text-sm text-muted mt-1">
+            Bấm nút <code class="font-mono px-1.5 py-0.5 bg-sand border border-ink text-ink font-bold">+</code> / <code class="font-mono px-1.5 py-0.5 bg-sand border border-ink text-ink font-bold">-</code> hoặc bật/tắt trạng thái <strong>Đã đá</strong> để tính thử cục diện bảng xếp hạng ngay lập tức.
+          </p>
+        </div>
+
+        <!-- Simulator Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button onclick="simulateAllMatches()" class="px-3.5 py-2 bg-pitch text-white border border-ink font-mono text-xs font-bold hard-btn">
+            🎲 GIẢ LẬP CẢ 6 TRẬN
+          </button>
+          <button onclick="resetDefaultMatches()" class="px-3.5 py-2 bg-card text-ink border border-ink font-mono text-xs font-semibold hard-btn">
+            ↺ RESET MẶC ĐỊNH
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile-Friendly Round Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-ink/20 font-mono text-xs">
+        <button onclick="filterRound('all')" id="roundTab-all" class="px-3.5 py-1.5 bg-ink text-white border border-ink font-bold shrink-0 transition">
+          Tất cả (3 Vòng • 6 Trận)
+        </button>
+        <button onclick="filterRound(1)" id="roundTab-1" class="px-3.5 py-1.5 bg-card text-ink border border-ink font-semibold hover:bg-sand shrink-0 transition">
+          Vòng 1 • 07/11 (Trận 1 &amp; 2)
+        </button>
+        <button onclick="filterRound(2)" id="roundTab-2" class="px-3.5 py-1.5 bg-card text-ink border border-ink font-semibold hover:bg-sand shrink-0 transition">
+          Vòng 2 • 08/11 (Trận 3 &amp; 4)
+        </button>
+        <button onclick="filterRound(3)" id="roundTab-3" class="px-3.5 py-1.5 bg-card text-ink border border-ink font-semibold hover:bg-sand shrink-0 transition">
+          Vòng 3 • 14/11 (Trận 5 &amp; 6)
+        </button>
+      </div>
+
+      <!-- 3 Rounds Grid (Vòng 1, Vòng 2, Vòng 3) -->
+      <div id="roundsContainer" class="grid md:grid-cols-3 gap-6">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 5B. AUTOMATIC FINAL DAY BRACKET (CHUNG KẾT & TRANH HẠNG 3)            -->
+  <!-- ===================================================================== -->
+  <section id="finals-section" class="py-12 sm:py-16 border-b border-ink bg-sand/40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="font-mono text-xs font-bold uppercase text-pitch tracking-wider mb-1">03 // CẶP ĐẤU NGÀY CHUNG KẾT (TỰ ĐỘNG CẬP NHẬT TỪ BXH)</div>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-tight">
+            LỊCH THI ĐẤU NGÀY BẾ MẠC &amp; TRAO GIẢI
+          </h2>
+          <p class="text-sm text-muted mt-1">
+            Sau khi khép lại 3 vòng đấu xoay vòng (6 trận), 2 đội dẫn đầu bước vào trận Chung Kết tranh Cúp Vô Địch ITIL 2026; 2 đội xếp thứ 3 và 4 thi đấu trận Tranh Hạng Ba.
+          </p>
+        </div>
+      </div>
+
+      <div id="finalsBracketContainer" class="grid md:grid-cols-2 gap-6">
+        <!-- Populated dynamically based on live standings -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 6. DANH SÁCH 4 ĐỘI BÓNG & ĐIỀU LỆ XOAY VÒNG NGẮN GỌN                  -->
+  <!-- ===================================================================== -->
+  <section id="squads-section" class="py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="font-mono text-xs font-bold uppercase text-pitch tracking-wider mb-1">03 // HỒ SƠ 4 ĐỘI &amp; ĐIỀU LỆ</div>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-tight">
+            4 ĐỘI HÌNH THAM DỰ ITIL 2026
+          </h2>
+        </div>
+        <button onclick="openEditTeamsModal()" class="self-start sm:self-auto px-3.5 py-2 bg-card border border-ink font-mono text-xs font-semibold hard-btn">
+          ✎ Chỉnh sửa tên 4 đội
+        </button>
+      </div>
+
+      <!-- 4 Teams Cards Grid -->
+      <div id="squadCardsContainer" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Concise Round-Robin Rules Box -->
+      <div class="bg-card border border-ink p-6 hard-shadow grid md:grid-cols-3 gap-6">
+        <div>
+          <div class="font-mono text-xs font-bold text-pitch uppercase mb-1">QUY TẮC 01 // THỂ THỨC XOAY VÒNG</div>
+          <h3 class="font-display text-xl uppercase font-bold mb-1">Đá Vòng Tròn 1 Lượt</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            4 đội thi đấu vòng tròn 1 lượt (3 vòng, mỗi vòng 2 trận diễn ra song song hoặc nối tiếp). Mỗi đội thi đấu đúng 3 trận để đảm bảo công bằng tuyệt đối.
+          </p>
+        </div>
+        <div>
+          <div class="font-mono text-xs font-bold text-vermilion uppercase mb-1">QUY TẮC 02 // TIÊU CHÍ XẾP HẠNG</div>
+          <h3 class="font-display text-xl uppercase font-bold mb-1">Điểm Số &amp; Hiệu Số</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Thắng: <strong>3 điểm</strong> • Hòa: <strong>1 điểm</strong> • Thua: <strong>0 điểm</strong>. Nếu có từ 2 đội bằng điểm nhau, thứ tự ưu tiên xét: <strong>Hiệu số bàn thắng/bại (HS)</strong> &rarr; <strong>Tổng bàn thắng (BT)</strong> &rarr; <strong>Kết quả đối đầu trực tiếp</strong>.
+          </p>
+        </div>
+        <div>
+          <div class="font-mono text-xs font-bold text-ink uppercase mb-1">QUY TẮC 03 // THỜI LƯỢNG &amp; SÂN BÃI</div>
+          <h3 class="font-display text-xl uppercase font-bold mb-1">Luật Sân 5 Liên Chi Đoàn</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Mỗi trận gồm 2 hiệp × 20 phút (nghỉ giữa hiệp 5 phút). Thay người xoay vòng tự do tại khu vực kỹ thuật. Cầu thủ nhận 2 thẻ vàng hoặc 1 thẻ đỏ trực tiếp nghỉ trận kế tiếp.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="border-t border-ink bg-card py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-muted">
+      <div class="flex items-center gap-2.5">
+        <span class="px-2 py-0.5 bg-pitch text-white font-bold">ITIL 2026</span>
+        <span class="text-ink font-semibold">CLB Bóng Đá Liên Chi Đoàn Khoa CNTT</span>
+      </div>
+      <div>
+        Thiết kế tối giản • 4 Đội Đá Xoay Vòng (Round-Robin)
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL: RENAME 4 TEAMS INLINE                                          -->
+  <!-- ===================================================================== -->
+  <div id="editTeamsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-ink/60 backdrop-blur-xs">
+    <div class="w-full max-w-md bg-card border-2 border-ink p-6 hard-shadow">
+      <div class="flex items-center justify-between border-b border-ink pb-3 mb-4">
+        <h3 class="font-display text-2xl uppercase font-bold">ĐỔI TÊN 4 ĐỘI THAM DỰ</h3>
+        <button onclick="closeEditTeamsModal()" class="w-8 h-8 border border-ink bg-paper font-mono font-bold hover:bg-vermilion hover:text-white transition">✕</button>
+      </div>
+      <form onsubmit="saveTeamNames(event)" class="space-y-3">
+        <div>
+          <label class="block font-mono text-xs font-bold mb-1">ĐỘI 1 (MÃ &amp; TÊN ĐỘI)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input id="editCode0" type="text" maxlength="5" required class="col-span-1 px-3 py-2 bg-paper border border-ink font-mono text-xs font-bold uppercase" />
+            <input id="editName0" type="text" maxlength="24" required class="col-span-2 px-3 py-2 bg-paper border border-ink text-sm font-semibold" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-bold mb-1">ĐỘI 2 (MÃ &amp; TÊN ĐỘI)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input id="editCode1" type="text" maxlength="5" required class="col-span-1 px-3 py-2 bg-paper border border-ink font-mono text-xs font-bold uppercase" />
+            <input id="editName1" type="text" maxlength="24" required class="col-span-2 px-3 py-2 bg-paper border border-ink text-sm font-semibold" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-bold mb-1">ĐỘI 3 (MÃ &amp; TÊN ĐỘI)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input id="editCode2" type="text" maxlength="5" required class="col-span-1 px-3 py-2 bg-paper border border-ink font-mono text-xs font-bold uppercase" />
+            <input id="editName2" type="text" maxlength="24" required class="col-span-2 px-3 py-2 bg-paper border border-ink text-sm font-semibold" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-bold mb-1">ĐỘI 4 (MÃ &amp; TÊN ĐỘI)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input id="editCode3" type="text" maxlength="5" required class="col-span-1 px-3 py-2 bg-paper border border-ink font-mono text-xs font-bold uppercase" />
+            <input id="editName3" type="text" maxlength="24" required class="col-span-2 px-3 py-2 bg-paper border border-ink text-sm font-semibold" />
+          </div>
+        </div>
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" onclick="closeEditTeamsModal()" class="px-4 py-2 bg-paper border border-ink font-mono text-xs font-semibold">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-pitch text-white border border-ink font-mono text-xs font-bold hard-btn">LƯU THAY ĐỔI</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Minimalist Editorial Toast -->
+  <div id="editorialToast" class="fixed bottom-4 right-4 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-200 bg-ink text-white border border-ink px-4 py-2.5 font-mono text-xs hard-shadow-sm">
+    Đã cập nhật bảng xếp hạng
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: 4-TEAM ROUND ROBIN ENGINE + GSAP BALL ANIMATIONS          -->
+  <!-- ===================================================================== -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin, Draggable);
+
+    // ---------------------------------------------------------------------
+    // 0. FULLSCREEN "KICK-OFF TO ENTER" GATE ENGINE (LAPTOP & MOBILE)
+    // ---------------------------------------------------------------------
+    let gateUnlocked = false;
+    let introDragging = false;
+    let introShooting = false;
+    let introKeeperX = 200;
+    let introDragVector = { vx: 0, vy: -1, power: 0, targetX: 200, targetY: 52 };
+    let keeperTween = null;
+
+    function initIntroKickoffGate() {
+      const pitchContainer = document.getElementById('introPitchContainer');
+      const arenaSvg = document.getElementById('introArenaSvg');
+      const ballGroup = document.getElementById('introBallGroup');
+      const ballVisual = document.getElementById('introBallVisual');
+      const aimLayer = document.getElementById('introAimLayer');
+      const aimVector = document.getElementById('introAimVector');
+      const pullCord = document.getElementById('introPullCord');
+      const aimReticle = document.getElementById('introAimReticle');
+      const powerVal = document.getElementById('introPowerValue');
+      const pulseRing = document.getElementById('introPulseRing');
+      const keeperPin = document.getElementById('introKeeperPin');
+
+      // Goalkeeper patrolling between X=148 and X=252
+      const keeperState = { x: 148 };
+      keeperTween = gsap.to(keeperState, {
+        x: 252,
+        duration: 1.55,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        onUpdate: () => {
+          introKeeperX = keeperState.x;
+          keeperPin.setAttribute('transform', `translate(${introKeeperX}, 82)`);
+        }
+      });
+
+      // Convert clientX/clientY to SVG coordinate space (400 x 500)
+      function getSvgPoint(clientX, clientY) {
+        const rect = arenaSvg.getBoundingClientRect();
+        const scaleX = 400 / rect.width;
+        const scaleY = 500 / rect.height;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
+        };
+      }
+
+      function onPointerDown(e) {
+        if (introShooting || gateUnlocked) return;
+        const pt = getSvgPoint(e.clientX, e.clientY);
+        // Allow grabbing anywhere near the lower half of the pitch or directly on the ball
+        const distToBall = Math.hypot(pt.x - 200, pt.y - 370);
+        if (distToBall > 115) return;
+
+        introDragging = true;
+        if (pitchContainer.setPointerCapture && e.pointerId !== undefined) {
+          try { pitchContainer.setPointerCapture(e.pointerId); } catch (_) {}
+        }
+
+        pulseRing.style.opacity = '0';
+        aimLayer.setAttribute('opacity', '1');
+        updateDragAim(pt.x, pt.y);
+      }
+
+      function updateDragAim(svgX, svgY) {
+        const spotX = 200;
+        const spotY = 370;
+        const dx = svgX - spotX;
+        const dy = svgY - spotY;
+        const rawDist = Math.hypot(dx, dy);
+
+        // Support BOTH:
+        // Mode A (Slingshot): user pulls DOWNWARD (dy > 8) -> ball shoots opposite direction upward
+        // Mode B (Direct Drag/Flick): user drags UPWARD toward the goal (dy <= 8) -> ball shoots toward drag point
+        let aimTargetX = 200;
+        let aimTargetY = 50;
+        let ballDisplayX = spotX;
+        let ballDisplayY = spotY;
+        let powerPct = 0;
+
+        if (dy > 8) {
+          // Slingshot pull-back mode
+          const clampedPull = Math.min(rawDist, 105);
+          const angle = Math.atan2(dy, dx);
+          ballDisplayX = spotX + Math.cos(angle) * clampedPull * 0.68;
+          ballDisplayY = spotY + Math.sin(angle) * clampedPull * 0.68;
+
+          powerPct = Math.min(100, Math.round((clampedPull / 85) * 100));
+          // Project opposite vector to goal line (y = 50)
+          const shootVx = -dx * 2.2;
+          aimTargetX = gsap.utils.clamp(70, 330, spotX + shootVx);
+          aimTargetY = 50;
+        } else {
+          // Direct forward drag / swipe toward goal
+          const clampedForward = Math.min(rawDist, 280);
+          powerPct = Math.min(100, Math.round((clampedForward / 130) * 100));
+          ballDisplayX = gsap.utils.clamp(95, 305, spotX + dx * 0.45);
+          ballDisplayY = gsap.utils.clamp(190, 370, spotY + dy * 0.45);
+
+          // Project forward line toward goal line (y = 50)
+          const slopeX = dx * 1.35;
+          aimTargetX = gsap.utils.clamp(70, 330, spotX + slopeX);
+          aimTargetY = 50;
+        }
+
+        introDragVector = {
+          power: powerPct,
+          targetX: aimTargetX,
+          targetY: aimTargetY,
+          ballX: ballDisplayX,
+          ballY: ballDisplayY
+        };
+
+        ballGroup.setAttribute('transform', `translate(${ballDisplayX}, ${ballDisplayY})`);
+        pullCord.setAttribute('x1', spotX);
+        pullCord.setAttribute('y1', spotY);
+        pullCord.setAttribute('x2', ballDisplayX);
+        pullCord.setAttribute('y2', ballDisplayY);
+
+        aimVector.setAttribute('x1', ballDisplayX);
+        aimVector.setAttribute('y1', ballDisplayY);
+        aimVector.setAttribute('x2', aimTargetX);
+        aimVector.setAttribute('y2', aimTargetY);
+
+        aimReticle.setAttribute('cx', aimTargetX);
+        aimReticle.setAttribute('cy', aimTargetY);
+        powerVal.textContent = `${powerPct}%`;
+      }
+
+      function onPointerMove(e) {
+        if (!introDragging || introShooting || gateUnlocked) return;
+        e.preventDefault();
+        const pt = getSvgPoint(e.clientX, e.clientY);
+        updateDragAim(pt.x, pt.y);
+      }
+
+      function onPointerUp() {
+        if (!introDragging || introShooting || gateUnlocked) return;
+        introDragging = false;
+        aimLayer.setAttribute('opacity', '0');
+
+        // Require minimal pull/drag distance so accidental taps don't misfire
+        if (introDragVector.power < 15) {
+          resetIntroBallToSpot('Kéo bóng mạnh hơn một chút để dứt điểm vào khung thành!');
+          return;
+        }
+
+        launchIntroShot(introDragVector.targetX, introDragVector.targetY);
+      }
+
+      pitchContainer.addEventListener('pointerdown', onPointerDown);
+      window.addEventListener('pointermove', onPointerMove, { passive: false });
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+    }
+
+    function launchIntroShot(targetX, targetY) {
+      introShooting = true;
+      const ballGroup = document.getElementById('introBallGroup');
+      const ballVisual = document.getElementById('introBallVisual');
+      const statusBanner = document.getElementById('introStatusBanner');
+      const netMesh = document.getElementById('introGoalNetMesh');
+
+      const startMatch = ballGroup.getAttribute('transform').match(/translate\(([-\d.]+),\s*([-\d.]+)\)/);
+      const startX = startMatch ? parseFloat(startMatch[1]) : 200;
+      const startY = startMatch ? parseFloat(startMatch[2]) : 370;
+
+      const ballState = { x: startX, y: startY, rot: 0, scale: 1 };
+
+      // Spin visual ball during shot
+      gsap.to(ballState, {
+        x: targetX,
+        y: targetY,
+        rot: 720,
+        scale: 0.78,
+        duration: 0.46,
+        ease: 'power2.out',
+        onUpdate: () => {
+          ballGroup.setAttribute('transform', `translate(${ballState.x}, ${ballState.y}) scale(${ballState.scale})`);
+          ballVisual.setAttribute('transform', `rotate(${ballState.rot})`);
+        },
+        onComplete: () => {
+          // Goal mouth is between X=123 and X=277.
+          const hitPost = Math.abs(targetX - 120) <= 6 || Math.abs(targetX - 280) <= 6;
+          const isInsideGoal = targetX > 123 && targetX < 277;
+          const savedByKeeper = isInsideGoal && Math.abs(targetX - introKeeperX) < 19;
+
+          if (isInsideGoal && !savedByKeeper) {
+            // GOAL SCORED! Ripple the net and unlock the website
+            gsap.fromTo(
+              netMesh,
+              { attr: { d: 'M 120,78 L 128,28 Q 200,4 272,28 L 280,78 Z' } },
+              { attr: { d: 'M 120,78 L 128,28 Q 200,28 272,28 L 280,78 Z' }, duration: 0.7, ease: 'elastic.out(1.2, 0.3)' }
+            );
+            statusBanner.textContent = '⚽ VÀOOOOO! Cú sút cháy lưới — Đang mở cổng giải đấu ITIL 2026!';
+            statusBanner.className = 'font-mono text-xs font-bold text-pitch';
+
+            const celeb = document.getElementById('introGoalCelebration');
+            celeb.classList.remove('hidden');
+            celeb.classList.add('flex');
+
+            setTimeout(() => {
+              unlockWebsiteGate(false);
+            }, 750);
+          } else if (savedByKeeper) {
+            // Rebound off goalkeeper
+            const reboundX = targetX + (targetX >= introKeeperX ? 45 : -45);
+            gsap.to(ballState, {
+              x: reboundX,
+              y: 165,
+              rot: 980,
+              scale: 0.9,
+              duration: 0.35,
+              ease: 'power2.out',
+              onUpdate: () => {
+                ballGroup.setAttribute('transform', `translate(${ballState.x}, ${ballState.y}) scale(${ballState.scale})`);
+                ballVisual.setAttribute('transform', `rotate(${ballState.rot})`);
+              },
+              onComplete: () => {
+                resetIntroBallToSpot('🧤 Thủ môn GK vừa cản phá! Hãy kéo bóng lái sang góc xa hơn.');
+              }
+            });
+          } else {
+            // Hit post or missed wide
+            const msg = hitPost
+              ? '💥 Bóng dội cột dọc! Kéo và căn chỉnh lại góc sút vào khung thành nhé.'
+              : '⚡ Bóng đi chệch cột dọc! Hãy kéo bóng hướng vào giữa 2 cột khung thành.';
+            resetIntroBallToSpot(msg);
+          }
+        }
+      });
+    }
+
+    function resetIntroBallToSpot(message) {
+      const ballGroup = document.getElementById('introBallGroup');
+      const ballVisual = document.getElementById('introBallVisual');
+      const statusBanner = document.getElementById('introStatusBanner');
+      const powerVal = document.getElementById('introPowerValue');
+      const pulseRing = document.getElementById('introPulseRing');
+
+      if (message) {
+        statusBanner.textContent = message;
+        statusBanner.className = 'font-mono text-xs font-bold text-vermilion';
+      }
+
+      gsap.to({ t: 0 }, {
+        t: 1,
+        duration: 0.35,
+        onComplete: () => {
+          ballGroup.setAttribute('transform', 'translate(200, 370) scale(1)');
+          ballVisual.setAttribute('transform', 'rotate(0)');
+          powerVal.textContent = '0%';
+          pulseRing.style.opacity = '0.85';
+          introShooting = false;
+        }
+      });
+    }
+
+    function triggerQuickIntroGoal() {
+      if (introShooting || gateUnlocked) return;
+      // Aim intelligently away from goalkeeper's current X
+      const cornerX = introKeeperX > 200 ? 152 : 248;
+      launchIntroShot(cornerX, 48);
+    }
+
+    function unlockWebsiteGate(skipped) {
+      if (gateUnlocked) return;
+      gateUnlocked = true;
+      const gate = document.getElementById('kickoffIntroGate');
+
+      gsap.to(gate, {
+        yPercent: -100,
+        duration: skipped ? 0.5 : 0.75,
+        ease: 'power3.inOut',
+        onComplete: () => {
+          gate.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+          ScrollTrigger.refresh();
+          showToast(skipped ? 'Chào mừng đến với ITIL 2026!' : '⚽ VÀOOO! Mở khóa thành công giải đấu ITIL 2026!');
+        }
+      });
+    }
+
+    function reopenIntroGate() {
+      const gate = document.getElementById('kickoffIntroGate');
+      const celeb = document.getElementById('introGoalCelebration');
+      const statusBanner = document.getElementById('introStatusBanner');
+
+      gateUnlocked = false;
+      introShooting = false;
+      celeb.classList.add('hidden');
+      celeb.classList.remove('flex');
+      statusBanner.textContent = '💻 Laptop: Nhấn giữ chuột kéo bóng • 📱 Điện thoại: Chạm kéo lùi hoặc vuốt thẳng bóng lên lưới';
+      statusBanner.className = 'font-mono text-[11px] sm:text-xs text-muted';
+
+      resetIntroBallToSpot();
+      document.body.classList.add('overflow-hidden');
+      gate.classList.remove('hidden');
+
+      gsap.fromTo(gate, { yPercent: -100 }, { yPercent: 0, duration: 0.55, ease: 'power3.out' });
+    }
+
+    // ---------------------------------------------------------------------
+    // 1. DATA MODEL: 4 TEAMS & 3 ROUNDS (6 MATCHES TOTAL)
+    // ---------------------------------------------------------------------
+    const teams = [
+      {
+        id: 0,
+        code: 'Đ1',
+        name: 'Đội 1',
+        captain: 'Trần Lê Minh',
+        kitColor: '#D9381E',
+        kitName: 'Đỏ Vermilion',
+        note: 'Đội hình tấn công sắc bén với nòng cốt Trần Lê Minh & Ngô V.Đắc Trí.',
+        players: [
+          'Trần Lê Minh',
+          'Ngô V.Đắc Trí',
+          'Trần Minh Triết',
+          'Thanh Việt',
+          'Bảo em Minh',
+          'Hoàng Phương Lê'
+        ]
+      },
+      {
+        id: 1,
+        code: 'Đ2',
+        name: 'Đội 2',
+        captain: 'Tuấn Ngọc',
+        kitColor: '#16422B',
+        kitName: 'Xanh Forest',
+        note: 'Lối chơi kỷ luật, thể lực dồi dào với Tuấn Ngọc, Võ Như Khoa & Bá Sơn.',
+        players: [
+          'Tuấn Ngọc',
+          'Võ Như Khoa',
+          'Bá Sơn',
+          'Thiên Phú',
+          'Lương Duy Toàn',
+          'Lê Doãn Hồng Phúc'
+        ]
+      },
+      {
+        id: 2,
+        code: 'Đ3',
+        name: 'Đội 3',
+        captain: 'Trần Phát',
+        kitColor: '#D97706',
+        kitName: 'Vàng Amber',
+        note: 'Đội hình tốc độ, kỹ thuật đồng đều dẫn dắt bởi Trần Phát & Hoàng Long.',
+        players: [
+          'Trần Phát',
+          'Cáp Hữu Nhân',
+          'Hoàng Long',
+          'Bảo Duy',
+          'Trần Hữu Đạt',
+          'Huỳnh Phước Phú'
+        ]
+      },
+      {
+        id: 3,
+        code: 'Đ4',
+        name: 'Đội 4',
+        captain: 'Nghĩa Lê',
+        kitColor: '#1E40AF',
+        kitName: 'Xanh Navy',
+        note: 'Khung gỗ và tuyến thủ vững chắc, phản công nhanh cùng Nghĩa Lê & Nhân Phan.',
+        players: [
+          'Nghĩa Lê',
+          'Nhân Phan',
+          'Anh rể Trí',
+          'Minh Thông',
+          'Thanh Trường',
+          'Nguyễn Đỗ Thắng'
+        ]
+      }
+    ];
+
+    // Standard 4-team Round-Robin schedule (3 rounds, 2 matches/round = 6 matches)
+    const defaultMatches = [
+      // Vòng 1 • Ngày 07/11
+      { id: 'm1', matchNo: 1, round: 1, date: '07/11', time: '19:30 - 20:15 • 07/11', pitch: 'Sân 5 Mini', home: 3, away: 0, homeGoals: 0, awayGoals: 0, played: false },
+      { id: 'm2', matchNo: 2, round: 1, date: '07/11', time: '20:15 - 21:00 • 07/11', pitch: 'Sân 5 Mini', home: 1, away: 2, homeGoals: 0, awayGoals: 0, played: false },
+      // Vòng 2 • Ngày 08/11
+      { id: 'm3', matchNo: 3, round: 2, date: '08/11', time: '19:30 - 20:15 • 08/11', pitch: 'Sân 5 Mini', home: 3, away: 1, homeGoals: 0, awayGoals: 0, played: false },
+      { id: 'm4', matchNo: 4, round: 2, date: '08/11', time: '20:15 - 21:00 • 08/11', pitch: 'Sân 5 Mini', home: 0, away: 2, homeGoals: 0, awayGoals: 0, played: false },
+      // Vòng 3 • Ngày 14/11 (Lượt quyết định)
+      { id: 'm5', matchNo: 5, round: 3, date: '14/11', time: '18:30 - 19:30 • 14/11', pitch: 'Sân 5A', home: 3, away: 2, homeGoals: 0, awayGoals: 0, played: false },
+      { id: 'm6', matchNo: 6, round: 3, date: '14/11', time: '18:30 - 19:30 • 14/11', pitch: 'Sân 5B', home: 0, away: 1, homeGoals: 0, awayGoals: 0, played: false }
+    ];
+
+    let matches = JSON.parse(JSON.stringify(defaultMatches));
+    let tournamentMode = 'final'; // 'final' (Top 2 play Final) or 'direct' (Rank 1 wins title)
+    let activeRoundFilter = 'all';
+
+    let toastTimeout = null;
+    function showToast(msg) {
+      const el = document.getElementById('editorialToast');
+      el.textContent = msg;
+      el.classList.remove('opacity-0', 'translate-y-3');
+      el.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        el.classList.remove('opacity-100', 'translate-y-0');
+        el.classList.add('opacity-0', 'translate-y-3');
+      }, 2400);
+    }
+
+    // ---------------------------------------------------------------------
+    // 2. STANDINGS COMPUTATION ENGINE (POINTS -> GD -> GF -> HEAD-TO-HEAD)
+    // ---------------------------------------------------------------------
+    function computeStandings() {
+      const statsMap = teams.map(t => ({
+        ...t,
+        played: 0,
+        won: 0,
+        drawn: 0,
+        lost: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        pts: 0,
+        form: []
+      }));
+
+      matches.forEach(m => {
+        if (!m.played) return;
+        const home = statsMap[m.home];
+        const away = statsMap[m.away];
+
+        home.played += 1;
+        away.played += 1;
+        home.gf += m.homeGoals;
+        home.ga += m.awayGoals;
+        away.gf += m.awayGoals;
+        away.ga += m.homeGoals;
+
+        if (m.homeGoals > m.awayGoals) {
+          home.won += 1;
+          home.pts += 3;
+          home.form.push('T');
+          away.lost += 1;
+          away.form.push('B');
+        } else if (m.homeGoals < m.awayGoals) {
+          away.won += 1;
+          away.pts += 3;
+          away.form.push('T');
+          home.lost += 1;
+          home.form.push('B');
+        } else {
+          home.drawn += 1;
+          away.drawn += 1;
+          home.pts += 1;
+          away.pts += 1;
+          home.form.push('H');
+          away.form.push('H');
+        }
+      });
+
+      statsMap.forEach(s => {
+        s.gd = s.gf - s.ga;
+      });
+
+      return statsMap.sort((a, b) => {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        if (b.gd !== a.gd) return b.gd - a.gd;
+        if (b.gf !== a.gf) return b.gf - a.gf;
+
+        // Tie-breaker: Head-to-Head result
+        const h2h = matches.find(
+          m => m.played && ((m.home === a.id && m.away === b.id) || (m.home === b.id && m.away === a.id))
+        );
+        if (h2h) {
+          const aGoals = h2h.home === a.id ? h2h.homeGoals : h2h.awayGoals;
+          const bGoals = h2h.home === b.id ? h2h.homeGoals : h2h.awayGoals;
+          if (bGoals !== aGoals) return bGoals - aGoals;
+        }
+        return a.id - b.id;
+      });
+    }
+
+    // ---------------------------------------------------------------------
+    // 3. RENDER STANDINGS, 4x4 MATRIX, 3 ROUNDS, FINALS & SQUADS
+    // ---------------------------------------------------------------------
+    function renderAll() {
+      const standings = computeStandings();
+      renderStandingsTable(standings);
+      renderCrossMatrix();
+      renderRounds();
+      renderFinalsBracket(standings);
+      renderSquadCards();
+    }
+
+    function filterRound(roundKey) {
+      activeRoundFilter = roundKey;
+      ['all', 1, 2, 3].forEach(k => {
+        const btn = document.getElementById(`roundTab-${k}`);
+        if (!btn) return;
+        if (k === roundKey) {
+          btn.className = 'px-3.5 py-1.5 bg-ink text-white border border-ink font-bold shrink-0 transition';
+        } else {
+          btn.className = 'px-3.5 py-1.5 bg-card text-ink border border-ink font-semibold hover:bg-sand shrink-0 transition';
+        }
+      });
+      renderRounds();
+    }
+
+    function renderFinalsBracket(standings) {
+      const container = document.getElementById('finalsBracketContainer');
+      if (!container || standings.length < 4) return;
+
+      const first = standings[0];
+      const second = standings[1];
+      const third = standings[2];
+      const fourth = standings[3];
+
+      container.innerHTML = `
+        <!-- GRAND FINAL CARD (RANK 1 vs RANK 2) -->
+        <div class="bg-card border-2 border-ink p-5 sm:p-6 hard-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-ink pb-3 mb-4">
+              <span class="px-2.5 py-0.5 bg-vermilion text-white font-mono text-xs font-bold uppercase">🏆 TRẬN CHUNG KẾT ITIL 2026</span>
+              <span class="font-mono text-xs text-muted">17:00 • Chủ Nhật Bế Mạc</span>
+            </div>
+            <div class="grid grid-cols-11 items-center gap-2 py-3">
+              <div class="col-span-5 bg-paper border border-ink p-3 text-center">
+                <div class="font-mono text-[10px] text-pitch font-bold uppercase mb-1">HẠNG 1 VÒNG TRÒN</div>
+                <div class="font-display font-bold text-lg sm:text-xl uppercase truncate">${first.name}</div>
+                <div class="font-mono text-xs text-muted mt-0.5">${first.pts} điểm (HS ${first.gd > 0 ? '+' + first.gd : first.gd})</div>
+              </div>
+              <div class="col-span-1 text-center font-display font-bold text-xl text-vermilion">VS</div>
+              <div class="col-span-5 bg-paper border border-ink p-3 text-center">
+                <div class="font-mono text-[10px] text-pitch font-bold uppercase mb-1">HẠNG 2 VÒNG TRÒN</div>
+                <div class="font-display font-bold text-lg sm:text-xl uppercase truncate">${second.name}</div>
+                <div class="font-mono text-xs text-muted mt-0.5">${second.pts} điểm (HS ${second.gd > 0 ? '+' + second.gd : second.gd})</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-ink/20 font-mono text-xs text-muted flex items-center justify-between">
+            <span>Hòa sau 40 phút: Đá luân lưu 6m (3 lượt)</span>
+            <span class="text-ink font-bold">Cúp Vàng + Huy Chương</span>
+          </div>
+        </div>
+
+        <!-- THIRD PLACE PLAYOFF CARD (RANK 3 vs RANK 4) -->
+        <div class="bg-card border border-ink p-5 sm:p-6 hard-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-ink pb-3 mb-4">
+              <span class="px-2.5 py-0.5 bg-pitch text-white font-mono text-xs font-bold uppercase">🥉 TRANH HẠNG BA</span>
+              <span class="font-mono text-xs text-muted">16:00 • Chủ Nhật Bế Mạc</span>
+            </div>
+            <div class="grid grid-cols-11 items-center gap-2 py-3">
+              <div class="col-span-5 bg-paper border border-ink p-3 text-center">
+                <div class="font-mono text-[10px] text-muted font-bold uppercase mb-1">HẠNG 3 VÒNG TRÒN</div>
+                <div class="font-display font-bold text-lg sm:text-xl uppercase truncate">${third.name}</div>
+                <div class="font-mono text-xs text-muted mt-0.5">${third.pts} điểm (HS ${third.gd > 0 ? '+' + third.gd : third.gd})</div>
+              </div>
+              <div class="col-span-1 text-center font-display font-bold text-xl text-muted">VS</div>
+              <div class="col-span-5 bg-paper border border-ink p-3 text-center">
+                <div class="font-mono text-[10px] text-muted font-bold uppercase mb-1">HẠNG 4 VÒNG TRÒN</div>
+                <div class="font-display font-bold text-lg sm:text-xl uppercase truncate">${fourth.name}</div>
+                <div class="font-mono text-xs text-muted mt-0.5">${fourth.pts} điểm (HS ${fourth.gd > 0 ? '+' + fourth.gd : fourth.gd})</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-ink/20 font-mono text-xs text-muted flex items-center justify-between">
+            <span>Hòa sau 40 phút: Đá luân lưu 6m ngay</span>
+            <span class="text-ink font-bold">Giải Ba &amp; Phong Cách</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStandingsTable(standings) {
+      const tbody = document.getElementById('standingsTableBody');
+      tbody.innerHTML = standings.map((s, idx) => {
+        const rank = idx + 1;
+        const isHighlighted = tournamentMode === 'final' ? rank <= 2 : rank === 1;
+        const rowBg = isHighlighted ? 'bg-pitchLight/70' : 'bg-card';
+        const rankBadgeClass = isHighlighted
+          ? 'bg-pitch text-white border-ink'
+          : 'bg-paper text-ink border-ink';
+
+        const gdFormatted = s.gd > 0 ? `+${s.gd}` : `${s.gd}`;
+
+        const formBadges = [0, 1, 2].map(i => {
+          const f = s.form[i];
+          if (!f) return `<span class="inline-block w-5 h-5 text-center leading-5 border border-ink/30 bg-paper text-muted text-[10px]">-</span>`;
+          if (f === 'T') return `<span class="inline-block w-5 h-5 text-center leading-5 border border-ink bg-pitch text-white font-bold text-[10px]">T</span>`;
+          if (f === 'H') return `<span class="inline-block w-5 h-5 text-center leading-5 border border-ink bg-sand text-ink font-bold text-[10px]">H</span>`;
+          return `<span class="inline-block w-5 h-5 text-center leading-5 border border-ink bg-vermilion text-white font-bold text-[10px]">B</span>`;
+        }).join(' ');
+
+        return `
+          <tr class="${rowBg} hover:bg-sand/60 transition">
+            <td class="py-3.5 px-3 text-center font-mono">
+              <span class="inline-flex w-6 h-6 items-center justify-center text-xs font-bold border ${rankBadgeClass}">
+                ${rank}
+              </span>
+            </td>
+            <td class="py-3.5 px-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full border border-ink shrink-0" style="background-color: ${s.kitColor}"></span>
+                <div>
+                  <div class="font-bold text-ink leading-tight">${s.name}</div>
+                  <div class="font-mono text-[10px] text-muted">${s.code}</div>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5 px-2 text-center font-mono">${s.played}</td>
+            <td class="py-3.5 px-2 text-center font-mono">${s.won}</td>
+            <td class="py-3.5 px-2 text-center font-mono">${s.drawn}</td>
+            <td class="py-3.5 px-2 text-center font-mono">${s.lost}</td>
+            <td class="py-3.5 px-2 text-center font-mono text-muted">${s.gf}-${s.ga}</td>
+            <td class="py-3.5 px-2 text-center font-mono font-semibold ${s.gd > 0 ? 'text-pitch' : s.gd < 0 ? 'text-vermilion' : 'text-muted'}">${gdFormatted}</td>
+            <td class="py-3.5 px-3 text-center font-mono font-bold text-base text-ink">${s.pts}</td>
+            <td class="py-3.5 px-3 text-right font-mono whitespace-nowrap">${formBadges}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Summary Footer
+      const summaryEl = document.getElementById('qualificationSummary');
+      const playedCount = matches.filter(m => m.played).length;
+      if (tournamentMode === 'final') {
+        summaryEl.innerHTML = `
+          <span>Tiến độ: <strong>${playedCount}/6 trận vòng tròn</strong></span>
+          <span>Dự kiến vào Chung Kết: <strong class="text-pitch">${standings[0].name}</strong> vs <strong class="text-pitch">${standings[1].name}</strong></span>
+        `;
+      } else {
+        summaryEl.innerHTML = `
+          <span>Tiến độ: <strong>${playedCount}/6 trận vòng tròn</strong></span>
+          <span>Ứng viên Vô Địch (#1): <strong class="text-vermilion">${standings[0].name} (${standings[0].pts} điểm)</strong></span>
+        `;
+      }
+    }
+
+    function renderCrossMatrix() {
+      const thead = document.getElementById('matrixTableHead');
+      const tbody = document.getElementById('matrixTableBody');
+
+      thead.innerHTML = `
+        <tr class="bg-paper border-b border-ink">
+          <th class="p-2.5 border-r border-ink text-left text-[10px] text-muted uppercase">Đội \\ Đối thủ</th>
+          ${teams.map(t => `<th class="p-2.5 border-r border-ink font-bold text-ink">${t.code}</th>`).join('')}
+        </tr>
+      `;
+
+      tbody.innerHTML = teams.map(rowTeam => {
+        const cells = teams.map(colTeam => {
+          if (rowTeam.id === colTeam.id) {
+            return `<td class="p-3 border-r border-b border-ink matrix-self-cell text-muted">—</td>`;
+          }
+
+          // Find match between rowTeam and colTeam
+          const m = matches.find(
+            item => (item.home === rowTeam.id && item.away === colTeam.id) || (item.home === colTeam.id && item.away === rowTeam.id)
+          );
+
+          if (!m.played) {
+            return `
+              <td onclick="scrollToMatch('${m.id}')" class="p-2.5 border-r border-b border-ink bg-card hover:bg-sand cursor-pointer transition" title="Bấm để nhập tỉ số trận này">
+                <div class="text-[10px] text-muted">Vòng ${m.round}</div>
+                <div class="font-semibold text-ink">Chưa đá</div>
+              </td>
+            `;
+          }
+
+          const rowGoals = m.home === rowTeam.id ? m.homeGoals : m.awayGoals;
+          const colGoals = m.home === rowTeam.id ? m.awayGoals : m.homeGoals;
+          let badgeClass = 'bg-sand text-ink';
+          if (rowGoals > colGoals) badgeClass = 'bg-pitchLight text-pitch font-bold';
+          if (rowGoals < colGoals) badgeClass = 'bg-vermilionLight text-vermilion';
+
+          return `
+            <td onclick="scrollToMatch('${m.id}')" class="p-2.5 border-r border-b border-ink ${badgeClass} hover:opacity-80 cursor-pointer transition" title="${rowTeam.name} ${rowGoals} - ${colGoals} ${colTeam.name}">
+              <div class="text-sm font-bold">${rowGoals} - ${colGoals}</div>
+              <div class="text-[10px] opacity-75">Vòng ${m.round}</div>
+            </td>
+          `;
+        }).join('');
+
+        return `
+          <tr>
+            <td class="p-2.5 border-r border-b border-ink bg-paper font-bold text-left whitespace-nowrap">
+              <span class="inline-block w-2 h-2 rounded-full mr-1" style="background-color: ${rowTeam.kitColor}"></span>
+              ${rowTeam.code}
+            </td>
+            ${cells}
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderRounds() {
+      const container = document.getElementById('roundsContainer');
+      const rounds = activeRoundFilter === 'all' ? [1, 2, 3] : [activeRoundFilter];
+      container.className = activeRoundFilter === 'all' ? 'grid md:grid-cols-3 gap-6' : 'grid md:grid-cols-1 max-w-xl mx-auto gap-6';
+
+      const roundTitles = {
+        1: 'VÒNG 1 • 07/11',
+        2: 'VÒNG 2 • 08/11',
+        3: 'VÒNG 3 • 14/11'
+      };
+
+      const roundSubtitles = {
+        1: '07/11/2026 • Khai mạc 19:30',
+        2: '08/11/2026 • Lượt 2 lúc 19:30',
+        3: '14/11/2026 • Đồng loạt 18:30'
+      };
+
+      container.innerHTML = rounds.map(rNum => {
+        const roundMatches = matches.filter(m => m.round === rNum);
+        const cardsHtml = roundMatches.map(m => {
+          const homeTeam = teams[m.home];
+          const awayTeam = teams[m.away];
+
+          return `
+            <div id="matchCard-${m.id}" class="p-4 bg-paper border border-ink transition hover:border-pitch">
+              <div class="flex items-center justify-between text-[11px] font-mono text-muted pb-2.5 mb-3 border-b border-ink/20">
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 bg-ink text-white font-bold text-[10px] tracking-wider">TRẬN ${m.matchNo}</span>
+                  <span class="font-semibold text-ink">${m.time}</span>
+                </div>
+                <button onclick="toggleMatchPlayed('${m.id}')" class="px-2 py-0.5 border border-ink font-bold cursor-pointer text-[10px] ${m.played ? 'bg-pitch text-white' : 'bg-card text-muted'}">
+                  ${m.played ? '✓ ĐÃ ĐÁ' : 'CHƯA ĐÁ'}
+                </button>
+              </div>
+
+              <!-- Home Team Row -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-3.5 h-3.5 rounded-full border border-ink shrink-0" style="background-color: ${homeTeam.kitColor}"></span>
+                  <span class="font-bold text-sm text-ink truncate">${homeTeam.name}</span>
+                  <span class="font-mono text-[10px] text-muted">(${homeTeam.code})</span>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0 font-mono">
+                  <button onclick="adjustScore('${m.id}', 'home', -1)" class="w-8 h-8 bg-card border border-ink hover:bg-sand active:bg-ink active:text-white font-bold text-sm cursor-pointer">-</button>
+                  <span class="w-7 text-center font-bold text-base ${m.played ? 'text-ink' : 'text-muted'}">${m.played ? m.homeGoals : '-'}</span>
+                  <button onclick="adjustScore('${m.id}', 'home', 1)" class="w-8 h-8 bg-card border border-ink hover:bg-sand active:bg-ink active:text-white font-bold text-sm cursor-pointer">+</button>
+                </div>
+              </div>
+
+              <!-- Away Team Row -->
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-3.5 h-3.5 rounded-full border border-ink shrink-0" style="background-color: ${awayTeam.kitColor}"></span>
+                  <span class="font-bold text-sm text-ink truncate">${awayTeam.name}</span>
+                  <span class="font-mono text-[10px] text-muted">(${awayTeam.code})</span>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0 font-mono">
+                  <button onclick="adjustScore('${m.id}', 'away', -1)" class="w-8 h-8 bg-card border border-ink hover:bg-sand active:bg-ink active:text-white font-bold text-sm cursor-pointer">-</button>
+                  <span class="w-7 text-center font-bold text-base ${m.played ? 'text-ink' : 'text-muted'}">${m.played ? m.awayGoals : '-'}</span>
+                  <button onclick="adjustScore('${m.id}', 'away', 1)" class="w-8 h-8 bg-card border border-ink hover:bg-sand active:bg-ink active:text-white font-bold text-sm cursor-pointer">+</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="bg-card border border-ink hard-shadow flex flex-col justify-between">
+            <div>
+              <div class="px-4 py-3 bg-sand border-b border-ink flex items-center justify-between font-mono">
+                <div>
+                  <span class="font-bold text-sm uppercase text-ink">${roundTitles[rNum]}</span>
+                  <div class="text-[10px] text-muted">${roundSubtitles[rNum]}</div>
+                </div>
+                <span class="text-xs font-bold px-2 py-0.5 bg-paper border border-ink">02 Trận</span>
+              </div>
+              <div class="p-4 space-y-4">
+                ${cardsHtml}
+              </div>
+            </div>
+            <div class="px-4 py-2 bg-paper border-t border-ink font-mono text-[11px] text-muted flex items-center justify-between">
+              <span>${rNum === 3 ? '🔥 Lượt trận cuối định đoạt ngôi đầu' : `Lượt trận vòng tròn thứ ${rNum}`}</span>
+              <span class="text-ink font-semibold">${rNum === 3 ? '18:30 - 19:30' : '19:30 & 20:15'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderSquadCards() {
+      const container = document.getElementById('squadCardsContainer');
+      container.innerHTML = teams.map(t => {
+        const playersList = (t.players || []).map((p, idx) => `
+          <li class="flex items-center justify-between py-1.5 px-2 border-b border-ink/10 text-xs ${idx % 2 === 0 ? 'bg-paper/70' : 'bg-card'}">
+            <span class="flex items-center gap-2">
+              <span class="font-mono text-[10px] text-muted w-3 font-semibold">${idx + 1}.</span>
+              <span class="font-semibold text-ink">${p}</span>
+            </span>
+            ${idx === 0 ? '<span class="px-1.5 py-0.2 bg-pitch text-white font-mono text-[9px] font-bold uppercase border border-ink" title="Đội trưởng">C</span>' : ''}
+          </li>
+        `).join('');
+
+        return `
+          <div class="bg-card border border-ink p-4 sm:p-5 hard-shadow flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between border-b border-ink pb-2.5 mb-3">
+                <span class="font-mono text-xs font-bold px-2 py-0.5 bg-paper border border-ink">${t.code}</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-muted">
+                  <span class="w-3 h-3 rounded-full border border-ink" style="background-color: ${t.kitColor}"></span>
+                  ${t.kitName}
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-2xl uppercase text-ink mb-1">${t.name}</h3>
+              <p class="text-xs text-muted leading-relaxed mb-3">${t.note}</p>
+
+              <!-- Player Roster Table -->
+              <div class="border border-ink/30 mb-3 overflow-hidden">
+                <div class="px-2.5 py-1.5 bg-sand border-b border-ink/20 font-mono text-[10px] uppercase font-bold text-ink flex justify-between items-center">
+                  <span>DANH SÁCH 6 CẦU THỦ</span>
+                  <span class="text-muted font-normal">Sân 5 + 1 Dự bị</span>
+                </div>
+                <ul class="divide-y divide-ink/10">
+                  ${playersList}
+                </ul>
+              </div>
+            </div>
+            <div class="pt-2.5 border-t border-ink/20 font-mono text-xs flex items-center justify-between">
+              <span class="text-muted">Đội trưởng:</span>
+              <span class="font-bold text-ink">${t.captain}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ---------------------------------------------------------------------
+    // 4. INTERACTIVE HANDLERS (SCORE EDITING, SIMULATOR, TEAM RENAMING)
+    // ---------------------------------------------------------------------
+    function adjustScore(matchId, side, delta) {
+      const m = matches.find(item => item.id === matchId);
+      if (!m) return;
+      m.played = true;
+      if (side === 'home') {
+        m.homeGoals = Math.max(0, m.homeGoals + delta);
+      } else {
+        m.awayGoals = Math.max(0, m.awayGoals + delta);
+      }
+      renderAll();
+      showToast(`Đã cập nhật: ${teams[m.home].code} ${m.homeGoals} - ${m.awayGoals} ${teams[m.away].code}`);
+    }
+
+    function toggleMatchPlayed(matchId) {
+      const m = matches.find(item => item.id === matchId);
+      if (!m) return;
+      m.played = !m.played;
+      renderAll();
+      showToast(m.played ? 'Đã tính trận đấu vào BXH' : 'Đã chuyển trận đấu sang Chưa đá');
+    }
+
+    function simulateAllMatches() {
+      matches.forEach(m => {
+        m.played = true;
+        m.homeGoals = Math.floor(Math.random() * 5);
+        m.awayGoals = Math.floor(Math.random() * 5);
+      });
+      renderAll();
+      showToast('🎲 Đã giả lập ngẫu nhiên toàn bộ 6 trận vòng tròn!');
+    }
+
+    function resetDefaultMatches() {
+      matches = JSON.parse(JSON.stringify(defaultMatches));
+      renderAll();
+      showToast('↺ Đã khôi phục kết quả mặc định');
+    }
+
+    function setTournamentMode(mode) {
+      tournamentMode = mode;
+      const btnFinal = document.getElementById('modeBtnFinal');
+      const btnDirect = document.getElementById('modeBtnDirect');
+      const hint = document.getElementById('standingsRuleHint');
+
+      if (mode === 'final') {
+        btnFinal.className = 'px-3 py-1.5 text-xs font-mono font-bold bg-pitch text-white border border-ink transition';
+        btnDirect.className = 'px-3 py-1.5 text-xs font-mono font-semibold text-ink hover:bg-sand transition';
+        hint.textContent = '● Top 2 đội dẫn đầu vào Chung Kết';
+      } else {
+        btnDirect.className = 'px-3 py-1.5 text-xs font-mono font-bold bg-pitch text-white border border-ink transition';
+        btnFinal.className = 'px-3 py-1.5 text-xs font-mono font-semibold text-ink hover:bg-sand transition';
+        hint.textContent = '★ Đội Hạng 1 vô địch trực tiếp sau 3 vòng';
+      }
+      renderAll();
+    }
+
+    function scrollToMatch(matchId) {
+      const card = document.getElementById(`matchCard-${matchId}`);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      gsap.fromTo(card, { backgroundColor: '#FCECE9' }, { backgroundColor: '#F6F5F0', duration: 1.2 });
+    }
+
+    function openEditTeamsModal() {
+      teams.forEach((t, idx) => {
+        document.getElementById(`editCode${idx}`).value = t.code;
+        document.getElementById(`editName${idx}`).value = t.name;
+      });
+      const modal = document.getElementById('editTeamsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeEditTeamsModal() {
+      const modal = document.getElementById('editTeamsModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function saveTeamNames(e) {
+      e.preventDefault();
+      teams.forEach((t, idx) => {
+        t.code = document.getElementById(`editCode${idx}`).value.trim().toUpperCase() || t.code;
+        t.name = document.getElementById(`editName${idx}`).value.trim() || t.name;
+      });
+      closeEditTeamsModal();
+      renderAll();
+      showToast('Đã cập nhật tên 4 đội bóng!');
+    }
+
+    // ---------------------------------------------------------------------
+    // 5. GSAP SCROLL-DRIVEN 2-LAYER ROLLING BALL & DRAGGABLE KICK STRIP
+    // ---------------------------------------------------------------------
+    function initScrollRollingBall() {
+      const ballContainer = document.getElementById('rollingBallContainer');
+      const ballRotatingLayer = document.getElementById('ballRotatingLayer');
+
+      gsap.to(ballContainer, {
+        motionPath: {
+          path: '#tacticalScrollPath',
+          align: '#tacticalScrollPath',
+          alignOrigin: [0.5, 0.5],
+          autoRotate: false
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: document.body,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          onUpdate: (self) => {
+            const rotationDeg = self.progress * 360 * 6;
+            const velocitySkew = gsap.utils.clamp(-10, 10, self.getVelocity() / 350);
+            gsap.set(ballRotatingLayer, {
+              rotation: rotationDeg,
+              skewX: velocitySkew,
+              transformOrigin: '50% 50%'
+            });
+          }
+        }
+      });
+
+      // Toggle button in header
+      let visible = true;
+      const btn = document.getElementById('toggleBallBtn');
+      const svg = document.getElementById('tacticalOverlaySvg');
+      const dot = document.getElementById('ballDot');
+
+      btn.addEventListener('click', () => {
+        visible = !visible;
+        svg.style.opacity = visible ? '1' : '0';
+        dot.className = visible ? 'w-2 h-2 rounded-full bg-pitch' : 'w-2 h-2 rounded-full bg-muted';
+        btn.querySelector('span:last-child').textContent = visible ? 'Bóng lăn: BẬT' : 'Bóng lăn: TẮT';
+      });
+    }
+
+    // Hero Interactive Grasp & Kick Strip
+    let heroGoals = 0;
+    let isHeroKicking = false;
+    let keeperY = 65;
+
+    function initHeroKickStrip() {
+      const strip = document.getElementById('heroPitchStrip');
+      const ball = document.getElementById('heroDraggableBall');
+      const aimLine = document.getElementById('heroAimLine');
+      const keeperPin = document.getElementById('heroKeeperPin');
+
+      // Subtle vertical goalkeeper patrol in front of goal (y: 42 to 88)
+      const keeperObj = { y: 42 };
+      gsap.to(keeperObj, {
+        y: 88,
+        duration: 1.25,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        onUpdate: () => {
+          keeperY = keeperObj.y;
+          keeperPin.setAttribute('transform', `translate(925, ${keeperY})`);
+        }
+      });
+
+      Draggable.create(ball, {
+        type: 'x,y',
+        bounds: strip,
+        onPress: function () {
+          if (isHeroKicking) return;
+          aimLine.setAttribute('opacity', '0.85');
+        },
+        onDrag: function () {
+          if (isHeroKicking) return;
+          const targetY = gsap.utils.clamp(38, 92, 65 + this.y * 0.9);
+          aimLine.setAttribute('x2', '965');
+          aimLine.setAttribute('y2', targetY);
+        },
+        onRelease: function () {
+          if (isHeroKicking) return;
+          aimLine.setAttribute('opacity', '0');
+          if (Math.hypot(this.x, this.y) < 10) {
+            gsap.to(ball, { x: 0, y: 0, duration: 0.2 });
+            return;
+          }
+          const targetY = gsap.utils.clamp(38, 92, 65 + this.y * 0.9);
+          shootHeroBall(targetY);
+        }
+      });
+    }
+
+    function autoKickHeroBall() {
+      if (isHeroKicking) return;
+      const targetY = Math.random() > 0.5 ? 45 : 85;
+      shootHeroBall(targetY);
+    }
+
+    function shootHeroBall(targetSvgY) {
+      isHeroKicking = true;
+      const strip = document.getElementById('heroPitchStrip');
+      const ball = document.getElementById('heroDraggableBall');
+      const statusText = document.getElementById('kickStatusText');
+
+      const rect = strip.getBoundingClientRect();
+      const targetPxX = rect.width * 0.81;
+      const targetPxY = ((targetSvgY - 65) / 130) * rect.height;
+
+      gsap.to(ball, {
+        x: targetPxX,
+        y: targetPxY,
+        rotation: 720,
+        duration: 0.55,
+        ease: 'power2.out',
+        onComplete: () => {
+          const blocked = Math.abs(targetSvgY - keeperY) < 15;
+          if (!blocked) {
+            heroGoals++;
+            document.getElementById('heroGoalCounter').textContent = heroGoals;
+            statusText.textContent = '⚽ VÀOOO! Cú sút chuẩn xác vào góc khung thành!';
+            statusText.className = 'text-pitch font-bold';
+            showToast('⚽ VÀOOO! Ghi bàn trên sa bàn chiến thuật!');
+          } else {
+            statusText.textContent = '🧤 Thủ môn GK đã bắt gọn! Hãy kéo bóng lệch góc hơn.';
+            statusText.className = 'text-vermilion font-bold';
+          }
+
+          setTimeout(() => {
+            gsap.to(ball, {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              duration: 0.4,
+              ease: 'power2.out',
+              onComplete: () => {
+                isHeroKicking = false;
+              }
+            });
+          }, 650);
+        }
+      });
+    }
+
+    window.addEventListener('load', () => {
+      renderAll();
+      initIntroKickoffGate();
+      initScrollRollingBall();
+      initHeroKickStrip();
+    });
+  </script>
+</body>
+</html>

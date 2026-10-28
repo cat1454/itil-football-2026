@@ -1,0 +1,156 @@
+import { Team, Match } from '@/types/tournament';
+
+export const INITIAL_TEAMS: Team[] = [
+  {
+    id: 0,
+    code: 'Đ1',
+    name: 'Đội 1',
+    captain: 'Trần Lê Minh',
+    kitColor: '#D9381E',
+    kitName: 'Đỏ Vermilion',
+    note: 'Đội hình tấn công sắc bén với nòng cốt Trần Lê Minh & Ngô V.Đắc Trí.',
+    players: [
+      'Trần Lê Minh',
+      'Ngô V.Đắc Trí',
+      'Trần Minh Triết',
+      'Thanh Việt',
+      'Bảo em Minh',
+      'Hoàng Phương Lê'
+    ]
+  },
+  {
+    id: 1,
+    code: 'Đ2',
+    name: 'Đội 2',
+    captain: 'Tuấn Ngọc',
+    kitColor: '#16422B',
+    kitName: 'Xanh Forest',
+    note: 'Lối chơi kỷ luật, thể lực dồi dào với Tuấn Ngọc, Võ Như Khoa & Bá Sơn.',
+    players: [
+      'Tuấn Ngọc',
+      'Võ Như Khoa',
+      'Bá Sơn',
+      'Thiên Phú',
+      'Lương Duy Toàn',
+      'Lê Doãn Hồng Phúc'
+    ]
+  },
+  {
+    id: 2,
+    code: 'Đ3',
+    name: 'Đội 3',
+    captain: 'Trần Phát',
+    kitColor: '#D97706',
+    kitName: 'Vàng Amber',
+    note: 'Đội hình tốc độ, kỹ thuật đồng đều dẫn dắt bởi Trần Phát & Hoàng Long.',
+    players: [
+      'Trần Phát',
+      'Cáp Hữu Nhân',
+      'Hoàng Long',
+      'Bảo Duy',
+      'Trần Hữu Đạt',
+      'Huỳnh Phước Phú'
+    ]
+  },
+  {
+    id: 3,
+    code: 'Đ4',
+    name: 'Đội 4',
+    captain: 'Nghĩa Lê',
+    kitColor: '#1E40AF',
+    kitName: 'Xanh Navy',
+    note: 'Khung gỗ và tuyến thủ vững chắc, phản công nhanh cùng Nghĩa Lê & Nhân Phan.',
+    players: [
+      'Nghĩa Lê',
+      'Nhân Phan',
+      'Anh rể Trí',
+      'Minh Thông',
+      'Thanh Trường',
+      'Nguyễn Đỗ Thắng'
+    ]
+  }
+];
+
+export const INITIAL_MATCHES: Match[] = [
+  // Vòng 1 • Ngày 07/11
+  {
+    id: 'm1',
+    matchNo: 1,
+    round: 1,
+    date: '07/11',
+    time: '19:30 - 20:15',
+    pitch: 'Sân 5 Mini',
+    home: 3, // Đội 4
+    away: 0, // Đội 1
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  },
+  {
+    id: 'm2',
+    matchNo: 2,
+    round: 1,
+    date: '07/11',
+    time: '20:15 - 21:00',
+    pitch: 'Sân 5 Mini',
+    home: 1, // Đội 2
+    away: 2, // Đội 3
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  },
+  // Vòng 2 • Ngày 08/11
+  {
+    id: 'm3',
+    matchNo: 3,
+    round: 2,
+    date: '08/11',
+    time: '19:30 - 20:15',
+    pitch: 'Sân 5 Mini',
+    home: 3, // Đội 4
+    away: 1, // Đội 2
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  },
+  {
+    id: 'm4',
+    matchNo: 4,
+    round: 2,
+    date: '08/11',
+    time: '20:15 - 21:00',
+    pitch: 'Sân 5 Mini',
+    home: 0, // Đội 1
+    away: 2, // Đội 3
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  },
+  // Vòng 3 • Ngày 14/11 (Lượt quyết định)
+  {
+    id: 'm5',
+    matchNo: 5,
+    round: 3,
+    date: '14/11',
+    time: '18:30 - 19:30',
+    pitch: 'Sân 5A',
+    home: 3, // Đội 4
+    away: 2, // Đội 3
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  },
+  {
+    id: 'm6',
+    matchNo: 6,
+    round: 3,
+    date: '14/11',
+    time: '18:30 - 19:30',
+    pitch: 'Sân 5B',
+    home: 0, // Đội 1
+    away: 1, // Đội 2
+    homeGoals: 0,
+    awayGoals: 0,
+    played: false
+  }
+];

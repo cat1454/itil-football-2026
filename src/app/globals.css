@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-paper: #F6F5F0;
+    --color-card: #FFFFFF;
+    --color-ink: #141413;
+    --color-muted: #61605B;
+    --color-pitch: #16422B;
+    --color-pitch-light: #E8F0EB;
+    --color-vermilion: #D9381E;
+    --color-vermilion-light: #FCECE9;
+    --color-sand: #EAE8E0;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Subtle Editorial Grid Texture */
+.bg-editorial-grid {
+  background-size: 36px 36px;
+  background-image:
+    linear-gradient(to right, rgba(20, 20, 19, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 20, 19, 0.04) 1px, transparent 1px);
+}
+
+/* Hard Editorial Graphic Shadows */
+.hard-shadow {
+  box-shadow: 4px 4px 0px #141413;
+}
+.hard-shadow-sm {
+  box-shadow: 2px 2px 0px #141413;
+}
+.hard-shadow-lg {
+  box-shadow: 6px 6px 0px #141413;
+}
+
+.hard-btn {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 3px 3px 0px #141413;
+}
+.hard-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #141413;
+}
+.hard-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #141413;
+}
+
+/* Diagonal Cross Hatch for Self-Cells in 4x4 Matrix */
+.matrix-self-cell {
+  background-color: #EAE8E0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(20, 20, 19, 0.09) 6px,
+    rgba(20, 20, 19, 0.09) 7px
+  );
+}
+
+/* Pulsing radar ring */
+@keyframes pulseRing {
+  0% { transform: scale(0.92); opacity: 0.8; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.pulse-ring-anim {
+  animation: pulseRing 1.8s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Custom scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Gold Trophy Shimmer */
+@keyframes trophyShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.gold-shimmer {
+  background: linear-gradient(90deg, #b45309 0%, #fef08a 50%, #b45309 100%);
+  background-size: 200% 100%;
+  animation: trophyShimmer 3.5s infinite linear;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
