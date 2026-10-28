@@ -97,17 +97,6 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Admin Dashboard Link */}
-            <a
-              href="/admin"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#16422B] text-white hover:bg-[#141413] border border-[#141413] font-mono text-xs font-bold transition hard-btn cursor-pointer touch-manipulation"
-              title="Trang quản trị Ban Tổ Chức"
-            >
-              <Shield className="w-3.5 h-3.5 text-amber-300" />
-              <span className="hidden sm:inline">BTC ADMIN</span>
-              <span className="sm:hidden text-[11px]">BTC</span>
-            </a>
-
             {/* Mobile Hamburger Menu Toggle */}
             <button
               onClick={() => {
@@ -139,17 +128,6 @@ export default function Navbar() {
                 </a>
               );
             })}
-
-            <div className="pt-2">
-              <a
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-1.5 py-2 bg-[#16422B] text-white border border-[#141413] font-bold"
-              >
-                <Shield className="w-3.5 h-3.5 text-amber-300" />
-                <span>Trang Ban Tổ Chức (BTC ADMIN)</span>
-              </a>
-            </div>
           </div>
         )}
       </header>
@@ -190,13 +168,6 @@ export default function Navbar() {
         >
           <Users className="w-4 h-4 text-[#16422B]" />
           <span>4 Đội</span>
-        </a>
-        <a
-          href="/admin"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#D9381E] font-bold active:scale-95 transition"
-        >
-          <Shield className="w-4 h-4 text-[#D9381E]" />
-          <span>BTC</span>
         </a>
       </nav>
     </>

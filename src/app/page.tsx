@@ -21,15 +21,21 @@ export default function HomePage() {
   const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('direct');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
-  // Fetch latest data from backend API
+  // Fetch latest data from backend API with deep equality check to prevent unnecessary re-renders
   const fetchLiveData = useCallback(async () => {
     try {
       const res = await fetch('/api/tournament', { cache: 'no-store' });
       if (res.ok) {
         const json = await res.json();
-        if (json.teams) setTeams(json.teams);
-        if (json.matches) setMatches(json.matches);
-        if (json.tournamentMode) setTournamentMode(json.tournamentMode);
+        if (json.teams) {
+          setTeams(prev => (JSON.stringify(prev) === JSON.stringify(json.teams) ? prev : json.teams));
+        }
+        if (json.matches) {
+          setMatches(prev => (JSON.stringify(prev) === JSON.stringify(json.matches) ? prev : json.matches));
+        }
+        if (json.tournamentMode) {
+          setTournamentMode(prev => (prev === json.tournamentMode ? prev : json.tournamentMode));
+        }
       }
     } catch (_) {}
   }, []);
@@ -217,14 +223,20 @@ export default function HomePage() {
           matches={matches}
         />
 
-        {/* 5. Podium & Awards Showcase */}
-        <PodiumSection standings={standings} />
+        <div className="cv-auto">
+          {/* 5. Podium & Awards Showcase */}
+          <PodiumSection standings={standings} />
+        </div>
 
-        {/* 6. Club Introduction & Season 1 Milestone */}
-        <ClubIntroSection />
+        <div className="cv-auto">
+          {/* 6. Club Introduction & Season 1 Milestone */}
+          <ClubIntroSection />
+        </div>
 
-        {/* 7. Squad Profiles & Tournament Rules */}
-        <SquadsSection teams={teams} />
+        <div className="cv-auto">
+          {/* 7. Squad Profiles & Tournament Rules */}
+          <SquadsSection teams={teams} />
+        </div>
       </main>
 
       {/* Footer */}
