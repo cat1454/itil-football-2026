@@ -275,7 +275,7 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 h-[100dvh] z-50 bg-[#F6F5F0] flex flex-col justify-between border-b-4 border-[#141413] select-none touch-none transition-transform duration-500 overflow-hidden"
+      className="fixed inset-0 h-[100dvh] z-[999] bg-[#F6F5F0] flex flex-col justify-between border-b-4 border-[#141413] select-none touch-none transition-transform duration-500 overflow-hidden"
     >
       {/* Top Editorial Gate Bar */}
       <div className="border-b-2 border-[#141413] bg-white px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 shrink-0">

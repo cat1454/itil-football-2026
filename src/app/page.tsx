@@ -14,12 +14,14 @@ import PodiumSection from '@/components/PodiumSection';
 import ClubIntroSection from '@/components/ClubIntroSection';
 import SquadsSection from '@/components/SquadsSection';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import KickoffGate from '@/components/KickoffGate';
 
 export default function HomePage() {
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
   const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
   const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('direct');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [isGateOpen, setIsGateOpen] = useState(false);
 
   // Fetch latest data from backend API with deep equality check to prevent unnecessary re-renders
   const fetchLiveData = useCallback(async () => {
@@ -42,6 +44,16 @@ export default function HomePage() {
 
   // Initial load and auto-polling every 6 seconds
   useEffect(() => {
+    // Check if user already passed the kickoff gate this session
+    try {
+      const gateSeen = sessionStorage.getItem('itil_gate_passed');
+      if (gateSeen !== 'true') {
+        setIsGateOpen(true);
+      }
+    } catch (_) {
+      setIsGateOpen(true);
+    }
+
     fetchLiveData();
 
     const interval = setInterval(fetchLiveData, 6000);
@@ -53,6 +65,15 @@ export default function HomePage() {
       window.removeEventListener('focus', onFocus);
     };
   }, [fetchLiveData]);
+
+  // Unlock Gate Handler
+  const handleUnlockGate = () => {
+    setIsGateOpen(false);
+    try {
+      sessionStorage.setItem('itil_gate_passed', 'true');
+    } catch (_) {}
+    showToast('⚽ VÀOOO! Chào mừng bạn đến với Giải Bóng Đá ITIL 2026!');
+  };
 
   // Show Toast
   const showToast = useCallback((msg: string) => {
@@ -158,11 +179,14 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col relative">
+      {/* 0. Fullscreen Interactive Kickoff Entrance Gate */}
+      <KickoffGate isOpen={isGateOpen} onUnlock={handleUnlockGate} />
+
       {/* Dynamic Ambient Stadium Background */}
       <AnimatedBackground />
 
       {/* 1. Header Navigation Bar (Fixed z-50 at top) */}
-      <Navbar />
+      <Navbar onReopenGate={() => setIsGateOpen(true)} />
 
       {/* Main Container */}
       <main className="flex-1 relative z-10">

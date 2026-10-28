@@ -14,7 +14,11 @@ import {
   Award,
 } from 'lucide-react';
 
-export default function Navbar() {
+interface NavbarProps {
+  onReopenGate?: () => void;
+}
+
+export default function Navbar({ onReopenGate }: NavbarProps) {
   const [soundOn, setSoundOn] = useState(sound.enabled);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -101,6 +105,21 @@ export default function Navbar() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Replay Kickoff Gate Button */}
+            {onReopenGate && (
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  onReopenGate();
+                }}
+                className="px-2 sm:px-2.5 py-1 sm:py-1.5 bg-[#16422B] hover:bg-[#1f5c3d] text-white border border-[#141413] font-mono text-[10px] sm:text-[11px] font-bold transition cursor-pointer flex items-center gap-1 hard-shadow-sm active:translate-y-0.5"
+                title="Mở lại màn hình kéo bóng khai mạc giải đấu"
+              >
+                <span>⚽</span>
+                <span className="hidden sm:inline">Sút Khai Mạc</span>
+              </button>
+            )}
+
             {/* Sound Toggle */}
             <button
               onClick={toggleSound}
@@ -133,6 +152,20 @@ export default function Navbar() {
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white/98 backdrop-blur-md border-t-2 border-[#141413] px-4 py-3 space-y-2 hard-shadow font-mono text-xs animate-in slide-in-from-top-2">
+            {onReopenGate && (
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setMobileMenuOpen(false);
+                  onReopenGate();
+                }}
+                className="w-full flex items-center gap-2.5 py-2 px-3 rounded bg-[#16422B] text-white font-bold font-mono text-xs border border-[#141413] shadow-xs cursor-pointer mb-2"
+              >
+                <span>⚽</span>
+                <span>Chơi Lại Kéo Banh Khai Mạc</span>
+              </button>
+            )}
+
             {navLinks.map(link => {
               const Icon = link.icon;
               return (
