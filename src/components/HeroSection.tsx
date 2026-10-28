@@ -22,11 +22,22 @@ export default function HeroSection() {
           </div>
         </div>
 
+        {/* Official Cinematic Tournament Banner */}
+        <div className="w-full mb-6 sm:mb-8 border-2 border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden bg-[#071910] group">
+          <img
+            src="/banner.png"
+            alt="ITIL FOOTBALL 2026 — Kết Nối Đam Mê - Lan Tỏa Tinh Thần IT — Liên Chi Đoàn Khoa CNTT"
+            className="w-full h-auto block object-cover group-hover:scale-[1.01] transition-transform duration-500"
+            loading="eager"
+          />
+        </div>
+
         {/* Main Hero Grid */}
         <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#16422B] text-white font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider">
               <span>🏆 GIẢI BÓNG ĐÁ ITIL — MÙA 1 (2026)</span>
+              <span className="hidden sm:inline text-[#FCD34D]">• KẾT NỐI ĐAM MÊ, LAN TỎA TINH THẦN IT</span>
             </div>
             <h1
               className="font-extrabold uppercase tracking-tight text-[#141413] text-[clamp(1.6rem,7vw,4.5rem)] leading-[1.05]"
