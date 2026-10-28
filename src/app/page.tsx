@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { sound } from '@/lib/sound';
 import { Team, Match, TeamStanding } from '@/types/tournament';
 import { INITIAL_TEAMS, INITIAL_MATCHES } from '@/data/initialData';
 import { Trophy } from 'lucide-react';
 
-import KickoffGate from '@/components/KickoffGate';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import StandingsTable from '@/components/StandingsTable';
@@ -19,7 +17,6 @@ export default function HomePage() {
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
   const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
   const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('final');
-  const [isGateOpen, setIsGateOpen] = useState(true);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   // Fetch latest data from backend API
@@ -37,15 +34,6 @@ export default function HomePage() {
 
   // Initial load and auto-polling every 6 seconds
   useEffect(() => {
-    // Check if user already unlocked gate this session
-    try {
-      const gateSeen = sessionStorage.getItem('itil_gate_passed');
-      if (gateSeen === 'true') {
-        setIsGateOpen(false);
-      }
-    } catch (_) {}
-
-    // Fetch official tournament data from backend
     fetchLiveData();
 
     const interval = setInterval(fetchLiveData, 6000);
@@ -66,7 +54,7 @@ export default function HomePage() {
     }, 2800);
   }, []);
 
-  // Compute standings with tie-breaker (Points -> GD -> GF -> Head-to-Head)
+  // Compute standings with tie-breaker (Points 3-1-0 -> GD -> GF -> Head-to-Head)
   const standings = useMemo(() => {
     const statsMap: Record<number, TeamStanding> = {};
 
@@ -160,25 +148,14 @@ export default function HomePage() {
     }
   };
 
-  const handleUnlockGate = () => {
-    setIsGateOpen(false);
-    try {
-      sessionStorage.setItem('itil_gate_passed', 'true');
-    } catch (_) {}
-    showToast('Chào mừng bạn đến với ITIL 2026!');
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
-      {/* 0. Fullscreen Interactive Kickoff Entrance Gate */}
-      <KickoffGate isOpen={isGateOpen} onUnlock={handleUnlockGate} />
-
       {/* 1. Header Navigation Bar */}
-      <Navbar onReopenGate={() => setIsGateOpen(true)} />
+      <Navbar />
 
       {/* Main Container */}
       <main className="flex-1">
-        {/* 2. Hero & Interactive Pitch Strip */}
+        {/* 2. Hero Section */}
         <HeroSection />
 
         {/* 3. Standings Table & 4x4 Cross Matrix */}
@@ -252,7 +229,7 @@ export default function HomePage() {
             </span>
           </div>
           <div>
-            Next.js App Router • Tailwind CSS • Framer Motion &amp; GSAP
+            Next.js App Router • Tailwind CSS • Framer Motion
           </div>
         </div>
       </footer>

@@ -5,8 +5,6 @@ import { sound } from '@/lib/sound';
 import {
   Volume2,
   VolumeX,
-  Sparkles,
-  Edit3,
   Shield,
   Trophy,
   CalendarDays,
@@ -16,11 +14,7 @@ import {
   Award,
 } from 'lucide-react';
 
-interface NavbarProps {
-  onReopenGate: () => void;
-}
-
-export default function Navbar({ onReopenGate }: NavbarProps) {
+export default function Navbar() {
   const [soundOn, setSoundOn] = useState(sound.enabled);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -102,19 +96,6 @@ export default function Navbar({ onReopenGate }: NavbarProps) {
               )}
             </button>
 
-            {/* Reopen Penalty Shootout (hidden on very small screens, visible in menu) */}
-            <button
-              onClick={() => {
-                sound.playWhistle();
-                onReopenGate();
-              }}
-              className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 bg-[#EAE8E0] hover:bg-[#D9381E] hover:text-white border border-[#141413] font-mono text-xs font-bold transition cursor-pointer touch-manipulation"
-              title="Mở lại sa bàn sút bóng phạt đền"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
-              <span>Sút mở màn</span>
-            </button>
-
             {/* Admin Dashboard Link */}
             <a
               href="/admin"
@@ -158,26 +139,14 @@ export default function Navbar({ onReopenGate }: NavbarProps) {
               );
             })}
 
-            <div className="pt-2 flex items-center justify-between gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  sound.playWhistle();
-                  onReopenGate();
-                }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[#EAE8E0] border border-[#141413] font-bold"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
-                <span>Sút mở màn</span>
-              </button>
-
+            <div className="pt-2">
               <a
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[#16422B] text-white border border-[#141413] font-bold"
+                className="w-full flex items-center justify-center gap-1.5 py-2 bg-[#16422B] text-white border border-[#141413] font-bold"
               >
                 <Shield className="w-3.5 h-3.5 text-amber-300" />
-                <span>Ban Tổ Chức</span>
+                <span>Trang Ban Tổ Chức (BTC ADMIN)</span>
               </a>
             </div>
           </div>
