@@ -6,6 +6,8 @@ import { TeamStanding } from '@/types/tournament';
 import {
   Trophy,
   Award,
+  Medal,
+  Sparkles,
   TrendingUp,
   SlidersHorizontal,
   Table as TableIcon,
@@ -93,6 +95,15 @@ export default function StandingsTable({
               const isTop2 = tournamentMode === 'final' ? rank <= 2 : rank === 1;
               const gdFormatted = s.gd > 0 ? `+${s.gd}` : `${s.gd}`;
 
+              const rankBorderAndBg =
+                rank === 1
+                  ? 'border-2 border-[#141413] border-l-[6px] border-l-amber-500 bg-gradient-to-r from-amber-500/10 via-amber-500/[0.03] to-white'
+                  : rank === 2
+                  ? 'border-2 border-[#141413] border-l-[6px] border-l-slate-400 bg-gradient-to-r from-slate-200/40 via-slate-100/20 to-white'
+                  : rank === 3
+                  ? 'border-2 border-[#141413] border-l-[6px] border-l-orange-500 bg-gradient-to-r from-orange-500/10 via-orange-500/[0.02] to-white'
+                  : 'border-2 border-[#141413] border-l-[6px] border-l-emerald-600 bg-gradient-to-r from-emerald-500/10 via-emerald-500/[0.02] to-white';
+
               return (
                 <motion.div
                   key={s.id}
@@ -101,45 +112,60 @@ export default function StandingsTable({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                  className={`p-3 border-2 border-[#141413] hard-shadow-sm transition-colors ${
-                    isTop2 ? 'bg-[#E8F0EB]/80' : 'bg-[#F6F5F0]'
-                  }`}
+                  className={`p-3 hard-shadow-sm transition-all ${rankBorderAndBg}`}
                 >
                   {/* Top card bar: Rank + Team + Points */}
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2.5">
-                      <span
-                        className={`w-6 h-6 flex items-center justify-center font-mono text-xs font-bold border border-[#141413] shadow-xs ${
-                          isTop2 ? 'bg-[#16422B] text-white' : 'bg-white text-[#141413]'
-                        }`}
-                      >
-                        {rank}
-                      </span>
+                      {/* Modern Rank Number Pill */}
+                      {rank === 1 ? (
+                        <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-950 font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-amber-400/80 border border-amber-600/30 shrink-0">
+                          1
+                        </span>
+                      ) : rank === 2 ? (
+                        <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 text-slate-800 font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-slate-300 border border-slate-400/30 shrink-0">
+                          2
+                        </span>
+                      ) : rank === 3 ? (
+                        <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-600 via-orange-500 to-amber-700 text-white font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-orange-300 border border-amber-800/40 shrink-0">
+                          3
+                        </span>
+                      ) : (
+                        <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-200 text-[#16422B] font-bold text-xs flex items-center justify-center ring-1 ring-emerald-300 border border-emerald-400/30 shrink-0">
+                          4
+                        </span>
+                      )}
+
                       <span
                         className="w-3.5 h-3.5 rounded-full border border-[#141413] shrink-0"
                         style={{ backgroundColor: s.kitColor }}
                       />
                       <div>
-                        <div className="font-bold text-sm text-[#141413] flex items-center gap-1.5">
+                        <div className="font-bold text-sm text-[#141413] flex flex-wrap items-center gap-1.5">
                           <span>{s.name}</span>
+                          {/* Modern Badges */}
                           {rank === 1 && (
-                            <span className="px-1.5 py-0.2 bg-[#D97706] text-white text-[9px] font-mono font-bold rounded-xs">
-                              🏆 VÔ ĐỊCH
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400/20 via-yellow-300/30 to-amber-400/20 border border-amber-500/80 text-amber-900 font-mono font-black text-[10px] tracking-wide uppercase shadow-xs">
+                              <Trophy className="w-3 h-3 text-amber-600 fill-amber-400" />
+                              <span>VÔ ĐỊCH</span>
                             </span>
                           )}
                           {rank === 2 && (
-                            <span className="px-1.5 py-0.2 bg-[#64748B] text-white text-[9px] font-mono font-bold rounded-xs">
-                              🥈 Á QUÂN
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-slate-200/80 via-slate-100 to-slate-200/80 border border-slate-400/80 text-slate-800 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                              <Medal className="w-3 h-3 text-slate-500 fill-slate-300" />
+                              <span>Á QUÂN</span>
                             </span>
                           )}
                           {rank === 3 && (
-                            <span className="px-1.5 py-0.2 bg-[#B45309] text-white text-[9px] font-mono font-bold rounded-xs">
-                              🥉 GIẢI BA
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500/15 via-amber-600/20 to-orange-500/15 border border-orange-500/80 text-orange-950 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                              <Award className="w-3 h-3 text-orange-600 fill-orange-400" />
+                              <span>GIẢI BA</span>
                             </span>
                           )}
                           {rank === 4 && (
-                            <span className="px-1.5 py-0.2 bg-[#16422B] text-white text-[9px] font-mono font-bold rounded-xs">
-                              🕊️ PHONG CÁCH
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-emerald-500/15 via-teal-500/20 to-emerald-500/15 border border-emerald-500/80 text-emerald-950 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                              <Sparkles className="w-3 h-3 text-emerald-600" />
+                              <span>PHONG CÁCH</span>
                             </span>
                           )}
                         </div>
@@ -221,11 +247,14 @@ export default function StandingsTable({
               <AnimatePresence mode="popLayout">
                 {standings.map((s, idx) => {
                   const rank = idx + 1;
-                  const isHighlighted = tournamentMode === 'final' ? rank <= 2 : rank === 1;
-                  const rowBg = isHighlighted ? 'bg-[#E8F0EB]/60 hover:bg-[#E8F0EB]' : 'bg-white hover:bg-[#EAE8E0]/40';
-                  const rankBadgeClass = isHighlighted
-                    ? 'bg-[#16422B] text-white border-[#141413]'
-                    : 'bg-[#F6F5F0] text-[#141413] border-[#141413]';
+                  const rowBorderAndBg =
+                    rank === 1
+                      ? 'border-l-4 border-l-amber-500 bg-amber-500/[0.04] hover:bg-amber-500/[0.08]'
+                      : rank === 2
+                      ? 'border-l-4 border-l-slate-400 bg-slate-500/[0.02] hover:bg-slate-500/[0.06]'
+                      : rank === 3
+                      ? 'border-l-4 border-l-orange-500 bg-orange-500/[0.02] hover:bg-orange-500/[0.06]'
+                      : 'border-l-4 border-l-emerald-600 bg-emerald-500/[0.02] hover:bg-emerald-500/[0.06]';
 
                   const gdFormatted = s.gd > 0 ? `+${s.gd}` : `${s.gd}`;
 
@@ -237,13 +266,27 @@ export default function StandingsTable({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                      className={`${rowBg} transition-colors`}
+                      className={`${rowBorderAndBg} transition-colors`}
                     >
                       {/* Rank Position */}
                       <td className="py-3 px-3 text-center font-mono">
-                        <span className={`inline-flex w-6 h-6 items-center justify-center text-xs font-bold border ${rankBadgeClass} shadow-xs`}>
-                          {rank}
-                        </span>
+                        {rank === 1 ? (
+                          <span className="w-7 h-7 mx-auto rounded-lg bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-950 font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-amber-400/80 border border-amber-600/30">
+                            1
+                          </span>
+                        ) : rank === 2 ? (
+                          <span className="w-7 h-7 mx-auto rounded-lg bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 text-slate-800 font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-slate-300 border border-slate-400/30">
+                            2
+                          </span>
+                        ) : rank === 3 ? (
+                          <span className="w-7 h-7 mx-auto rounded-lg bg-gradient-to-br from-amber-600 via-orange-500 to-amber-700 text-white font-black text-xs flex items-center justify-center shadow-xs ring-1 ring-orange-300 border border-amber-800/40">
+                            3
+                          </span>
+                        ) : (
+                          <span className="w-7 h-7 mx-auto rounded-lg bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-200 text-[#16422B] font-bold text-xs flex items-center justify-center ring-1 ring-emerald-300 border border-emerald-400/30">
+                            4
+                          </span>
+                        )}
                       </td>
 
                       {/* Team Name & Badge */}
@@ -254,26 +297,30 @@ export default function StandingsTable({
                             style={{ backgroundColor: s.kitColor }}
                           />
                           <div>
-                            <div className="font-bold text-[#141413] leading-tight flex items-center gap-1.5">
+                            <div className="font-bold text-[#141413] leading-tight flex flex-wrap items-center gap-1.5">
                               <span>{s.name}</span>
                               {rank === 1 && (
-                                <span className="px-1.5 py-0.2 bg-[#D97706] text-white text-[9px] font-mono font-bold rounded-xs">
-                                  🏆 VÔ ĐỊCH
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400/20 via-yellow-300/30 to-amber-400/20 border border-amber-500/80 text-amber-900 font-mono font-black text-[10px] tracking-wide uppercase shadow-xs">
+                                  <Trophy className="w-3 h-3 text-amber-600 fill-amber-400" />
+                                  <span>VÔ ĐỊCH</span>
                                 </span>
                               )}
                               {rank === 2 && (
-                                <span className="px-1.5 py-0.2 bg-[#64748B] text-white text-[9px] font-mono font-bold rounded-xs">
-                                  🥈 Á QUÂN
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-slate-200/80 via-slate-100 to-slate-200/80 border border-slate-400/80 text-slate-800 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                                  <Medal className="w-3 h-3 text-slate-500 fill-slate-300" />
+                                  <span>Á QUÂN</span>
                                 </span>
                               )}
                               {rank === 3 && (
-                                <span className="px-1.5 py-0.2 bg-[#B45309] text-white text-[9px] font-mono font-bold rounded-xs">
-                                  🥉 GIẢI BA
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500/15 via-amber-600/20 to-orange-500/15 border border-orange-500/80 text-orange-950 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                                  <Award className="w-3 h-3 text-orange-600 fill-orange-400" />
+                                  <span>GIẢI BA</span>
                                 </span>
                               )}
                               {rank === 4 && (
-                                <span className="px-1.5 py-0.2 bg-[#16422B] text-white text-[9px] font-mono font-bold rounded-xs">
-                                  🕊️ PHONG CÁCH
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-emerald-500/15 via-teal-500/20 to-emerald-500/15 border border-emerald-500/80 text-emerald-950 font-mono font-bold text-[10px] tracking-wide uppercase shadow-xs">
+                                  <Sparkles className="w-3 h-3 text-emerald-600" />
+                                  <span>PHONG CÁCH</span>
                                 </span>
                               )}
                             </div>

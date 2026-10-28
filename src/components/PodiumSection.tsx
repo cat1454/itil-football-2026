@@ -45,17 +45,17 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
         {/* 4 Team Awards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           {/* 1. CHAMPION */}
-          <div className="bg-white border-2 border-[#141413] p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-amber-500/10 via-white to-amber-500/[0.05] border-2 border-amber-500 ring-2 ring-amber-400/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
-              <div className="bg-[#D97706] text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
+              <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-amber-950 text-[9px] font-mono font-black uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 CÚP VÀNG
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between border-b border-[#141413] pb-2.5 mb-3">
-                <span className="px-2 py-0.5 bg-[#D9381E] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
-                  <Trophy className="w-3.5 h-3.5 text-amber-300" />
+              <div className="flex items-center justify-between border-b border-amber-500/30 pb-2.5 mb-3">
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-amber-950 font-mono text-xs font-black uppercase flex items-center gap-1.5 shadow-xs border border-amber-600/40">
+                  <Trophy className="w-3.5 h-3.5 text-amber-950 fill-amber-700" />
                   <span>HẠNG 1 • VÔ ĐỊCH</span>
                 </span>
               </div>
@@ -70,14 +70,14 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
                 </h3>
               </div>
 
-              <div className="bg-[#FEF9C3] border border-[#141413] p-2.5 mb-3 font-mono text-xs">
+              <div className="bg-gradient-to-br from-amber-50 via-yellow-50/80 to-white border border-amber-300 p-2.5 mb-3 font-mono text-xs shadow-xs">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[#61605B]">Điểm số:</span>
-                  <strong className="text-base text-[#141413] font-black">{first.pts} điểm</strong>
+                  <strong className="text-base text-amber-950 font-black">{first.pts} điểm</strong>
                 </div>
                 <div className="flex justify-between items-center text-[11px] text-[#61605B]">
-                  <span>Hiệu số: <strong className="text-[#16422B]">{first.gd > 0 ? `+${first.gd}` : first.gd}</strong></span>
-                  <span>Thắng: <strong className="text-[#16422B]">{first.won}</strong>/{first.played}</span>
+                  <span>Hiệu số: <strong className="text-[#16422B] font-bold">{first.gd > 0 ? `+${first.gd}` : first.gd}</strong></span>
+                  <span>Thắng: <strong className="text-[#16422B] font-bold">{first.won}</strong>/{first.played}</span>
                 </div>
               </div>
             </div>
@@ -89,17 +89,17 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 2. RUNNER UP */}
-          <div className="bg-white border-2 border-[#141413] p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-slate-200/20 via-white to-slate-100/10 border-2 border-slate-400 ring-1 ring-slate-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
-              <div className="bg-[#64748B] text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
+              <div className="bg-gradient-to-r from-slate-400 to-slate-500 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 BẠC
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between border-b border-[#141413] pb-2.5 mb-3">
-                <span className="px-2 py-0.5 bg-[#475569] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
-                  <Medal className="w-3.5 h-3.5 text-slate-200" />
+              <div className="flex items-center justify-between border-b border-slate-300 pb-2.5 mb-3">
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 text-slate-800 font-mono text-xs font-bold uppercase flex items-center gap-1.5 shadow-xs border border-slate-400/40">
+                  <Medal className="w-3.5 h-3.5 text-slate-700 fill-slate-400" />
                   <span>HẠNG 2 • Á QUÂN</span>
                 </span>
               </div>
@@ -114,14 +114,14 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
                 </h3>
               </div>
 
-              <div className="bg-[#F1F5F9] border border-[#141413] p-2.5 mb-3 font-mono text-xs">
+              <div className="bg-gradient-to-br from-slate-50 to-gray-50 border border-slate-300 p-2.5 mb-3 font-mono text-xs">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[#61605B]">Điểm số:</span>
-                  <strong className="text-base text-[#141413] font-black">{second.pts} điểm</strong>
+                  <strong className="text-base text-slate-900 font-black">{second.pts} điểm</strong>
                 </div>
                 <div className="flex justify-between items-center text-[11px] text-[#61605B]">
-                  <span>Hiệu số: <strong className="text-[#16422B]">{second.gd > 0 ? `+${second.gd}` : second.gd}</strong></span>
-                  <span>Thắng: <strong className="text-[#16422B]">{second.won}</strong>/{second.played}</span>
+                  <span>Hiệu số: <strong className="text-[#16422B] font-bold">{second.gd > 0 ? `+${second.gd}` : second.gd}</strong></span>
+                  <span>Thắng: <strong className="text-[#16422B] font-bold">{second.won}</strong>/{second.played}</span>
                 </div>
               </div>
             </div>
@@ -133,17 +133,17 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 3. THIRD PLACE */}
-          <div className="bg-white border-2 border-[#141413] p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-orange-500/10 via-white to-orange-500/[0.03] border-2 border-orange-500 ring-1 ring-orange-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
-              <div className="bg-[#B45309] text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
+              <div className="bg-gradient-to-r from-orange-500 to-amber-600 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 ĐỒNG
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between border-b border-[#141413] pb-2.5 mb-3">
-                <span className="px-2 py-0.5 bg-[#B45309] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
-                  <Medal className="w-3.5 h-3.5 text-amber-200" />
+              <div className="flex items-center justify-between border-b border-orange-300 pb-2.5 mb-3">
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 via-amber-600 to-orange-700 text-white font-mono text-xs font-bold uppercase flex items-center gap-1.5 shadow-xs border border-orange-700/40">
+                  <Award className="w-3.5 h-3.5 text-amber-200 fill-amber-300" />
                   <span>HẠNG 3 • GIẢI BA</span>
                 </span>
               </div>
@@ -158,14 +158,14 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
                 </h3>
               </div>
 
-              <div className="bg-[#F6F5F0] border border-[#141413] p-2.5 mb-3 font-mono text-xs">
+              <div className="bg-gradient-to-br from-orange-50/70 to-amber-50/50 border border-orange-300 p-2.5 mb-3 font-mono text-xs">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[#61605B]">Điểm số:</span>
-                  <strong className="text-base text-[#141413] font-black">{third.pts} điểm</strong>
+                  <strong className="text-base text-orange-950 font-black">{third.pts} điểm</strong>
                 </div>
                 <div className="flex justify-between items-center text-[11px] text-[#61605B]">
-                  <span>Hiệu số: <strong className="text-[#16422B]">{third.gd > 0 ? `+${third.gd}` : third.gd}</strong></span>
-                  <span>Thắng: <strong className="text-[#16422B]">{third.won}</strong>/{third.played}</span>
+                  <span>Hiệu số: <strong className="text-[#16422B] font-bold">{third.gd > 0 ? `+${third.gd}` : third.gd}</strong></span>
+                  <span>Thắng: <strong className="text-[#16422B] font-bold">{third.won}</strong>/{third.played}</span>
                 </div>
               </div>
             </div>
@@ -177,17 +177,17 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
 
           {/* 4. FAIR PLAY */}
-          <div className="bg-white border-2 border-[#141413] p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-b from-emerald-500/10 via-white to-emerald-500/[0.03] border-2 border-emerald-600 ring-1 ring-emerald-300/40 p-5 hard-shadow flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none overflow-hidden">
-              <div className="bg-[#16422B] text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-[9px] font-mono font-bold uppercase text-center py-1 absolute top-3 right-[-32px] w-28 rotate-45 shadow-sm">
                 CỜ GIẢI
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between border-b border-[#141413] pb-2.5 mb-3">
-                <span className="px-2 py-0.5 bg-[#16422B] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
+              <div className="flex items-center justify-between border-b border-emerald-300 pb-2.5 mb-3">
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-mono text-xs font-bold uppercase flex items-center gap-1.5 shadow-xs border border-emerald-800/40">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-200" />
                   <span>HẠNG 4 • PHONG CÁCH</span>
                 </span>
               </div>
@@ -202,14 +202,14 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
                 </h3>
               </div>
 
-              <div className="bg-[#E8F0EB]/60 border border-[#141413] p-2.5 mb-3 font-mono text-xs">
+              <div className="bg-gradient-to-br from-emerald-50/80 to-teal-50/40 border border-emerald-300 p-2.5 mb-3 font-mono text-xs">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[#61605B]">Điểm số:</span>
-                  <strong className="text-base text-[#141413] font-black">{fourth.pts} điểm</strong>
+                  <strong className="text-base text-[#16422B] font-black">{fourth.pts} điểm</strong>
                 </div>
                 <div className="flex justify-between items-center text-[11px] text-[#61605B]">
-                  <span>Hiệu số: <strong className="text-[#16422B]">{fourth.gd > 0 ? `+${fourth.gd}` : fourth.gd}</strong></span>
-                  <span>Thắng: <strong className="text-[#16422B]">{fourth.won}</strong>/{fourth.played}</span>
+                  <span>Hiệu số: <strong className="text-[#16422B] font-bold">{fourth.gd > 0 ? `+${fourth.gd}` : fourth.gd}</strong></span>
+                  <span>Thắng: <strong className="text-[#16422B] font-bold">{fourth.won}</strong>/{fourth.played}</span>
                 </div>
               </div>
             </div>

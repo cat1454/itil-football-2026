@@ -27,10 +27,10 @@ export default function Navbar() {
   };
 
   const navLinks = [
+    { href: '#club-intro-section', label: 'Giới Thiệu CLB', icon: Shield },
     { href: '#standings-section', label: 'Bảng Xếp Hạng', icon: Trophy },
     { href: '#schedule-section', label: 'Lịch Đấu', icon: CalendarDays },
     { href: '#podium-section', label: 'Vinh Danh', icon: Trophy },
-    { href: '#club-intro-section', label: 'Về CLB', icon: Shield },
     { href: '#squads-section', label: '4 Đội Bóng', icon: Users },
   ];
 
@@ -135,6 +135,13 @@ export default function Navbar() {
       {/* Floating Mobile Bottom Navigation Bar (Hidden on desktop, sticky on mobile) */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-[#141413] px-2 py-1.5 flex items-center justify-around font-mono text-[10px] hard-shadow select-none">
         <a
+          href="#club-intro-section"
+          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
+        >
+          <Shield className="w-4 h-4 text-[#16422B]" />
+          <span>Về CLB</span>
+        </a>
+        <a
           href="#standings-section"
           className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
         >
@@ -154,13 +161,6 @@ export default function Navbar() {
         >
           <Trophy className="w-4 h-4 text-[#D97706]" />
           <span>Vinh Danh</span>
-        </a>
-        <a
-          href="#club-intro-section"
-          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
-        >
-          <Shield className="w-4 h-4 text-[#16422B]" />
-          <span>Về CLB</span>
         </a>
         <a
           href="#squads-section"

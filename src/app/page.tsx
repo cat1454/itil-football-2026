@@ -171,7 +171,10 @@ export default function HomePage() {
         {/* 2. Hero Section */}
         <HeroSection />
 
-        {/* 3. Standings Table & 4x4 Cross Matrix */}
+        {/* 3. Club Introduction & Season 1 Milestone (At Top of Page) */}
+        <ClubIntroSection />
+
+        {/* 4. Standings Table & 4x4 Cross Matrix */}
         <section id="standings-section" className="py-12 sm:py-16 border-b border-[#141413]">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -217,20 +220,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. Match Schedule 3 Rounds & Official Scores */}
+        {/* 5. Match Schedule 3 Rounds & Official Scores */}
         <ScheduleSection
           teams={teams}
           matches={matches}
         />
 
         <div className="cv-auto">
-          {/* 5. Podium & Awards Showcase */}
+          {/* 6. Podium & Awards Showcase */}
           <PodiumSection standings={standings} />
-        </div>
-
-        <div className="cv-auto">
-          {/* 6. Club Introduction & Season 1 Milestone */}
-          <ClubIntroSection />
         </div>
 
         <div className="cv-auto">
