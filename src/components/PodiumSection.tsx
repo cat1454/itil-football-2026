@@ -17,16 +17,16 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
   const fourth = standings[3];
 
   return (
-    <section id="podium-section" className="py-12 sm:py-16 border-b border-[#141413] bg-[#EAE8E0]/40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="podium-section" className="py-10 sm:py-16 border-b border-[#141413] bg-[#EAE8E0]/40">
+      <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
               <Trophy className="w-4 h-4 text-[#D97706]" />
               <span>CƠ CẤU GIẢI THƯỞNG &amp; BẢNG VINH DANH CHUNG CUỘC</span>
             </div>
-            <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
+            <h2 className="font-extrabold text-[clamp(1.5rem,5.5vw,2.5rem)] uppercase tracking-tight leading-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
               BỤC TRAO GIẢI ITIL 2026
             </h2>
             <p className="text-sm text-[#61605B] mt-1 max-w-2xl">

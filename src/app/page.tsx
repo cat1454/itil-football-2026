@@ -175,15 +175,15 @@ export default function HomePage() {
         <ClubIntroSection />
 
         {/* 4. Standings Table & 4x4 Cross Matrix */}
-        <section id="standings-section" className="py-12 sm:py-16 border-b border-[#141413]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <section id="standings-section" className="py-10 sm:py-16 border-b border-[#141413]">
+          <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
               <div>
                 <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
                   <Trophy className="w-4 h-4 text-[#16422B]" />
                   <span>BẢNG XẾP HẠNG &amp; MA TRẬN ĐỐI ĐẦU</span>
                 </div>
-                <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                <h2 className="font-extrabold text-[clamp(1.5rem,5.5vw,2.5rem)] uppercase tracking-tight leading-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   CỤC DIỆN VÒNG TRÒN 4 ĐỘI
                 </h2>
               </div>
@@ -239,7 +239,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-[#141413] bg-white/90 backdrop-blur-md py-8 pb-24 sm:pb-8 relative z-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
+        <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2.5">
             <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold">
               ITIL MÙA 1 (2026)

@@ -5,16 +5,16 @@ import { Shield, Trophy, Users, HeartHandshake, Zap, Target, Sparkles, Calendar 
 
 export default function ClubIntroSection() {
   return (
-    <section id="club-intro-section" className="py-12 sm:py-16 border-b border-[#141413] bg-white/70 backdrop-blur-xs">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="club-intro-section" className="py-10 sm:py-16 border-b border-[#141413] bg-white/70 backdrop-blur-xs">
+      <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-[#16422B]" />
               <span>GIỚI THIỆU CÂU LẠC BỘ &amp; CỘT MỐC MÙA 1 (2026)</span>
             </div>
-            <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
+            <h2 className="font-extrabold text-[clamp(1.5rem,5.5vw,2.5rem)] uppercase tracking-tight leading-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
               CLB BÓNG ĐÁ LIÊN CHI ĐOÀN CNTT
             </h2>
             <p className="text-sm text-[#61605B] mt-1 max-w-2xl leading-relaxed">
@@ -57,18 +57,18 @@ export default function ClubIntroSection() {
               </p>
             </div>
 
-            <div className="mt-5 pt-4 border-t border-[#141413]/20 grid grid-cols-3 gap-2 text-center font-mono text-xs">
-              <div className="p-2 bg-white border border-[#141413]">
-                <div className="font-black text-lg text-[#16422B]">MÙA 1</div>
-                <div className="text-[10px] text-[#61605B] uppercase">Cột mốc 2026</div>
+            <div className="mt-5 pt-4 border-t border-[#141413]/20 grid grid-cols-3 gap-1.5 sm:gap-2 text-center font-mono text-xs">
+              <div className="p-1.5 sm:p-2 bg-white border border-[#141413]">
+                <div className="font-black text-[clamp(0.95rem,4vw,1.25rem)] text-[#16422B]">MÙA 1</div>
+                <div className="text-[9px] sm:text-[10px] text-[#61605B] uppercase font-semibold">Cột mốc 2026</div>
               </div>
-              <div className="p-2 bg-white border border-[#141413]">
-                <div className="font-black text-lg text-[#D9381E]">24</div>
-                <div className="text-[10px] text-[#61605B] uppercase">Cầu thủ tranh tài</div>
+              <div className="p-1.5 sm:p-2 bg-white border border-[#141413]">
+                <div className="font-black text-[clamp(0.95rem,4vw,1.25rem)] text-[#D9381E]">24</div>
+                <div className="text-[9px] sm:text-[10px] text-[#61605B] uppercase font-semibold">Cầu thủ</div>
               </div>
-              <div className="p-2 bg-white border border-[#141413]">
-                <div className="font-black text-lg text-[#D97706]">01 CÚP</div>
-                <div className="text-[10px] text-[#61605B] uppercase">Vô Địch Cúp Vàng</div>
+              <div className="p-1.5 sm:p-2 bg-white border border-[#141413]">
+                <div className="font-black text-[clamp(0.95rem,4vw,1.25rem)] text-[#D97706]">01 CÚP</div>
+                <div className="text-[9px] sm:text-[10px] text-[#61605B] uppercase font-semibold">Vô Địch</div>
               </div>
             </div>
           </div>

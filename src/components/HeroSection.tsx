@@ -5,37 +5,37 @@ import { Sparkles, Calendar, Shield, Users } from 'lucide-react';
 
 export default function HeroSection() {
   return (
-    <section id="top" className="border-b border-[#141413] py-10 sm:py-14 bg-white/50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="top" className="border-b border-[#141413] py-8 sm:py-14 bg-white/50">
+      <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Top Issue Meta Strip */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-[#141413] text-xs font-mono text-[#61605B]">
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 bg-[#D9381E] text-white font-bold uppercase shadow-xs">
+        <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pb-3.5 mb-5 border-b border-[#141413] text-xs font-mono text-[#61605B]">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="px-2 py-0.5 bg-[#D9381E] text-white font-bold uppercase shadow-xs shrink-0 text-[10.5px] sm:text-xs">
               MÙA 1 • NĂM 2026
             </span>
-            <span className="font-semibold text-[#141413]">
-              GIẢI ĐẤU MÙA ĐẦU TIÊN • 4 ĐỘI BÓNG • 3 VÒNG ĐẤU • 6 TRẬN
+            <span className="font-semibold text-[#141413] text-[10.5px] sm:text-xs">
+              GIẢI ĐẤU ĐẦU TIÊN • 4 ĐỘI • 3 VÒNG • 6 TRẬN
             </span>
           </div>
-          <div className="font-bold text-[#141413]">
-            SÂN BÓNG ĐÁ MINI • 07/11, 08/11 &amp; 14/11/2026
+          <div className="font-bold text-[#141413] text-[10.5px] sm:text-xs">
+            SÂN BÓNG MINI • 07/11, 08/11 &amp; 14/11/2026
           </div>
         </div>
 
         {/* Main Hero Grid */}
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#16422B] text-white font-mono text-xs font-bold uppercase tracking-wider">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+          <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#16422B] text-white font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider">
               <span>🏆 GIẢI BÓNG ĐÁ ITIL — MÙA 1 (2026)</span>
             </div>
             <h1
-              className="font-extrabold text-5xl sm:text-7xl uppercase tracking-tight leading-[0.95] text-[#141413]"
+              className="font-extrabold uppercase tracking-tight text-[#141413] text-[clamp(1.6rem,7vw,4.5rem)] leading-[1.05]"
               style={{ fontFamily: 'Oswald, sans-serif' }}
             >
-              GIẢI BÓNG ĐÁ NỘI BỘ <br />
-              <span className="text-[#16422B]">LIÊN CHI ĐOÀN CNTT</span>
+              <span className="block whitespace-nowrap">GIẢI BÓNG ĐÁ NỘI BỘ</span>
+              <span className="block text-[#16422B] whitespace-nowrap">LIÊN CHI ĐOÀN CNTT</span>
             </h1>
-            <p className="text-base sm:text-lg text-[#61605B] max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-lg text-[#61605B] max-w-2xl leading-relaxed">
               Mùa giải đầu tiên — <strong className="text-[#141413]">4 đội bóng</strong> đại diện cho các khóa và Ban Chấp Hành thi đấu <strong className="text-[#141413]">vòng tròn một lượt (Round-Robin)</strong>. Mỗi đội gặp nhau đúng 1 lần qua 3 lượt trận (ngày 07/11, 08/11 và 14/11/2026) để tìm ra nhà Vô Địch Mùa 1 xứng đáng nhất.
             </p>
           </div>

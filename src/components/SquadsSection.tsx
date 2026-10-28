@@ -11,16 +11,16 @@ interface SquadsSectionProps {
 
 export default function SquadsSection({ teams }: SquadsSectionProps) {
   return (
-    <section id="squads-section" className="py-12 sm:py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="squads-section" className="py-10 sm:py-16">
+      <div className="w-full max-w-6xl mx-auto px-[4%] sm:px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
               <Users className="w-4 h-4" />
               <span>HỒ SƠ 4 ĐỘI BÓNG &amp; ĐIỀU LỆ GIẢI</span>
             </div>
-            <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
+            <h2 className="font-extrabold text-[clamp(1.5rem,5.5vw,2.5rem)] uppercase tracking-tight leading-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
               4 ĐỘI HÌNH THAM DỰ ITIL 2026
             </h2>
           </div>
