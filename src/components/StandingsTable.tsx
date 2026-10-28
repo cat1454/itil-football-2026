@@ -75,17 +75,8 @@ export default function StandingsTable({
             </div>
 
             <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] text-[#16422B] font-semibold">
-              {tournamentMode === 'final' ? (
-                <>
-                  <Trophy className="w-3.5 h-3.5 text-[#D97706]" />
-                  <span>Top 2 đội vào Chung Kết</span>
-                </>
-              ) : (
-                <>
-                  <Award className="w-3.5 h-3.5 text-[#D9381E]" />
-                  <span>Đội Hạng 1 vô địch trực tiếp</span>
-                </>
-              )}
+              <Trophy className="w-3.5 h-3.5 text-[#D97706]" />
+              <span>Đội Hạng 1 đoạt Cúp Vô Địch</span>
             </span>
           </div>
         </div>
@@ -129,9 +120,28 @@ export default function StandingsTable({
                         style={{ backgroundColor: s.kitColor }}
                       />
                       <div>
-                        <div className="font-bold text-sm text-[#141413] flex items-center gap-1">
+                        <div className="font-bold text-sm text-[#141413] flex items-center gap-1.5">
                           <span>{s.name}</span>
-                          {rank === 1 && <Award className="w-3.5 h-3.5 text-amber-600 inline" />}
+                          {rank === 1 && (
+                            <span className="px-1.5 py-0.2 bg-[#D97706] text-white text-[9px] font-mono font-bold rounded-xs">
+                              🏆 VÔ ĐỊCH
+                            </span>
+                          )}
+                          {rank === 2 && (
+                            <span className="px-1.5 py-0.2 bg-[#64748B] text-white text-[9px] font-mono font-bold rounded-xs">
+                              🥈 Á QUÂN
+                            </span>
+                          )}
+                          {rank === 3 && (
+                            <span className="px-1.5 py-0.2 bg-[#B45309] text-white text-[9px] font-mono font-bold rounded-xs">
+                              🥉 GIẢI BA
+                            </span>
+                          )}
+                          {rank === 4 && (
+                            <span className="px-1.5 py-0.2 bg-[#16422B] text-white text-[9px] font-mono font-bold rounded-xs">
+                              🕊️ PHONG CÁCH
+                            </span>
+                          )}
                         </div>
                         <span className="font-mono text-[10px] text-[#61605B]">({s.code})</span>
                       </div>
@@ -246,7 +256,26 @@ export default function StandingsTable({
                           <div>
                             <div className="font-bold text-[#141413] leading-tight flex items-center gap-1.5">
                               <span>{s.name}</span>
-                              {rank === 1 && <Award className="w-3.5 h-3.5 text-amber-600 inline" />}
+                              {rank === 1 && (
+                                <span className="px-1.5 py-0.2 bg-[#D97706] text-white text-[9px] font-mono font-bold rounded-xs">
+                                  🏆 VÔ ĐỊCH
+                                </span>
+                              )}
+                              {rank === 2 && (
+                                <span className="px-1.5 py-0.2 bg-[#64748B] text-white text-[9px] font-mono font-bold rounded-xs">
+                                  🥈 Á QUÂN
+                                </span>
+                              )}
+                              {rank === 3 && (
+                                <span className="px-1.5 py-0.2 bg-[#B45309] text-white text-[9px] font-mono font-bold rounded-xs">
+                                  🥉 GIẢI BA
+                                </span>
+                              )}
+                              {rank === 4 && (
+                                <span className="px-1.5 py-0.2 bg-[#16422B] text-white text-[9px] font-mono font-bold rounded-xs">
+                                  🕊️ PHONG CÁCH
+                                </span>
+                              )}
                             </div>
                             <div className="font-mono text-[10px] text-[#61605B]">
                               {s.code} • ĐT: {s.captain}
@@ -309,6 +338,16 @@ export default function StandingsTable({
             </tbody>
           </table>
         </div>
+
+        {/* Official Tiebreaker Criteria Bar */}
+        <div className="bg-[#EAE8E0] border-t border-[#141413] px-3 sm:px-4 py-2 font-mono text-[10px] sm:text-[11px] text-[#141413] flex flex-wrap items-center justify-between gap-1">
+          <span className="font-bold text-[#16422B] flex items-center gap-1 shrink-0">
+            <span>⚖️ LUẬT BẰNG ĐIỂM:</span>
+          </span>
+          <span className="text-[#61605B]">
+            1. Điểm số (3-1-0) &rarr; 2. Hiệu số toàn giải (BT - BB) &rarr; 3. Tổng bàn thắng (BT) &rarr; 4. Đối đầu trực tiếp
+          </span>
+        </div>
       </div>
 
       {/* Summary Footer */}
@@ -318,15 +357,17 @@ export default function StandingsTable({
           <span className="text-[#61605B] hidden sm:inline">•</span>
           <span className="hidden sm:inline text-[#61605B]">Thắng: <strong className="text-[#16422B]">3đ</strong> | Hòa: <strong className="text-[#141413]">1đ</strong> | Thua: <strong className="text-[#D9381E]">0đ</strong></span>
         </div>
-        {tournamentMode === 'final' ? (
-          <span className="truncate">
-            Chung Kết: <strong className="text-[#16422B]">{standings[0]?.name}</strong> vs <strong className="text-[#16422B]">{standings[1]?.name}</strong>
-          </span>
-        ) : (
-          <span className="truncate">
-            Ứng viên Vô Địch (#1): <strong className="text-[#D9381E]">{standings[0]?.name} ({standings[0]?.pts}đ)</strong>
-          </span>
-        )}
+        <span className="truncate">
+          {playedCount === 6 ? (
+            <span className="text-[#16422B] font-bold">
+              🏆 CHÚC MỪNG NHÀ VÔ ĐỊCH: <strong className="underline">{standings[0]?.name}</strong> ({standings[0]?.pts}đ, HS {standings[0]?.gd > 0 ? `+${standings[0]?.gd}` : standings[0]?.gd})
+            </span>
+          ) : (
+            <span>
+              Đang dẫn đầu (#1): <strong className="text-[#16422B]">{standings[0]?.name}</strong> ({standings[0]?.pts}đ)
+            </span>
+          )}
+        </span>
       </div>
     </div>
   );

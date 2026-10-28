@@ -40,7 +40,7 @@ export default function AdminPage() {
   // Core Tournament Data
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
   const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
-  const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('final');
+  const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('direct');
 
   // Finals & Awards Data
   const [finalScore, setFinalScore] = useState({ home: 0, away: 0, homePen: 0, awayPen: 0, played: false });
@@ -643,11 +643,11 @@ export default function AdminPage() {
             </div>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="font-extrabold text-lg uppercase text-[#16422B]" style={{ fontFamily: 'Oswald, sans-serif' }}>
-                {tournamentMode === 'final' ? 'Top 2 Đá Chung Kết' : 'Tính Điểm Vô Địch'}
+                Đấu 3 Trận Tính Điểm
               </span>
             </div>
             <div className="font-mono text-[11px] text-[#61605B] mt-2">
-              Round-Robin 3 Vòng
+              Điểm cao nhất Vô Địch Cúp Vàng
             </div>
           </div>
         </div>
@@ -657,7 +657,7 @@ export default function AdminPage() {
           {[
             { id: 'matches', label: 'QUẢN LÝ 6 TRẬN ĐẤU & TỈ SỐ', icon: Calendar },
             { id: 'teams', label: 'QUẢN LÝ 4 ĐỘI BÓNG & CẦU THỦ', icon: Users },
-            { id: 'finals', label: 'CHUNG KẾT & DANH HIỆU', icon: Trophy },
+            { id: 'finals', label: 'BẢNG VINH DANH & GIẢI THƯỞNG', icon: Trophy },
             { id: 'settings', label: 'DỮ LIỆU & CÀI ĐẶT SAO LƯU', icon: Settings },
           ].map(tab => {
             const Icon = tab.icon;
@@ -1054,12 +1054,12 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 3: FINALS & AWARDS */}
+        {/* TAB 3: PODIUM & AWARDS */}
         {activeTab === 'finals' && (
           <div className="space-y-6">
             <div className="bg-white border border-[#141413] p-4 hard-shadow flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
-              <div>
-                Nhập tỉ số Trận Chung Kết (Hạng 1 vs Hạng 2), Trận Tranh Hạng Ba (Hạng 3 vs Hạng 4) và Danh hiệu cá nhân.
+              <div className="max-w-3xl">
+                Thể thức: <strong>Đấu 3 trận vòng tròn — Đội cao điểm nhất Vô Địch Cúp Vàng</strong>. Xếp hạng 4 thứ hạng tự động theo <strong>Luật bóng đá chính thống</strong> (Điểm số ➔ Hiệu số ➔ Tổng bàn thắng ➔ Đối đầu trực tiếp).
               </div>
               <button
                 onClick={() => saveAllToStorage()}
@@ -1070,151 +1070,141 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Grand Final Box */}
-              <div className="bg-white border-2 border-[#141413] p-5 hard-shadow space-y-4">
-                <div className="flex items-center justify-between border-b border-[#141413] pb-3">
-                  <div className="flex items-center gap-1.5">
-                    <Trophy className="w-5 h-5 text-[#D97706]" />
-                    <h3 className="font-extrabold text-xl uppercase text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
-                      TRẬN CHUNG KẾT TRANH CÚP VÀNG
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setFinalScore(prev => ({ ...prev, played: !prev.played }))}
-                    className={`px-2.5 py-1 border border-[#141413] font-mono text-xs font-bold cursor-pointer ${
-                      finalScore.played ? 'bg-[#16422B] text-white' : 'bg-[#F6F5F0]'
-                    }`}
-                  >
-                    {finalScore.played ? (
-                      <span className="inline-flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-300" />
-                        <span>ĐÃ ĐÁ XONG</span>
-                      </span>
-                    ) : (
-                      'CHƯA ĐÁ'
-                    )}
-                  </button>
+            {/* Live 4-Place Podium Ranking */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* 1. Champion */}
+              <div className="bg-white border-2 border-[#141413] p-4 hard-shadow relative">
+                <div className="flex items-center justify-between border-b border-[#141413] pb-2 mb-2.5">
+                  <span className="px-2 py-0.5 bg-[#D9381E] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
+                    <Trophy className="w-3.5 h-3.5 text-amber-300" />
+                    <span>HẠNG 1 • VÔ ĐỊCH</span>
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#D97706]">CÚP VÀNG</span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 font-mono">
-                  <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1 truncate">
-                      HẠNG 1: {adminStandings[0]?.name || 'Đội 1'} ({adminStandings[0]?.pts}đ)
-                    </div>
-                    <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={finalScore.home}
-                      onChange={e => setFinalScore(prev => ({ ...prev, home: parseInt(e.target.value) || 0, played: true }))}
-                      className="w-16 h-10 bg-white border border-[#141413] text-center font-bold text-xl mb-2"
-                    />
-                    <label className="text-xs text-[#61605B] block mb-1">Penalty (nếu có):</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={finalScore.homePen}
-                      onChange={e => setFinalScore(prev => ({ ...prev, homePen: parseInt(e.target.value) || 0 }))}
-                      className="w-16 h-8 bg-white border border-[#141413] text-center font-bold text-sm"
-                    />
+                <div className="font-extrabold text-xl uppercase text-[#141413] truncate mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  {adminStandings[0]?.name || 'Đang cập nhật'}
+                </div>
+                <div className="bg-[#FEF9C3] border border-[#141413] p-2 font-mono text-xs space-y-1 mb-2">
+                  <div className="flex justify-between">
+                    <span className="text-[#61605B]">Điểm số:</span>
+                    <strong className="text-[#141413]">{adminStandings[0]?.pts}đ</strong>
                   </div>
-
-                  <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1 truncate">
-                      HẠNG 2: {adminStandings[1]?.name || 'Đội 2'} ({adminStandings[1]?.pts}đ)
-                    </div>
-                    <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={finalScore.away}
-                      onChange={e => setFinalScore(prev => ({ ...prev, away: parseInt(e.target.value) || 0, played: true }))}
-                      className="w-16 h-10 bg-white border border-[#141413] text-center font-bold text-xl mb-2"
-                    />
-                    <label className="text-xs text-[#61605B] block mb-1">Penalty (nếu có):</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={finalScore.awayPen}
-                      onChange={e => setFinalScore(prev => ({ ...prev, awayPen: parseInt(e.target.value) || 0 }))}
-                      className="w-16 h-8 bg-white border border-[#141413] text-center font-bold text-sm"
-                    />
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">Hiệu số:</span>
+                    <strong className="text-[#16422B]">{adminStandings[0]?.gd > 0 ? `+${adminStandings[0]?.gd}` : adminStandings[0]?.gd}</strong>
                   </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">BT - BB:</span>
+                    <strong className="text-[#141413]">{adminStandings[0]?.gf} - {adminStandings[0]?.ga}</strong>
+                  </div>
+                </div>
+                <div className="font-mono text-xs text-[#61605B] truncate">
+                  ĐT: <strong className="text-[#141413]">{adminStandings[0]?.captain}</strong>
                 </div>
               </div>
 
-              {/* Third Place Box */}
-              <div className="bg-white border-2 border-[#141413] p-5 hard-shadow space-y-4">
-                <div className="flex items-center justify-between border-b border-[#141413] pb-3">
-                  <div className="flex items-center gap-1.5">
-                    <Medal className="w-5 h-5 text-[#16422B]" />
-                    <h3 className="font-extrabold text-xl uppercase text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
-                      TRẬN TRANH HẠNG BA
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setThirdScore(prev => ({ ...prev, played: !prev.played }))}
-                    className={`px-2.5 py-1 border border-[#141413] font-mono text-xs font-bold cursor-pointer ${
-                      thirdScore.played ? 'bg-[#16422B] text-white' : 'bg-[#F6F5F0]'
-                    }`}
-                  >
-                    {thirdScore.played ? (
-                      <span className="inline-flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-300" />
-                        <span>ĐÃ ĐÁ XONG</span>
-                      </span>
-                    ) : (
-                      'CHƯA ĐÁ'
-                    )}
-                  </button>
+              {/* 2. Runner-up */}
+              <div className="bg-white border-2 border-[#141413] p-4 hard-shadow relative">
+                <div className="flex items-center justify-between border-b border-[#141413] pb-2 mb-2.5">
+                  <span className="px-2 py-0.5 bg-[#475569] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
+                    <Medal className="w-3.5 h-3.5 text-slate-200" />
+                    <span>HẠNG 2 • Á QUÂN</span>
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#64748B]">BẠC</span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 font-mono">
-                  <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1 truncate">
-                      HẠNG 3: {adminStandings[2]?.name || 'Đội 3'} ({adminStandings[2]?.pts}đ)
-                    </div>
-                    <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={thirdScore.home}
-                      onChange={e => setThirdScore(prev => ({ ...prev, home: parseInt(e.target.value) || 0, played: true }))}
-                      className="w-16 h-10 bg-white border border-[#141413] text-center font-bold text-xl mb-2"
-                    />
-                    <label className="text-xs text-[#61605B] block mb-1">Penalty (nếu có):</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={thirdScore.homePen}
-                      onChange={e => setThirdScore(prev => ({ ...prev, homePen: parseInt(e.target.value) || 0 }))}
-                      className="w-16 h-8 bg-white border border-[#141413] text-center font-bold text-sm"
-                    />
+                <div className="font-extrabold text-xl uppercase text-[#141413] truncate mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  {adminStandings[1]?.name || 'Đang cập nhật'}
+                </div>
+                <div className="bg-[#F1F5F9] border border-[#141413] p-2 font-mono text-xs space-y-1 mb-2">
+                  <div className="flex justify-between">
+                    <span className="text-[#61605B]">Điểm số:</span>
+                    <strong className="text-[#141413]">{adminStandings[1]?.pts}đ</strong>
                   </div>
-
-                  <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1 truncate">
-                      HẠNG 4: {adminStandings[3]?.name || 'Đội 4'} ({adminStandings[3]?.pts}đ)
-                    </div>
-                    <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={thirdScore.away}
-                      onChange={e => setThirdScore(prev => ({ ...prev, away: parseInt(e.target.value) || 0, played: true }))}
-                      className="w-16 h-10 bg-white border border-[#141413] text-center font-bold text-xl mb-2"
-                    />
-                    <label className="text-xs text-[#61605B] block mb-1">Penalty (nếu có):</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={thirdScore.awayPen}
-                      onChange={e => setThirdScore(prev => ({ ...prev, awayPen: parseInt(e.target.value) || 0 }))}
-                      className="w-16 h-8 bg-white border border-[#141413] text-center font-bold text-sm"
-                    />
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">Hiệu số:</span>
+                    <strong className="text-[#16422B]">{adminStandings[1]?.gd > 0 ? `+${adminStandings[1]?.gd}` : adminStandings[1]?.gd}</strong>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">BT - BB:</span>
+                    <strong className="text-[#141413]">{adminStandings[1]?.gf} - {adminStandings[1]?.ga}</strong>
                   </div>
                 </div>
+                <div className="font-mono text-xs text-[#61605B] truncate">
+                  ĐT: <strong className="text-[#141413]">{adminStandings[1]?.captain}</strong>
+                </div>
+              </div>
+
+              {/* 3. Third Place */}
+              <div className="bg-white border-2 border-[#141413] p-4 hard-shadow relative">
+                <div className="flex items-center justify-between border-b border-[#141413] pb-2 mb-2.5">
+                  <span className="px-2 py-0.5 bg-[#B45309] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
+                    <Medal className="w-3.5 h-3.5 text-amber-200" />
+                    <span>HẠNG 3 • GIẢI BA</span>
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#B45309]">ĐỒNG</span>
+                </div>
+                <div className="font-extrabold text-xl uppercase text-[#141413] truncate mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  {adminStandings[2]?.name || 'Đang cập nhật'}
+                </div>
+                <div className="bg-[#FFFBEB] border border-[#141413] p-2 font-mono text-xs space-y-1 mb-2">
+                  <div className="flex justify-between">
+                    <span className="text-[#61605B]">Điểm số:</span>
+                    <strong className="text-[#141413]">{adminStandings[2]?.pts}đ</strong>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">Hiệu số:</span>
+                    <strong className="text-[#16422B]">{adminStandings[2]?.gd > 0 ? `+${adminStandings[2]?.gd}` : adminStandings[2]?.gd}</strong>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">BT - BB:</span>
+                    <strong className="text-[#141413]">{adminStandings[2]?.gf} - {adminStandings[2]?.ga}</strong>
+                  </div>
+                </div>
+                <div className="font-mono text-xs text-[#61605B] truncate">
+                  ĐT: <strong className="text-[#141413]">{adminStandings[2]?.captain}</strong>
+                </div>
+              </div>
+
+              {/* 4. Fair Play */}
+              <div className="bg-white border-2 border-[#141413] p-4 hard-shadow relative">
+                <div className="flex items-center justify-between border-b border-[#141413] pb-2 mb-2.5">
+                  <span className="px-2 py-0.5 bg-[#16422B] text-white font-mono text-xs font-bold uppercase flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
+                    <span>HẠNG 4 • PHONG CÁCH</span>
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#16422B]">CỜ GIẢI</span>
+                </div>
+                <div className="font-extrabold text-xl uppercase text-[#141413] truncate mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  {adminStandings[3]?.name || 'Đang cập nhật'}
+                </div>
+                <div className="bg-[#E8F0EB]/70 border border-[#141413] p-2 font-mono text-xs space-y-1 mb-2">
+                  <div className="flex justify-between">
+                    <span className="text-[#61605B]">Điểm số:</span>
+                    <strong className="text-[#141413]">{adminStandings[3]?.pts}đ</strong>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">Hiệu số:</span>
+                    <strong className="text-[#16422B]">{adminStandings[3]?.gd > 0 ? `+${adminStandings[3]?.gd}` : adminStandings[3]?.gd}</strong>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-[#61605B]">BT - BB:</span>
+                    <strong className="text-[#141413]">{adminStandings[3]?.gf} - {adminStandings[3]?.ga}</strong>
+                  </div>
+                </div>
+                <div className="font-mono text-xs text-[#61605B] truncate">
+                  ĐT: <strong className="text-[#141413]">{adminStandings[3]?.captain}</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* Tie-breaker Rules Info Bar */}
+            <div className="bg-[#EAE8E0] border border-[#141413] p-3 font-mono text-xs">
+              <div className="font-bold text-[#16422B] mb-1">⚖️ ĐIỀU LỆ XẾP HẠNG CHÍNH THỐNG KHI BẰNG ĐIỂM:</div>
+              <div className="text-[#61605B] grid sm:grid-cols-4 gap-2 text-[11px]">
+                <div>1. Tổng điểm (Thắng 3, Hòa 1, Thua 0)</div>
+                <div>2. Hiệu số bàn thắng/bại toàn giải (BT - BB)</div>
+                <div>3. Tổng số bàn thắng ghi được (BT)</div>
+                <div>4. Đối đầu trực tiếp giữa 2 đội</div>
               </div>
             </div>
 

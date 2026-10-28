@@ -29,7 +29,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '#standings-section', label: 'Bảng Xếp Hạng & Ma Trận', icon: Trophy },
     { href: '#schedule-section', label: 'Lịch 3 Vòng (6 Trận)', icon: CalendarDays },
-    { href: '#finals-section', label: 'Ngày Chung Kết', icon: Award },
+    { href: '#podium-section', label: 'Bục Trao Giải & Vinh Danh', icon: Trophy },
     { href: '#squads-section', label: '4 Đội Tham Dự', icon: Users },
   ];
 
@@ -170,11 +170,11 @@ export default function Navbar() {
           <span>Lịch 6 Trận</span>
         </a>
         <a
-          href="#finals-section"
+          href="#podium-section"
           className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
         >
-          <Award className="w-4 h-4 text-[#D97706]" />
-          <span>Chung Kết</span>
+          <Trophy className="w-4 h-4 text-[#D97706]" />
+          <span>Vinh Danh</span>
         </a>
         <a
           href="#squads-section"

@@ -149,7 +149,7 @@
       "played": false
     }
   ],
-  "tournamentMode": "final",
+  "tournamentMode": "direct",
   "finals": {
     "final": {
       "home": 0,

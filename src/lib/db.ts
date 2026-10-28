@@ -22,7 +22,7 @@ const DB_FILE = path.join(DB_DIR, 'tournament_db.json');
 const DEFAULT_DATA: TournamentData = {
   teams: INITIAL_TEAMS,
   matches: INITIAL_MATCHES,
-  tournamentMode: 'final',
+  tournamentMode: 'direct',
   finals: {
     final: { home: 0, away: 0, homePen: 0, awayPen: 0, played: false },
     third: { home: 0, away: 0, homePen: 0, awayPen: 0, played: false },

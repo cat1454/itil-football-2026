@@ -10,13 +10,13 @@ import HeroSection from '@/components/HeroSection';
 import StandingsTable from '@/components/StandingsTable';
 import CrossMatrix from '@/components/CrossMatrix';
 import ScheduleSection from '@/components/ScheduleSection';
-import FinalsBracket from '@/components/FinalsBracket';
+import PodiumSection from '@/components/PodiumSection';
 import SquadsSection from '@/components/SquadsSection';
 
 export default function HomePage() {
   const [teams, setTeams] = useState<Team[]>(INITIAL_TEAMS);
   const [matches, setMatches] = useState<Match[]>(INITIAL_MATCHES);
-  const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('final');
+  const [tournamentMode, setTournamentMode] = useState<'final' | 'direct'>('direct');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   // Fetch latest data from backend API
@@ -174,10 +174,10 @@ export default function HomePage() {
 
               {/* Official Tournament Format Badge */}
               <div className="flex items-center gap-2 bg-white border border-[#141413] px-3.5 py-2 hard-shadow-sm self-start font-mono text-xs">
-                <span className="text-[#61605B]">Thể thức chính thức:</span>
+                <span className="text-[#61605B]">Thể thức:</span>
                 <span className="font-bold text-[#16422B] flex items-center gap-1.5">
                   <Trophy className="w-3.5 h-3.5 text-[#D97706]" />
-                  <span>{tournamentMode === 'final' ? 'Top 2 đội vào Chung Kết Cúp Vàng' : 'Tính điểm Vô Địch trực tiếp'}</span>
+                  <span>Đấu 3 trận vòng tròn — Điểm cao nhất Vô Địch</span>
                 </span>
               </div>
             </div>
@@ -210,8 +210,8 @@ export default function HomePage() {
           matches={matches}
         />
 
-        {/* 5. Finals Day Automatic Bracket */}
-        <FinalsBracket standings={standings} />
+        {/* 5. Podium & Awards Showcase */}
+        <PodiumSection standings={standings} />
 
         {/* 6. Squad Profiles & Tournament Rules */}
         <SquadsSection teams={teams} />
