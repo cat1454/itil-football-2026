@@ -127,7 +127,7 @@ export default function CrossMatrix({ teams, matches, onSelectMatch }: CrossMatr
       </div>
 
       <div className="px-4 py-2.5 bg-[#F6F5F0] border-t border-[#141413] text-[11px] font-mono text-[#61605B] flex items-center justify-between">
-        <span>Đọc ngang: Đội hàng ngang vs Đội cột dọc</span>
+        <span>Hướng dẫn: Đội hàng ngang đối đầu Đội cột dọc</span>
         <span className="text-[#141413] font-bold">3 Vòng • 6 Trận đấu</span>
       </div>
     </div>

@@ -18,7 +18,7 @@ export default function SquadsSection({ teams }: SquadsSectionProps) {
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
               <Users className="w-4 h-4" />
-              <span>04 // HỒ SƠ 4 ĐỘI BÓNG &amp; ĐIỀU LỆ GIẢI</span>
+              <span>HỒ SƠ 4 ĐỘI BÓNG &amp; ĐIỀU LỆ GIẢI</span>
             </div>
             <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
               4 ĐỘI HÌNH THAM DỰ ITIL 2026
@@ -108,7 +108,7 @@ export default function SquadsSection({ teams }: SquadsSectionProps) {
           <div>
             <div className="font-mono text-xs font-bold text-[#16422B] uppercase mb-1 flex items-center gap-1">
               <Shield className="w-3.5 h-3.5" />
-              <span>QUY TẮC 01 // THỂ THỨC XOAY VÒNG</span>
+              <span>QUY TẮC 1: THỂ THỨC XOAY VÒNG</span>
             </div>
             <h3 className="font-extrabold text-xl uppercase mb-1" style={{ fontFamily: 'Oswald, sans-serif' }}>
               Đá Vòng Tròn 1 Lượt
@@ -121,7 +121,7 @@ export default function SquadsSection({ teams }: SquadsSectionProps) {
           <div>
             <div className="font-mono text-xs font-bold text-[#D9381E] uppercase mb-1 flex items-center gap-1">
               <BookOpen className="w-3.5 h-3.5" />
-              <span>QUY TẮC 02 // TIÊU CHÍ XẾP HẠNG</span>
+              <span>QUY TẮC 2: TIÊU CHÍ XẾP HẠNG</span>
             </div>
             <h3 className="font-extrabold text-xl uppercase mb-1" style={{ fontFamily: 'Oswald, sans-serif' }}>
               Điểm Số &amp; Hiệu Số
@@ -134,7 +134,7 @@ export default function SquadsSection({ teams }: SquadsSectionProps) {
           <div>
             <div className="font-mono text-xs font-bold text-[#141413] uppercase mb-1 flex items-center gap-1">
               <Users className="w-3.5 h-3.5" />
-              <span>QUY TẮC 03 // THỜI LƯỢNG &amp; SÂN BÃI</span>
+              <span>QUY TẮC 3: THỜI LƯỢNG &amp; SÂN BÃI</span>
             </div>
             <h3 className="font-extrabold text-xl uppercase mb-1" style={{ fontFamily: 'Oswald, sans-serif' }}>
               Luật Sân 5 Liên Chi Đoàn

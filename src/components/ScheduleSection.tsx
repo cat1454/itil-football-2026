@@ -38,10 +38,10 @@ export default function ScheduleSection({
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#D9381E] tracking-wider mb-1 flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
-              <span>02 // LỊCH THI ĐẤU &amp; KẾT QUẢ 6 TRẬN VÒNG TRÒN</span>
+              <span>LỊCH THI ĐẤU &amp; KẾT QUẢ 6 TRẬN VÒNG TRÒN</span>
             </div>
             <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
-              3 LƯỢT TRẬN VÒNG BẢNG
+              LỊCH THI ĐẤU 3 VÒNG (6 TRẬN)
             </h2>
             <p className="text-sm text-[#61605B] mt-1 max-w-2xl">
               Lịch thi đấu chính thức 3 vòng (6 trận) và tỉ số cập nhật tự động từ Ban Tổ Chức theo điều lệ giải ITIL 2026.

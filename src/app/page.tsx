@@ -165,7 +165,7 @@ export default function HomePage() {
               <div>
                 <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
                   <Trophy className="w-4 h-4 text-[#16422B]" />
-                  <span>01 // BẢNG XẾP HẠNG &amp; MA TRẬN XOAY VÒNG</span>
+                  <span>BẢNG XẾP HẠNG &amp; MA TRẬN ĐỐI ĐẦU</span>
                 </div>
                 <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   CỤC DIỆN VÒNG TRÒN 4 ĐỘI
@@ -229,7 +229,7 @@ export default function HomePage() {
             </span>
           </div>
           <div>
-            Next.js App Router • Tailwind CSS • Framer Motion
+            Giải Bóng Đá Nội Bộ 2026 • Ban Tổ Chức LCĐ Khoa CNTT
           </div>
         </div>
       </footer>

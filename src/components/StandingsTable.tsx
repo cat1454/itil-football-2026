@@ -180,17 +180,17 @@ export default function StandingsTable({
                     </div>
                   </div>
 
-                  {/* Form & Captain */}
+                  {/* 3 Matches Result & Captain */}
                   <div className="flex items-center justify-between text-[11px] font-mono text-[#61605B]">
                     <span>ĐT: <strong className="text-[#141413]">{s.captain}</strong></span>
                     <div className="flex items-center gap-1">
-                      <span>Phong độ:</span>
+                      <span>Kết quả 3 trận:</span>
                       {[0, 1, 2].map(i => {
                         const f = s.form[i];
-                        if (!f) return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413]/30 bg-white text-[9px]">-</span>;
-                        if (f === 'T') return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#16422B] text-white font-bold text-[9px]">T</span>;
-                        if (f === 'H') return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#EAE8E0] text-[#141413] font-bold text-[9px]">H</span>;
-                        return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#D9381E] text-white font-bold text-[9px]">B</span>;
+                        if (!f) return <span key={i} className="px-1 h-4 text-center leading-4 border border-[#141413]/30 bg-white text-[9px] text-[#61605B]" title={`Trận Vòng ${i + 1}: Chưa đá`}>V{i + 1}</span>;
+                        if (f === 'T') return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#16422B] text-white font-bold text-[9px]" title={`Trận Vòng ${i + 1}: Thắng (3đ)`}>T</span>;
+                        if (f === 'H') return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#EAE8E0] text-[#141413] font-bold text-[9px]" title={`Trận Vòng ${i + 1}: Hòa (1đ)`}>H</span>;
+                        return <span key={i} className="w-4 h-4 text-center leading-4 border border-[#141413] bg-[#D9381E] text-white font-bold text-[9px]" title={`Trận Vòng ${i + 1}: Thua (0đ)`}>B</span>;
                       })}
                     </div>
                   </div>
@@ -212,9 +212,9 @@ export default function StandingsTable({
                 <th className="py-3 px-2 text-center" title="Hòa">H</th>
                 <th className="py-3 px-2 text-center" title="Bại">B</th>
                 <th className="py-3 px-2 text-center" title="Bàn thắng - Bàn bại">BT-BB</th>
-                <th className="py-3 px-2 text-center" title="Hiệu số">HS</th>
+                <th className="py-3 px-2 text-center" title="Hiệu số (Bàn thắng - Bàn thua)">HS</th>
                 <th className="py-3 px-3 text-center font-bold text-[#141413]" title="Điểm số">ĐIỂM</th>
-                <th className="py-3 px-3 text-right">Phong Độ</th>
+                <th className="py-3 px-3 text-right" title="Kết quả 3 lượt trận (V1, V2, V3): Thắng (T) • Hòa (H) • Bại (B)">KẾT QUẢ 3 TRẬN</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#141413]/15 text-sm">
@@ -297,34 +297,50 @@ export default function StandingsTable({
                         {s.pts}
                       </td>
 
-                      {/* Form badges */}
+                      {/* 3 Matches Result */}
                       <td className="py-3 px-3 text-right font-mono whitespace-nowrap">
                         <div className="inline-flex items-center gap-1 justify-end">
                           {[0, 1, 2].map(i => {
                             const f = s.form[i];
                             if (!f) {
                               return (
-                                <span key={i} className="inline-block w-5 h-5 text-center leading-5 border border-[#141413]/20 bg-[#F6F5F0] text-[#61605B] text-[10px]">
-                                  -
+                                <span
+                                  key={i}
+                                  className="inline-block px-1.5 h-5 text-center leading-5 border border-[#141413]/25 bg-[#F6F5F0] text-[#61605B] text-[10px]"
+                                  title={`Trận Vòng ${i + 1}: Chưa diễn ra`}
+                                >
+                                  V{i + 1}
                                 </span>
                               );
                             }
                             if (f === 'T') {
                               return (
-                                <span key={i} className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#16422B] text-white font-bold text-[10px]">
+                                <span
+                                  key={i}
+                                  className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#16422B] text-white font-bold text-[10px]"
+                                  title={`Trận Vòng ${i + 1}: Thắng (+3 điểm)`}
+                                >
                                   T
                                 </span>
                               );
                             }
                             if (f === 'H') {
                               return (
-                                <span key={i} className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#EAE8E0] text-[#141413] font-bold text-[10px]">
+                                <span
+                                  key={i}
+                                  className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#EAE8E0] text-[#141413] font-bold text-[10px]"
+                                  title={`Trận Vòng ${i + 1}: Hòa (+1 điểm)`}
+                                >
                                   H
                                 </span>
                               );
                             }
                             return (
-                              <span key={i} className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#D9381E] text-white font-bold text-[10px]">
+                              <span
+                                key={i}
+                                className="inline-block w-5 h-5 text-center leading-5 border border-[#141413] bg-[#D9381E] text-white font-bold text-[10px]"
+                                title={`Trận Vòng ${i + 1}: Bại (0 điểm)`}
+                              >
                                 B
                               </span>
                             );

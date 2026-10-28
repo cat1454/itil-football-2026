@@ -24,7 +24,7 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           <div>
             <div className="font-mono text-xs font-bold uppercase text-[#16422B] tracking-wider mb-1 flex items-center gap-1.5">
               <Trophy className="w-4 h-4 text-[#D97706]" />
-              <span>03 // CƠ CẤU GIẢI THƯỞNG &amp; BẢNG VINH DANH CHUNG CUỘC</span>
+              <span>CƠ CẤU GIẢI THƯỞNG &amp; BẢNG VINH DANH CHUNG CUỘC</span>
             </div>
             <h2 className="font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#141413]" style={{ fontFamily: 'Oswald, sans-serif' }}>
               BỤC TRAO GIẢI ITIL 2026
@@ -229,19 +229,19 @@ export default function PodiumSection({ standings }: PodiumSectionProps) {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
             <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
-              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 1 // ĐIỂM SỐ</div>
+              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 1: ĐIỂM SỐ</div>
               <p className="text-[#61605B]">Thắng 3 điểm, Hòa 1 điểm, Thua 0 điểm. Đội nhiều điểm hơn đứng trên.</p>
             </div>
             <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
-              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 2 // HIỆU SỐ (HS)</div>
+              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 2: HIỆU SỐ (HS)</div>
               <p className="text-[#61605B]">Bằng điểm: xét Hiệu số bàn thắng trừ bàn thua (BT - BB) của 3 trận vòng tròn.</p>
             </div>
             <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
-              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 3 // TỔNG BÀN THẮNG</div>
+              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 3: TỔNG BÀN THẮNG</div>
               <p className="text-[#61605B]">Bằng hiệu số: đội ghi được nhiều bàn thắng hơn (BT) sẽ xếp trên.</p>
             </div>
             <div className="p-3 bg-[#F6F5F0] border border-[#141413]">
-              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 4 // ĐỐI ĐẦU TRỰC TIẾP</div>
+              <div className="font-bold text-[#141413] mb-1">ƯU TIÊN 4: ĐỐI ĐẦU TRỰC TIẾP</div>
               <p className="text-[#61605B]">Bằng cả 3 chỉ số trên: xét kết quả trận đối đầu trực tiếp giữa 2 đội.</p>
             </div>
           </div>
