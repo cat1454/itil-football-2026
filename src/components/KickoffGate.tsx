@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
-import { Zap, Trophy, Smartphone, Laptop } from 'lucide-react';
+import { Trophy, Smartphone, Laptop } from 'lucide-react';
 
 interface KickoffGateProps {
   onUnlock: () => void;
@@ -21,7 +21,13 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
   const pullCordRef = useRef<SVGLineElement>(null);
   const aimReticleRef = useRef<SVGCircleElement>(null);
   const keeperPinRef = useRef<SVGGElement>(null);
+  const keeperBodyRef = useRef<SVGGElement>(null);
+  const leftArmRef = useRef<SVGGElement>(null);
+  const rightArmRef = useRef<SVGGElement>(null);
   const netMeshRef = useRef<SVGPathElement>(null);
+
+  const keeperTweenRef = useRef<gsap.core.Tween | null>(null);
+  const keeperIdleTweenRef = useRef<gsap.core.Tween | null>(null);
 
   const [power, setPower] = useState(0);
   const [statusMsg, setStatusMsg] = useState('');
@@ -39,6 +45,20 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
       setStatusMsg(msg);
       setStatusClass('text-[#D9381E] font-bold');
     }
+    // Return keeper to upright ready stance
+    if (keeperBodyRef.current) {
+      gsap.to(keeperBodyRef.current, {
+        rotation: 0,
+        y: 0,
+        duration: 0.35,
+        ease: 'power2.out',
+        onComplete: () => {
+          keeperTweenRef.current?.resume();
+          keeperIdleTweenRef.current?.resume();
+        }
+      });
+    }
+
     if (ballGroupRef.current && ballVisualRef.current) {
       gsap.to({ t: 0 }, {
         t: 1,
@@ -70,6 +90,34 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
 
     const ballState = { x: startX, y: startY, rot: 0, scale: 1 };
 
+    // Goalkeeper dynamic diving reaction
+    if (keeperPinRef.current && keeperBodyRef.current) {
+      keeperTweenRef.current?.pause();
+      keeperIdleTweenRef.current?.pause();
+
+      const keeperCurrentX = keeperXRef.current;
+      const willSave = Math.abs(targetX - keeperCurrentX) < 32;
+      const diveX = willSave ? targetX : keeperCurrentX + (targetX > keeperCurrentX ? 24 : -24);
+      const isDivingLeft = targetX < keeperCurrentX;
+      const diveAngle = isDivingLeft ? -26 : 26;
+
+      gsap.to(keeperPinRef.current, {
+        attr: { transform: `translate(${diveX}, 74)` },
+        duration: 0.42,
+        ease: 'power2.out',
+        onUpdate: () => {
+          keeperXRef.current = diveX;
+        }
+      });
+
+      gsap.to(keeperBodyRef.current, {
+        rotation: diveAngle,
+        y: -4,
+        duration: 0.38,
+        ease: 'power2.out',
+      });
+    }
+
     gsap.to(ballState, {
       x: targetX,
       y: targetY,
@@ -90,6 +138,16 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
           // GOAL!
           sound.playGoal();
           sound.playWhistle();
+
+          // Keeper beaten animation: falls to the pitch
+          if (keeperBodyRef.current) {
+            gsap.to(keeperBodyRef.current, {
+              rotation: targetX > 200 ? 65 : -65,
+              y: 8,
+              duration: 0.4,
+              ease: 'bounce.out'
+            });
+          }
 
           if (netMeshRef.current) {
             gsap.fromTo(
@@ -145,33 +203,56 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
     });
   }, [onUnlock, resetBallToSpot]);
 
-  // Patrol keeper
+  // Active keeper patrol, idle bounce, and gloves waving
   useEffect(() => {
-    if (!keeperPinRef.current) return;
-    const keeperState = { x: 148 };
-    const tween = gsap.to(keeperState, {
-      x: 252,
-      duration: 1.5,
+    if (!keeperPinRef.current || !keeperBodyRef.current) return;
+
+    // 1. Patrol side to side along the goal line
+    const keeperState = { x: 155 };
+    keeperTweenRef.current = gsap.to(keeperState, {
+      x: 245,
+      duration: 1.45,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
       onUpdate: () => {
-        keeperXRef.current = keeperState.x;
-        keeperPinRef.current?.setAttribute('transform', `translate(${keeperState.x}, 82)`);
+        if (!isShootingRef.current) {
+          keeperXRef.current = keeperState.x;
+          keeperPinRef.current?.setAttribute('transform', `translate(${keeperState.x}, 72)`);
+        }
       }
     });
 
+    // 2. Active ready bounce on toes
+    keeperIdleTweenRef.current = gsap.to(keeperBodyRef.current, {
+      scaleY: 0.9,
+      scaleX: 1.08,
+      duration: 0.32,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power1.inOut',
+      transformOrigin: '50% 90%'
+    });
+
+    // 3. Hands & gloves ready pumping
+    let armTween: gsap.core.Tween | null = null;
+    if (leftArmRef.current && rightArmRef.current) {
+      armTween = gsap.to([leftArmRef.current, rightArmRef.current], {
+        rotation: 16,
+        duration: 0.4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        transformOrigin: '0% 0%'
+      });
+    }
+
     return () => {
-      tween.kill();
+      keeperTweenRef.current?.kill();
+      keeperIdleTweenRef.current?.kill();
+      armTween?.kill();
     };
   }, []);
-
-  // Quick auto kick
-  const triggerAutoGoal = () => {
-    if (isShootingRef.current) return;
-    const cornerX = keeperXRef.current > 200 ? 155 : 245;
-    launchShot(cornerX, 48);
-  };
 
   // Touch & Pointer Drag Listeners
   const getSvgPoint = (clientX: number, clientY: number) => {
@@ -384,11 +465,51 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
               <circle cx="280" cy="78" r="4.5" fill="#FFFFFF" stroke="#141413" strokeWidth="1.5" />
             </g>
 
-            {/* Patrol Goalkeeper */}
-            <g ref={keeperPinRef} transform="translate(200, 82)">
-              <ellipse cx="0" cy="14" rx="15" ry="5" fill="rgba(20,20,19,0.35)" />
-              <circle r="15" fill="#D9381E" stroke="#F6F5F0" strokeWidth="2.5" />
-              <text x="0" y="4" textAnchor="middle" fill="#FFFFFF" fontFamily="JetBrains Mono" fontSize="9" fontWeight="700">GK</text>
+            {/* Fully Animated Goalkeeper with Arms, Gloves & Stance */}
+            <g ref={keeperPinRef} transform="translate(200, 72)" className="select-none pointer-events-none">
+              {/* Keeper Shadow */}
+              <ellipse cx="0" cy="20" rx="20" ry="6" fill="rgba(20, 20, 19, 0.4)" />
+
+              {/* Animated Keeper Body */}
+              <g ref={keeperBodyRef}>
+                {/* Legs & Cleats */}
+                <line x1="-6" y1="8" x2="-8" y2="18" stroke="#141413" strokeWidth="3" strokeLinecap="round" />
+                <line x1="6" y1="8" x2="8" y2="18" stroke="#141413" strokeWidth="3" strokeLinecap="round" />
+                <rect x="-11" y="16" width="6" height="3.5" rx="1.5" fill="#EAB308" stroke="#141413" strokeWidth="1" />
+                <rect x="5" y="16" width="6" height="3.5" rx="1.5" fill="#EAB308" stroke="#141413" strokeWidth="1" />
+
+                {/* Torso & GK Jersey (Neon Amber/Yellow) */}
+                <path
+                  d="M -12,2 L -14,12 L 14,12 L 12,2 Z"
+                  fill="#F59E0B"
+                  stroke="#141413"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+                <rect x="-9" y="-2" width="18" height="14" rx="3" fill="#FBBF24" stroke="#141413" strokeWidth="2" />
+                <text x="0" y="8" textAnchor="middle" fill="#141413" fontFamily="Oswald, sans-serif" fontSize="9" fontWeight="900">1</text>
+
+                {/* Left Arm & Glove */}
+                <g ref={leftArmRef}>
+                  <line x1="-8" y1="0" x2="-20" y2="-4" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+                  <circle cx="-21" cy="-4" r="5.5" fill="#EF4444" stroke="#FFFFFF" strokeWidth="1.5" />
+                  <circle cx="-21" cy="-4" r="2.5" fill="#FFFFFF" />
+                </g>
+
+                {/* Right Arm & Glove */}
+                <g ref={rightArmRef}>
+                  <line x1="8" y1="0" x2="20" y2="-4" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+                  <circle cx="21" cy="-4" r="5.5" fill="#EF4444" stroke="#FFFFFF" strokeWidth="1.5" />
+                  <circle cx="21" cy="-4" r="2.5" fill="#FFFFFF" />
+                </g>
+
+                {/* Head & Headband */}
+                <circle cx="0" cy="-9" r="8.5" fill="#FDE68A" stroke="#141413" strokeWidth="2" />
+                <path d="M -8,-11 Q 0,-14 8,-11" stroke="#EF4444" strokeWidth="3" fill="none" strokeLinecap="round" />
+                {/* Eyes focused on ball */}
+                <circle cx="-2.5" cy="-8" r="1.5" fill="#141413" />
+                <circle cx="2.5" cy="-8" r="1.5" fill="#141413" />
+              </g>
             </g>
 
             {/* Aiming Layer */}
@@ -425,15 +546,6 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
             <strong className="text-[#141413]">{power}%</strong>
           </div>
 
-          {/* Quick Auto Goal Button */}
-          <button
-            onClick={triggerAutoGoal}
-            className="absolute top-3 right-3 bg-white/95 hover:bg-[#EAE8E0] border border-[#141413] px-2.5 py-1 font-mono text-[11px] font-bold text-[#16422B] transition cursor-pointer flex items-center gap-1.5 hard-btn"
-          >
-            <Zap className="w-3.5 h-3.5 text-[#D97706]" />
-            <span>Sút tự động</span>
-          </button>
-
           {/* Celebration Banner */}
           {celebrating && (
             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-6 text-center z-20">
@@ -451,12 +563,6 @@ export default function KickoffGate({ onUnlock, isOpen }: KickoffGateProps) {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Bottom Gate Footer */}
-        <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#61605B] pt-2 shrink-0">
-          <span>4 ĐỘI XOAY VÒNG • 3 VÒNG • 6 TRẬN</span>
-          <span>CLB BÓNG ĐÁ LCĐ KHOA CNTT</span>
         </div>
       </div>
     </div>
