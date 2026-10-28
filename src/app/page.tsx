@@ -11,6 +11,7 @@ import StandingsTable from '@/components/StandingsTable';
 import CrossMatrix from '@/components/CrossMatrix';
 import ScheduleSection from '@/components/ScheduleSection';
 import PodiumSection from '@/components/PodiumSection';
+import ClubIntroSection from '@/components/ClubIntroSection';
 import SquadsSection from '@/components/SquadsSection';
 import AnimatedBackground from '@/components/AnimatedBackground';
 
@@ -219,7 +220,10 @@ export default function HomePage() {
         {/* 5. Podium & Awards Showcase */}
         <PodiumSection standings={standings} />
 
-        {/* 6. Squad Profiles & Tournament Rules */}
+        {/* 6. Club Introduction & Season 1 Milestone */}
+        <ClubIntroSection />
+
+        {/* 7. Squad Profiles & Tournament Rules */}
         <SquadsSection teams={teams} />
       </main>
 
@@ -228,14 +232,14 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2.5">
             <span className="px-2 py-0.5 bg-[#16422B] text-white font-bold">
-              ITIL 2026
+              ITIL MÙA 1 (2026)
             </span>
             <span className="text-[#141413] font-semibold">
               CLB Bóng Đá Liên Chi Đoàn Khoa CNTT
             </span>
           </div>
           <div>
-            Giải Bóng Đá Nội Bộ 2026 • Ban Tổ Chức LCĐ Khoa CNTT
+            Giải Bóng Đá Nội Bộ Mùa 1 (2026) • Ban Tổ Chức LCĐ Khoa CNTT
           </div>
         </div>
       </footer>

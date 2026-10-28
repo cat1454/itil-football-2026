@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ITIL 2026 — Giải Bóng Đá Nội Bộ Liên Chi Đoàn CNTT (4 Đội Xoay Vòng)',
-  description: 'Trang thông tin, lịch thi đấu 3 vòng (6 trận), bảng xếp hạng trực tiếp và ma trận đối đầu giải bóng đá nội bộ ITIL 2026.',
+  title: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
+  description: 'Trang thông tin chính thức CLB Bóng Đá Liên Chi Đoàn CNTT — Giải đấu Mùa 1 năm 2026 (4 đội xoay vòng 3 lượt trận, bảng xếp hạng và bục vinh danh).',
 };
 
 export default function RootLayout({

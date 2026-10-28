@@ -27,10 +27,11 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: '#standings-section', label: 'Bảng Xếp Hạng & Ma Trận', icon: Trophy },
-    { href: '#schedule-section', label: 'Lịch 3 Vòng (6 Trận)', icon: CalendarDays },
-    { href: '#podium-section', label: 'Bục Trao Giải & Vinh Danh', icon: Trophy },
-    { href: '#squads-section', label: '4 Đội Tham Dự', icon: Users },
+    { href: '#standings-section', label: 'Bảng Xếp Hạng', icon: Trophy },
+    { href: '#schedule-section', label: 'Lịch Đấu', icon: CalendarDays },
+    { href: '#podium-section', label: 'Vinh Danh', icon: Trophy },
+    { href: '#club-intro-section', label: 'Về CLB', icon: Shield },
+    { href: '#squads-section', label: '4 Đội Bóng', icon: Users },
   ];
 
   return (
@@ -40,7 +41,7 @@ export default function Navbar() {
           {/* Brand */}
           <a href="#top" className="flex items-center gap-2.5 group shrink-0">
             <div
-              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#16422B] text-white border border-[#141413] flex items-center justify-center font-extrabold text-base sm:text-lg tracking-wider hard-shadow-sm group-hover:-translate-y-0.5 transition-transform"
+              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#16422B] text-white border border-[#141413] flex items-center justify-center font-extrabold text-base sm:text-lg tracking-wider hard-shadow-sm group-hover:-translate-y-0.5 transition-transform shrink-0"
               style={{ fontFamily: 'Oswald, sans-serif' }}
             >
               ITIL
@@ -48,32 +49,32 @@ export default function Navbar() {
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <span
-                  className="font-extrabold text-base sm:text-xl tracking-tight uppercase text-[#141413]"
+                  className="font-extrabold text-base sm:text-lg tracking-tight uppercase text-[#141413] whitespace-nowrap"
                   style={{ fontFamily: 'Oswald, sans-serif' }}
                 >
-                  IT INTERNAL LEAGUE
+                  GIẢI BÓNG ĐÁ ITIL
                 </span>
-                <span className="hidden sm:inline-block font-mono text-[11px] font-bold px-1.5 py-0.2 bg-[#EAE8E0] border border-[#141413]">
-                  2026
+                <span className="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.2 bg-[#D97706] text-white border border-[#141413] whitespace-nowrap shadow-xs">
+                  MÙA 1 • 2026
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-[#61605B] font-medium -mt-0.5 truncate max-w-[170px] sm:max-w-none">
-                CLB Bóng Đá LCĐ Khoa CNTT
+              <p className="text-[10px] sm:text-[11px] text-[#61605B] font-medium -mt-0.5 truncate max-w-[180px] sm:max-w-none">
+                CLB Bóng Đá Liên Chi Đoàn CNTT
               </p>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-5 text-sm font-semibold">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-semibold">
             {navLinks.map(link => {
               const Icon = link.icon;
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="flex items-center gap-1.5 hover:text-[#16422B] transition py-1"
+                  className="flex items-center gap-1.5 hover:text-[#16422B] transition py-1 whitespace-nowrap text-[#141413]"
                 >
-                  <Icon className="w-3.5 h-3.5 text-[#16422B]" />
+                  <Icon className="w-3.5 h-3.5 text-[#16422B] shrink-0" />
                   <span>{link.label}</span>
                 </a>
               );
@@ -167,7 +168,7 @@ export default function Navbar() {
           className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
         >
           <CalendarDays className="w-4 h-4 text-[#D9381E]" />
-          <span>Lịch 6 Trận</span>
+          <span>Lịch Đấu</span>
         </a>
         <a
           href="#podium-section"
@@ -175,6 +176,13 @@ export default function Navbar() {
         >
           <Trophy className="w-4 h-4 text-[#D97706]" />
           <span>Vinh Danh</span>
+        </a>
+        <a
+          href="#club-intro-section"
+          className="flex flex-col items-center gap-0.5 p-1 text-[#141413] hover:text-[#16422B] active:scale-95 transition"
+        >
+          <Shield className="w-4 h-4 text-[#16422B]" />
+          <span>Về CLB</span>
         </a>
         <a
           href="#squads-section"

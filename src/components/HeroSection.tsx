@@ -10,11 +10,11 @@ export default function HeroSection() {
         {/* Top Issue Meta Strip */}
         <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-[#141413] text-xs font-mono text-[#61605B]">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 bg-[#D9381E] text-white font-bold uppercase">
-              THỂ THỨC XOAY VÒNG
+            <span className="px-2 py-0.5 bg-[#D9381E] text-white font-bold uppercase shadow-xs">
+              MÙA 1 • NĂM 2026
             </span>
             <span className="font-semibold text-[#141413]">
-              4 ĐỘI BÓNG • 3 VÒNG ĐẤU • 6 TRẬN TOÀN GIẢI
+              GIẢI ĐẤU MÙA ĐẦU TIÊN • 4 ĐỘI BÓNG • 3 VÒNG ĐẤU • 6 TRẬN
             </span>
           </div>
           <div className="font-bold text-[#141413]">
@@ -25,6 +25,9 @@ export default function HeroSection() {
         {/* Main Hero Grid */}
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-4">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#16422B] text-white font-mono text-xs font-bold uppercase tracking-wider">
+              <span>🏆 GIẢI BÓNG ĐÁ ITIL — MÙA 1 (2026)</span>
+            </div>
             <h1
               className="font-extrabold text-5xl sm:text-7xl uppercase tracking-tight leading-[0.95] text-[#141413]"
               style={{ fontFamily: 'Oswald, sans-serif' }}
@@ -33,7 +36,7 @@ export default function HeroSection() {
               <span className="text-[#16422B]">LIÊN CHI ĐOÀN CNTT</span>
             </h1>
             <p className="text-base sm:text-lg text-[#61605B] max-w-2xl leading-relaxed">
-              Không chia bảng phức tạp — <strong className="text-[#141413]">4 đội bóng</strong> đại diện cho các khóa và Ban Chấp Hành thi đấu <strong className="text-[#141413]">vòng tròn một lượt (Round-Robin)</strong>. Mỗi đội gặp nhau đúng 1 lần qua 3 lượt trận (ngày 07/11, 08/11 và 14/11/2026) để tìm ra nhà vô địch xứng đáng nhất.
+              Mùa giải đầu tiên — <strong className="text-[#141413]">4 đội bóng</strong> đại diện cho các khóa và Ban Chấp Hành thi đấu <strong className="text-[#141413]">vòng tròn một lượt (Round-Robin)</strong>. Mỗi đội gặp nhau đúng 1 lần qua 3 lượt trận (ngày 07/11, 08/11 và 14/11/2026) để tìm ra nhà Vô Địch Mùa 1 xứng đáng nhất.
             </p>
           </div>
 
