@@ -42,6 +42,9 @@ export default function StandingsTable({
             <span className="font-mono text-xs font-bold uppercase text-[#141413]">
               BẢNG XẾP HẠNG TRỰC TIẾP
             </span>
+            <span className="hidden md:inline-block px-2 py-0.5 bg-white border border-[#141413] text-[10px] font-mono text-[#16422B] font-bold shadow-xs">
+              Thắng 3đ • Hòa 1đ • Thua 0đ
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -91,6 +94,10 @@ export default function StandingsTable({
 
         {/* 1. MOBILE COMPACT CARDS VIEW (For small screens when 'cards' is selected) */}
         <div className={`sm:hidden p-3 space-y-2.5 ${mobileDisplay === 'table' ? 'hidden' : 'block'}`}>
+          <div className="bg-[#E8F0EB] border border-[#141413] px-2.5 py-1.5 font-mono text-[10px] text-[#16422B] font-bold flex items-center justify-between">
+            <span>TÍNH ĐIỂM:</span>
+            <span>Thắng 3đ • Hòa 1đ • Thua 0đ</span>
+          </div>
           <AnimatePresence mode="popLayout">
             {standings.map((s, idx) => {
               const rank = idx + 1;
@@ -308,7 +315,11 @@ export default function StandingsTable({
 
       {/* Summary Footer */}
       <div className="px-3 sm:px-4 py-3 bg-[#F6F5F0] border-t border-[#141413] font-mono text-xs flex flex-wrap items-center justify-between gap-2">
-        <span>Tiến độ: <strong className="text-[#141413]">{playedCount}/6 trận vòng tròn</strong></span>
+        <div className="flex items-center gap-2">
+          <span>Tiến độ: <strong className="text-[#141413]">{playedCount}/6 trận</strong></span>
+          <span className="text-[#61605B] hidden sm:inline">•</span>
+          <span className="hidden sm:inline text-[#61605B]">Thắng: <strong className="text-[#16422B]">3đ</strong> | Hòa: <strong className="text-[#141413]">1đ</strong> | Thua: <strong className="text-[#D9381E]">0đ</strong></span>
+        </div>
         {tournamentMode === 'final' ? (
           <span className="truncate">
             Chung Kết: <strong className="text-[#16422B]">{standings[0]?.name}</strong> vs <strong className="text-[#16422B]">{standings[1]?.name}</strong>

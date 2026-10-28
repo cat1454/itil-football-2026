@@ -220,6 +220,77 @@ export default function AdminPage() {
     };
   }, [matches]);
 
+  // Live calculated standings for admin (Thắng 3, Hòa 1, Thua 0, GD, GF, H2H)
+  const adminStandings = useMemo(() => {
+    const statsMap: Record<number, any> = {};
+    teams.forEach((t, idx) => {
+      statsMap[t.id] = {
+        ...t,
+        played: 0,
+        won: 0,
+        drawn: 0,
+        lost: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        pts: 0,
+        rank: idx + 1,
+      };
+    });
+
+    matches.forEach(m => {
+      if (!m.played) return;
+      const home = statsMap[m.home];
+      const away = statsMap[m.away];
+      if (!home || !away) return;
+
+      home.played += 1;
+      away.played += 1;
+      home.gf += m.homeGoals;
+      home.ga += m.awayGoals;
+      away.gf += m.awayGoals;
+      away.ga += m.homeGoals;
+
+      if (m.homeGoals > m.awayGoals) {
+        home.won += 1;
+        home.pts += 3;
+        away.lost += 1;
+      } else if (m.homeGoals < m.awayGoals) {
+        away.won += 1;
+        away.pts += 3;
+        home.lost += 1;
+      } else {
+        home.drawn += 1;
+        away.drawn += 1;
+        home.pts += 1;
+        away.pts += 1;
+      }
+    });
+
+    Object.values(statsMap).forEach((s: any) => {
+      s.gd = s.gf - s.ga;
+    });
+
+    const sorted = Object.values(statsMap).sort((a: any, b: any) => {
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      if (b.gd !== a.gd) return b.gd - a.gd;
+      if (b.gf !== a.gf) return b.gf - a.gf;
+
+      const h2h = matches.find(
+        m => m.played && ((m.home === a.id && m.away === b.id) || (m.home === b.id && m.away === a.id))
+      );
+      if (h2h) {
+        const aGoals = h2h.home === a.id ? h2h.homeGoals : h2h.awayGoals;
+        const bGoals = h2h.home === b.id ? h2h.homeGoals : h2h.awayGoals;
+        if (bGoals !== aGoals) return bGoals - aGoals;
+      }
+
+      return a.id - b.id;
+    });
+
+    return sorted.map((s: any, idx: number) => ({ ...s, rank: idx + 1 }));
+  }, [teams, matches]);
+
   // Match management handlers
   const handleUpdateMatch = (matchId: string, updates: Partial<Match>) => {
     setMatches(prev => {
@@ -632,6 +703,23 @@ export default function AdminPage() {
               </button>
             </div>
 
+            {/* Live Standings Bar in Admin */}
+            <div className="bg-[#EAE8E0] border border-[#141413] p-3 hard-shadow flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+              <div className="flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-[#16422B]" />
+                <span className="font-bold text-[#141413]">BXH TỰ ĐỘNG (Thắng 3đ • Hòa 1đ • Thua 0đ):</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {adminStandings.map((s: any, idx: number) => (
+                  <div key={s.id} className="flex items-center gap-1.5 bg-white px-2 py-0.5 border border-[#141413]">
+                    <span className="font-bold text-[#16422B]">#{idx + 1}</span>
+                    <span className="font-semibold text-[#141413]">{s.name}</span>
+                    <span className="text-[#61605B]">({s.pts}đ, HS {s.gd > 0 ? `+${s.gd}` : s.gd})</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-6">
               {matches.map(m => {
                 const homeTeam = teams[m.home];
@@ -1011,7 +1099,9 @@ export default function AdminPage() {
 
                 <div className="grid grid-cols-2 gap-4 font-mono">
                   <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1">ĐỘI HẠNG 1</div>
+                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1 truncate">
+                      HẠNG 1: {adminStandings[0]?.name || 'Đội 1'} ({adminStandings[0]?.pts}đ)
+                    </div>
                     <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
                     <input
                       type="number"
@@ -1031,7 +1121,9 @@ export default function AdminPage() {
                   </div>
 
                   <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1">ĐỘI HẠNG 2</div>
+                    <div className="text-xs text-[#16422B] font-bold uppercase mb-1 truncate">
+                      HẠNG 2: {adminStandings[1]?.name || 'Đội 2'} ({adminStandings[1]?.pts}đ)
+                    </div>
                     <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
                     <input
                       type="number"
@@ -1080,7 +1172,9 @@ export default function AdminPage() {
 
                 <div className="grid grid-cols-2 gap-4 font-mono">
                   <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1">ĐỘI HẠNG 3</div>
+                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1 truncate">
+                      HẠNG 3: {adminStandings[2]?.name || 'Đội 3'} ({adminStandings[2]?.pts}đ)
+                    </div>
                     <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
                     <input
                       type="number"
@@ -1100,7 +1194,9 @@ export default function AdminPage() {
                   </div>
 
                   <div className="bg-[#F6F5F0] border border-[#141413] p-3 text-center">
-                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1">ĐỘI HẠNG 4</div>
+                    <div className="text-xs text-[#61605B] font-bold uppercase mb-1 truncate">
+                      HẠNG 4: {adminStandings[3]?.name || 'Đội 4'} ({adminStandings[3]?.pts}đ)
+                    </div>
                     <label className="text-xs text-[#61605B] block mb-1">Bàn thắng 40p:</label>
                     <input
                       type="number"
