@@ -63,7 +63,7 @@ export const metadata: Metadata = {
       'Cổng thông tin & Bảng xếp hạng chính thức Giải bóng đá nội bộ Mùa 1 năm 2026. Lịch thi đấu 3 vòng, tỷ số trực tiếp và bục vinh danh 4 đội tranh tài.',
     images: [
       {
-        url: 'https://itil-football-2026.vercel.app/og-image.png',
+        url: 'https://itil-football-2026.vercel.app/og-image.png?v=2',
         width: 1200,
         height: 630,
         alt: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     title: 'ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT',
     description:
       'Cổng thông tin & Bảng xếp hạng chính thức Giải bóng đá nội bộ Mùa 1 năm 2026. Lịch thi đấu 3 vòng, tỷ số trực tiếp và bục vinh danh.',
-    images: ['https://itil-football-2026.vercel.app/og-image.png'],
+    images: ['https://itil-football-2026.vercel.app/og-image.png?v=2'],
   },
 };
 
@@ -132,14 +132,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
         {/* Social link preview fallback tags for Zalo, Facebook, Messenger, Telegram */}
-        <meta property="og:image" content="https://itil-football-2026.vercel.app/og-image.png" />
-        <meta property="og:image:secure_url" content="https://itil-football-2026.vercel.app/og-image.png" />
+        <meta property="og:image" content="https://itil-football-2026.vercel.app/og-image.png?v=2" />
+        <meta property="og:image:secure_url" content="https://itil-football-2026.vercel.app/og-image.png?v=2" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="ITIL Mùa 1 (2026) — Giải Bóng Đá CLB Liên Chi Đoàn CNTT" />
-        <meta name="twitter:image" content="https://itil-football-2026.vercel.app/og-image.png" />
-        <link rel="image_src" href="https://itil-football-2026.vercel.app/og-image.png" />
+        <meta name="twitter:image" content="https://itil-football-2026.vercel.app/og-image.png?v=2" />
+        <link rel="image_src" href="https://itil-football-2026.vercel.app/og-image.png?v=2" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script
           type="application/ld+json"
