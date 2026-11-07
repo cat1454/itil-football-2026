@@ -22,14 +22,22 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Official Cinematic Tournament Banner */}
-        <div className="w-full mb-6 sm:mb-8 border-2 border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden bg-[#071910] group">
-          <img
-            src="/banner.png"
-            alt="ITIL FOOTBALL 2026 — Kết Nối Đam Mê - Lan Tỏa Tinh Thần IT — Liên Chi Đoàn Khoa CNTT"
-            className="w-full h-auto block object-cover group-hover:scale-[1.01] transition-transform duration-500"
-            loading="eager"
-          />
+        {/* Official Cinematic Tournament Backdrop Banner */}
+        <div className="w-full mb-6 sm:mb-8 border-2 border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden bg-[#071910] group relative">
+          <picture>
+            <source srcSet="/backdrop.webp" type="image/webp" />
+            <img
+              src="/backdrop.png"
+              alt="Backdrop Chính Thức — Giải Bóng Đá Liên Chi Đoàn Khoa CNTT 2026"
+              className="w-full h-auto block object-cover group-hover:scale-[1.01] transition-transform duration-500 cursor-pointer"
+              loading="eager"
+              onClick={() => window.open('/backdrop.png', '_blank')}
+              title="Nhấn để xem Backdrop kích thước gốc"
+            />
+          </picture>
+          <div className="absolute bottom-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/75 backdrop-blur-xs text-white border border-white/30 px-2.5 py-1 text-[11px] font-mono pointer-events-none flex items-center gap-1.5 rounded-xs">
+            <span>🔍 Nhấn để mở ảnh gốc</span>
+          </div>
         </div>
 
         {/* Main Hero Grid */}

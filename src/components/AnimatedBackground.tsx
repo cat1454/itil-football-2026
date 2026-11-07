@@ -67,6 +67,16 @@ export default function AnimatedBackground({
       style={{ contain: 'paint layout' }}
       aria-hidden="true"
     >
+      {/* Subtle Ambient Tournament Backdrop Watermark */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[480px] sm:h-[600px] opacity-[0.05] sm:opacity-[0.07] pointer-events-none bg-cover bg-top mix-blend-multiply"
+        style={{
+          backgroundImage: 'url(/backdrop.webp)',
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+        }}
+      />
+
       {/* Subtle Pitch Geometry Watermark */}
       <div className="absolute inset-0 opacity-[0.045] sm:opacity-[0.06]">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
