@@ -25,9 +25,9 @@ export default function HeroSection() {
         {/* Official Cinematic Tournament Backdrop Banner */}
         <div className="w-full mb-6 sm:mb-8 border-2 border-[#141413] hard-shadow-sm sm:hard-shadow overflow-hidden bg-[#071910] group relative">
           <picture>
-            <source srcSet="/backdrop.webp" type="image/webp" />
+            <source srcSet="/backdrop.webp?v=2" type="image/webp" />
             <img
-              src="/backdrop.png"
+              src="/backdrop.png?v=2"
               alt="Backdrop Chính Thức — Giải Bóng Đá Liên Chi Đoàn Khoa CNTT 2026"
               className="w-full h-auto block object-cover group-hover:scale-[1.01] transition-transform duration-500 cursor-pointer"
               loading="eager"
